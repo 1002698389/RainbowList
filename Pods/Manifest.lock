@@ -1,0 +1,29 @@
+PODS:
+  - DynamicColor (3.2.1)
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
+  - GDPerformanceView-Swift (1.1.2)
+  - RandomColorSwift (1.0.0)
+  - SnapKit (3.2.0)
+  - Toast (3.1.0)
+
+DEPENDENCIES:
+  - DynamicColor (~> 3.2.1)
+  - FMDB (~> 2.6.2)
+  - GDPerformanceView-Swift
+  - RandomColorSwift
+  - SnapKit
+  - Toast
+
+SPEC CHECKSUMS:
+  DynamicColor: 4786d650c69da6c3f2cbfe068348288ec4e5521f
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  GDPerformanceView-Swift: 18086952416fa8af2df0e7bc8cfdda63afc7e0b6
+  RandomColorSwift: 9f85058b721665d52d239ca166a913e083506444
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
+  Toast: 14a93686d6c8bfe2727afd342414e35660a8a1f3
+
+PODFILE CHECKSUM: 90313c883e668af1f056a718efc3de2b4854d385
+
+COCOAPODS: 1.1.1
