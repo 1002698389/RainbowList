@@ -51,6 +51,9 @@ class EventDetailViewController: UITableViewController {
         self.event.comments = DBManager.shared.findeAllComments(forEvent: self.event)
         self.tableView.reloadSections([kSectionIndexForComment], with: UITableViewRowAnimation.automatic)
     }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
     // MARK: Inherit Method
     override func setEditing(_ editing: Bool, animated: Bool) {

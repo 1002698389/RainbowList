@@ -58,6 +58,7 @@
 		840B3EEA1E8AB63B00D3AD20 /* UserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B3EE91E8AB63B00D3AD20 /* UserNotificationManager.swift */; };
 		840B3EEC1E8AC16A00D3AD20 /* SystemUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B3EEB1E8AC16A00D3AD20 /* SystemUtil.swift */; };
 		840D0E3C1E8B742700979236 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 840D0E3B1E8B742700979236 /* alarm.mp3 */; };
+		84151D1B1E8D4C7200CB936A /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84151D1A1E8D4C7200CB936A /* Photos.framework */; };
 		842D346A1E77B11C00B088B8 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842D34691E77B11C00B088B8 /* UIImageExtension.swift */; };
 		842D346C1E78ECCF00B088B8 /* comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842D346B1E78ECCF00B088B8 /* comment@2x.png */; };
 		8442CB891E83B6D600A17298 /* checked_rect_stroke@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8442CB881E83B6D600A17298 /* checked_rect_stroke@2x.png */; };
@@ -161,6 +162,7 @@
 		840B3EE91E8AB63B00D3AD20 /* UserNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNotificationManager.swift; sourceTree = "<group>"; };
 		840B3EEB1E8AC16A00D3AD20 /* SystemUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemUtil.swift; sourceTree = "<group>"; };
 		840D0E3B1E8B742700979236 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
+		84151D1A1E8D4C7200CB936A /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		842D34691E77B11C00B088B8 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		842D346B1E78ECCF00B088B8 /* comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment@2x.png"; sourceTree = "<group>"; };
 		8442CB881E83B6D600A17298 /* checked_rect_stroke@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked_rect_stroke@2x.png"; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84151D1B1E8D4C7200CB936A /* Photos.framework in Frameworks */,
 				F59C36B2466D84FA0E923FDF /* Pods_RainbowList.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -470,6 +473,7 @@
 		886E13DD4BCF2A765E851F0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84151D1A1E8D4C7200CB936A /* Photos.framework */,
 				3ED8D59B0E693B706C28B4A3 /* Pods_RainbowList.framework */,
 			);
 			name = Frameworks;
@@ -786,7 +790,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -829,7 +833,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

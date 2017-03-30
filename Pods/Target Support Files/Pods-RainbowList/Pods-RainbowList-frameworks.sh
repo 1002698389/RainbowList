@@ -86,16 +86,12 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/DynamicColor/DynamicColor.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FMDB/FMDB.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/GDPerformanceView-Swift/GDPerformanceView_Swift.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/RandomColorSwift/RandomColorSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Toast/Toast.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/DynamicColor/DynamicColor.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FMDB/FMDB.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/GDPerformanceView-Swift/GDPerformanceView_Swift.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/RandomColorSwift/RandomColorSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Toast/Toast.framework"
 fi

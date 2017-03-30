@@ -13,11 +13,11 @@ protocol PhotoSelectDelegate: class{
     func completeSelect(photoSelectViewController: PhotoSelectViewController, assets: [PHAsset])
 }
 
-class PhotoSelectViewController: BaseViewController {
+class PhotoSelectViewController: UIViewController {
 
     static let kPhotoCellIdentifier = "kPhotoCellIdentifier"
     weak var delegate: PhotoSelectDelegate?
-    var allPhotos: PHFetchResult<PHAsset>!
+    var allPhotos: PHFetchResult<PHAsset>?
     let imageManager = PHCachingImageManager()
     var thumbnailSize: CGSize!
     var previousPreheatRect = CGRect.zero
@@ -99,17 +99,16 @@ class PhotoSelectViewController: BaseViewController {
             make.size.equalTo(CGSize(width: k_SCREEN_WIDTH, height: 200))
         }
         
-        self.refreshAuthorization()
+        self.refreshAuthorization{
+            self.reloadPhotos()
+        }
         
-        self.reloadPhotos()
-        PHPhotoLibrary.shared().register(self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     deinit {
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
     override var prefersStatusBarHidden: Bool {
         return false
@@ -117,7 +116,6 @@ class PhotoSelectViewController: BaseViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
     
     // MARK: - Private Method
     
@@ -130,7 +128,7 @@ class PhotoSelectViewController: BaseViewController {
         var assets:[PHAsset] = []
         if let indexPaths = self.photoCollectionView.indexPathsForSelectedItems{
             for indexPath in indexPaths{
-                assets.append(allPhotos[indexPath.item] )
+                assets.append(allPhotos![indexPath.item] )
             }
         }
         self.delegate?.completeSelect(photoSelectViewController: self, assets: assets)
@@ -158,26 +156,20 @@ class PhotoSelectViewController: BaseViewController {
 
         photoCollectionView.reloadData()
     }
-    func refreshAuthorization() {
-        //申请权限
-//        if PHPhotoLibrary.authorizationStatus() != .authorized {
-//            self.authView.isHidden = false
-//            self.photoCollectionView.isHidden = true
-//        }else{
-//            self.authView.isHidden = true
-//            self.photoCollectionView.isHidden = false
-//        }
+    func refreshAuthorization(completedHandller: @escaping ()->()) {
         
+        //申请权限
         PHPhotoLibrary.requestAuthorization { (state) in
-            if state != .authorized {
-                DispatchQueue.main.async(execute: {
+            if state == .denied  {
+//                DispatchQueue.main.async(execute: {
                     self.authView.isHidden = false
                     self.photoCollectionView.isHidden = true
-                })
-            }else{
+//                })
+            }else if state == .authorized{
                 DispatchQueue.main.async(execute: {
                     self.authView.isHidden = true
                     self.photoCollectionView.isHidden = false
+                    completedHandller()
                 })
             }
         }
@@ -209,7 +201,7 @@ class PhotoSelectViewController: BaseViewController {
 extension PhotoSelectViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allPhotos.count
+        return allPhotos?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -217,14 +209,17 @@ extension PhotoSelectViewController: UICollectionViewDataSource, UICollectionVie
         guard let cell: PhotoSelectCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoSelectViewController.kPhotoCellIdentifier, for: indexPath) as? PhotoSelectCell
             else { fatalError("unexpected cell in collection view") }
         
-        let asset = allPhotos.object(at: indexPath.item)
-        cell.representedAssetIdentifier = asset.localIdentifier
+        if let photos = allPhotos {
+            let asset = photos.object(at: indexPath.item)
+            cell.representedAssetIdentifier = asset.localIdentifier
+            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+                if cell.representedAssetIdentifier == asset.localIdentifier {
+                    cell.thumbnailImage = image
+                }
+            })
+        }
         
-        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-            if cell.representedAssetIdentifier == asset.localIdentifier {
-                cell.thumbnailImage = image
-            }
-        })
+        
         
         return cell
     }
@@ -238,18 +233,4 @@ extension PhotoSelectViewController: UICollectionViewDataSource, UICollectionVie
     }
 }
 
-extension PhotoSelectViewController: PHPhotoLibraryChangeObserver {
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        
-        guard let changes = changeInstance.changeDetails(for: allPhotos)
-            else { return }
-        
-        // Change notifications may be made on a background queue. Re-dispatch to the
-        // main queue before acting on the change as we'll be updating the UI.
-        DispatchQueue.main.sync {
-            // Hang on to the new fetch result.
-            allPhotos = changes.fetchResultAfterChanges
-            photoCollectionView.reloadData()
-        }
-    }
-}
+

@@ -61,12 +61,12 @@ final class DBManager: NSObject {
                 try db?.executeUpdate("delete from tb_list", values: nil)
                 
                 try db?.executeUpdate(sql, values: [UUID().uuidString, "待办", k_ListTable_OrderBase * 2,ThemeManager.shared.allPredefinedColorHexStrings[0], Date().timeIntervalSince1970])
-                try db?.executeUpdate(sql, values: [UUID().uuidString, "购物", k_ListTable_OrderBase * 3,ThemeManager.shared.allPredefinedColorHexStrings[14], Date().timeIntervalSince1970])
-                try db?.executeUpdate(sql, values: [UUID().uuidString, "电影", k_ListTable_OrderBase * 4,ThemeManager.shared.allPredefinedColorHexStrings[12], Date().timeIntervalSince1970])
-                try db?.executeUpdate(sql, values: [UUID().uuidString, "书单", k_ListTable_OrderBase * 5,ThemeManager.shared.allPredefinedColorHexStrings[9], Date().timeIntervalSince1970])
-                try db?.executeUpdate(sql, values: [UUID().uuidString, "锻炼", k_ListTable_OrderBase * 6,ThemeManager.shared.allPredefinedColorHexStrings[10], Date().timeIntervalSince1970])
-                try db?.executeUpdate(sql, values: [UUID().uuidString, "旅游", k_ListTable_OrderBase * 7,ThemeManager.shared.allPredefinedColorHexStrings[6], Date().timeIntervalSince1970])
-                try db?.executeUpdate(sql, values: [UUID().uuidString, "其他", k_ListTable_OrderBase * 8,ThemeManager.shared.allPredefinedColorHexStrings[3], Date().timeIntervalSince1970])
+                try db?.executeUpdate(sql, values: [UUID().uuidString, "购物", k_ListTable_OrderBase * 3,ThemeManager.shared.allPredefinedColorHexStrings[19], Date().timeIntervalSince1970])
+                try db?.executeUpdate(sql, values: [UUID().uuidString, "电影", k_ListTable_OrderBase * 4,ThemeManager.shared.allPredefinedColorHexStrings[16], Date().timeIntervalSince1970])
+                try db?.executeUpdate(sql, values: [UUID().uuidString, "书单", k_ListTable_OrderBase * 5,ThemeManager.shared.allPredefinedColorHexStrings[11], Date().timeIntervalSince1970])
+                try db?.executeUpdate(sql, values: [UUID().uuidString, "锻炼", k_ListTable_OrderBase * 6,ThemeManager.shared.allPredefinedColorHexStrings[7], Date().timeIntervalSince1970])
+                try db?.executeUpdate(sql, values: [UUID().uuidString, "旅游", k_ListTable_OrderBase * 7,ThemeManager.shared.allPredefinedColorHexStrings[3], Date().timeIntervalSince1970])
+                try db?.executeUpdate(sql, values: [UUID().uuidString, "其他", k_ListTable_OrderBase * 8,ThemeManager.shared.allPredefinedColorHexStrings[21], Date().timeIntervalSince1970])
             }catch {
                 print("========insert data error!")
             }

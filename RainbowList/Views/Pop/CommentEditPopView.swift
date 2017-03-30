@@ -103,7 +103,7 @@ class CommentEditPopView: UIView {
     }
     
     deinit {
-        print("-------event input view deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     

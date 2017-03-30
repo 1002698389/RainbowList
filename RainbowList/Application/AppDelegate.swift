@@ -8,7 +8,7 @@
 
 import UIKit
 import UserNotifications
-import GDPerformanceView_Swift
+//import GDPerformanceView_Swift
 import Toast
 
 @UIApplicationMain
@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        print(documentUrl?.path ?? "")
         
         initDatabase()
         
@@ -39,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = UserNotificationManager.shared
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(pushToNotificationDetail(notification:)), name: Notification.Name(NotificationConstants.userNotificationTriggerNotification), object: nil)
+        
+        
         return true
     }
     

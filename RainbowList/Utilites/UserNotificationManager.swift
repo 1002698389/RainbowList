@@ -28,16 +28,24 @@ class UserNotificationManager: NSObject {
     }
     
     func presentRquestAuthorAlert() {
-        let alert = UIAlertController(title: "获取通知权限失败！", message: "在应用被授予使用系统通知权限之前，提醒功能将无法正常使用。", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "去授权", style: .default, handler: {
-            _ in
-            SystemUtil.jumpToSettingPage()
-        }))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "获取通知权限失败！", message: "在应用被授予使用系统通知权限之前，提醒功能将无法正常使用。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "去授权", style: .default, handler: {
+                _ in
+                SystemUtil.jumpToSettingPage()
+            }))
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
+        
     }
     
     func addUserNotification(forEvent event: RBEvent) {
+        
+        guard let _ = event.alarm else {
+            return
+        }
         
         UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { (settings) in
             if settings.authorizationStatus == .notDetermined {

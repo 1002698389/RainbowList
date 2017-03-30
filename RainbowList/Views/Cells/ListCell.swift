@@ -69,7 +69,6 @@ class ListCell: UITableViewCell {
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(markView.snp.right).offset(10)
             make.top.bottom.right.equalToSuperview().inset(UIEdgeInsetsMake(5, 0, 5, 5))
-            make.height.greaterThanOrEqualTo(40)
         }
         
         cellMaskView.snp.makeConstraints { (make) in

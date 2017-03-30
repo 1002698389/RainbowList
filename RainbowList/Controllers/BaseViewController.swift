@@ -39,5 +39,6 @@ class BaseViewController: UIViewController {
     
     deinit {
         print("======deinit======\(NSStringFromClass(type(of: self)))")
+        NotificationCenter.default.removeObserver(self)
     }
 }
