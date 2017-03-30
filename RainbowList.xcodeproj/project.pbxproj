@@ -79,6 +79,7 @@
 		84B9B9E01E6978550040662B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9B9DF1E6978550040662B /* ThemeManager.swift */; };
 		84B9B9E21E69B3F10040662B /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9B9E11E69B3F10040662B /* DateUtil.swift */; };
 		84B9B9E41E69B5300040662B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9B9E31E69B5300040662B /* DateExtension.swift */; };
+		84BE08C91E8D62FB00F1CAEE /* AboultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE08C81E8D62FB00F1CAEE /* AboultViewController.swift */; };
 		84BEF2841E7125860077E88B /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEF2831E7125860077E88B /* delete@2x.png */; };
 		84BEF29E1E724A800077E88B /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEF29C1E724A800077E88B /* checked@2x.png */; };
 		84EC02BB1E64325F008DE6EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EC02BA1E64325F008DE6EB /* Assets.xcassets */; };
@@ -183,6 +184,7 @@
 		84B9B9DF1E6978550040662B /* ThemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		84B9B9E11E69B3F10040662B /* DateUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		84B9B9E31E69B5300040662B /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		84BE08C81E8D62FB00F1CAEE /* AboultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboultViewController.swift; sourceTree = "<group>"; };
 		84BEF2831E7125860077E88B /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		84BEF29C1E724A800077E88B /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		84EC02B01E64325F008DE6EB /* RainbowList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainbowList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -247,6 +249,7 @@
 				840B3E471E88EFBB00D3AD20 /* LeftMenuViewController.swift */,
 				840B3E481E88EFBB00D3AD20 /* PhotoSelectViewController.swift */,
 				840B3ED81E88F20A00D3AD20 /* SettingViewController.swift */,
+				84BE08C81E8D62FB00F1CAEE /* AboultViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				840B3EBF1E88F01400D3AD20 /* RBImageViewer.swift in Sources */,
 				840B3EC01E88F01400D3AD20 /* RBPictureChooseView.swift in Sources */,
 				840B3ED21E88F15D00D3AD20 /* EventCommentCell.swift in Sources */,
+				84BE08C91E8D62FB00F1CAEE /* AboultViewController.swift in Sources */,
 				840B3EB41E88F01400D3AD20 /* ListCell.swift in Sources */,
 				840B3E6C1E88EFBB00D3AD20 /* CameraViewController.swift in Sources */,
 				84B9B9E01E6978550040662B /* ThemeManager.swift in Sources */,
