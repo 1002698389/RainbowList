@@ -72,7 +72,7 @@ class EventSelectTextCell: EventDetailCell {
             make.top.bottom.equalToSuperview()
             make.left.equalToSuperview().offset(15)
             make.width.equalTo(60)
-            make.height.equalTo(kCellNormalHeight)
+            make.height.equalTo(kCellNormalHeight).priority(999)
         }
         
         titleLabel.snp.makeConstraints { (make) in

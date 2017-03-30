@@ -193,36 +193,36 @@ class EventCell: UITableViewCell {
     // MARK: - Private Method
     func setupSubViews() {
         
-        contentView.addSubview(contentBackgroundView)
+//        contentView.addSubview(contentBackgroundView)
         contentView.addSubview(markButton)
         contentView.addSubview(contentLabel)
         contentView.addSubview(remarkLabel)
         contentView.addSubview(toolbar)
         contentView.addSubview(priorityView)
         
-        contentBackgroundView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
+//        contentBackgroundView.snp.makeConstraints { (make) in
+//            make.edges.equalToSuperview()
+//        }
         markButton.snp.makeConstraints { (make) in
-            make.top.equalTo(contentBackgroundView)
-            make.left.equalTo(contentBackgroundView)
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
             make.width.height.equalTo(kMarkViewWidth)
         }
         contentLabel.snp.makeConstraints { (make) in
             make.top.equalTo(markButton).offset(9)
             make.left.equalTo(markButton.snp.right).offset(5)
-            make.height.greaterThanOrEqualTo(22)
+            make.height.greaterThanOrEqualTo(22).priority(.high)
 //            make.right.equalTo(contentView).offset(-10)
         }
         remarkLabel.snp.makeConstraints { (make) in
             make.top.equalTo(contentLabel.snp.bottom).offset(10)
             make.left.equalTo(contentLabel)
-            make.right.equalTo(contentBackgroundView).offset(-10)
+            make.right.equalToSuperview().offset(-10)
             make.height.greaterThanOrEqualTo(0)
         }
         toolbar.snp.makeConstraints { (make) in
             make.top.equalTo(remarkLabel.snp.bottom).offset(10)
-            make.bottom.equalTo(contentBackgroundView).offset(-8)
+            make.bottom.equalToSuperview().offset(-8).priority(.high)
             make.left.right.equalTo(remarkLabel)
             make.height.equalTo(kToolbarHeight)
         }
@@ -230,7 +230,7 @@ class EventCell: UITableViewCell {
             make.left.equalTo(contentLabel.snp.right)
             make.width.equalTo(kPriorityWidth)
             make.height.equalTo(20)
-            make.right.equalTo(contentBackgroundView).offset(-10)
+            make.right.equalToSuperview().offset(-10)
             make.centerY.equalTo(contentLabel)
         }
     }

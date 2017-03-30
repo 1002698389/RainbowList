@@ -73,7 +73,7 @@ class EventDescriptionCell: EventDetailCell {
         descLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(15)
             make.top.bottom.equalToSuperview()
-            make.height.equalTo(kCellNormalHeight)
+            make.height.equalTo(kCellNormalHeight).priority(999)
         }
         addBtn.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-10)

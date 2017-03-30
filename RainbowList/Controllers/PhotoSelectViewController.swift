@@ -161,10 +161,10 @@ class PhotoSelectViewController: UIViewController {
         //申请权限
         PHPhotoLibrary.requestAuthorization { (state) in
             if state == .denied  {
-//                DispatchQueue.main.async(execute: {
+                DispatchQueue.main.async(execute: {
                     self.authView.isHidden = false
                     self.photoCollectionView.isHidden = true
-//                })
+                })
             }else if state == .authorized{
                 DispatchQueue.main.async(execute: {
                     self.authView.isHidden = true
