@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 //import GDPerformanceView_Swift
-import Toast
+import Toast_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //定制UI
         UINavigationBar.appearance().tintColor = UIColor.white
-        CSToastManager.setDefaultDuration(2)
+        ToastManager.shared.duration = 2
         
         //性能监视
 //        GDPerformanceMonitor.sharedInstance.startMonitoring()

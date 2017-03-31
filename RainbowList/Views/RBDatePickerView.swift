@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Toast
+import Toast_Swift
 
 protocol RBDatePickerViewDelegate: class {
     
@@ -113,7 +113,7 @@ class RBDatePickerView: UIView {
 //        print("\(datePicker.date)")
         
         if datePicker.date < Date() {
-            UIApplication.shared.keyWindow?.makeToast("时间已过，提醒将不会发生！", duration: 3, position: CSToastPositionCenter)
+            UIApplication.shared.keyWindow?.makeToast("时间已过，提醒将不会发生！", duration: 3, position:.center)
         }
         
         self.delegate?.confirmPick(datePickerView: self, selectedDate: datePicker.date)

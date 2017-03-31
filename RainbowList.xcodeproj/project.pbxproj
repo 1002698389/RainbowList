@@ -80,6 +80,9 @@
 		84B9B9E21E69B3F10040662B /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9B9E11E69B3F10040662B /* DateUtil.swift */; };
 		84B9B9E41E69B5300040662B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9B9E31E69B5300040662B /* DateExtension.swift */; };
 		84BE08C91E8D62FB00F1CAEE /* AboultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE08C81E8D62FB00F1CAEE /* AboultViewController.swift */; };
+		84BE08CB1E8DF24D00F1CAEE /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BE08CA1E8DF24D00F1CAEE /* icon@2x.png */; };
+		84BE08CD1E8DFDF700F1CAEE /* OpenSourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE08CC1E8DFDF700F1CAEE /* OpenSourceListViewController.swift */; };
+		84BE08CF1E8E017D00F1CAEE /* RBWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE08CE1E8E017D00F1CAEE /* RBWebViewController.swift */; };
 		84BEF2841E7125860077E88B /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEF2831E7125860077E88B /* delete@2x.png */; };
 		84BEF29E1E724A800077E88B /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEF29C1E724A800077E88B /* checked@2x.png */; };
 		84EC02BB1E64325F008DE6EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EC02BA1E64325F008DE6EB /* Assets.xcassets */; };
@@ -185,6 +188,9 @@
 		84B9B9E11E69B3F10040662B /* DateUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		84B9B9E31E69B5300040662B /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		84BE08C81E8D62FB00F1CAEE /* AboultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboultViewController.swift; sourceTree = "<group>"; };
+		84BE08CA1E8DF24D00F1CAEE /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		84BE08CC1E8DFDF700F1CAEE /* OpenSourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSourceListViewController.swift; sourceTree = "<group>"; };
+		84BE08CE1E8E017D00F1CAEE /* RBWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RBWebViewController.swift; sourceTree = "<group>"; };
 		84BEF2831E7125860077E88B /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		84BEF29C1E724A800077E88B /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		84EC02B01E64325F008DE6EB /* RainbowList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainbowList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +256,8 @@
 				840B3E481E88EFBB00D3AD20 /* PhotoSelectViewController.swift */,
 				840B3ED81E88F20A00D3AD20 /* SettingViewController.swift */,
 				84BE08C81E8D62FB00F1CAEE /* AboultViewController.swift */,
+				84BE08CC1E8DFDF700F1CAEE /* OpenSourceListViewController.swift */,
+				84BE08CE1E8E017D00F1CAEE /* RBWebViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -340,6 +348,7 @@
 		840D0E311E8B668200979236 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				84BE08CA1E8DF24D00F1CAEE /* icon@2x.png */,
 				840B3EE51E8A092F00D3AD20 /* minus_sign@2x.png */,
 				840B3EE61E8A092F00D3AD20 /* plus_sign@2x.png */,
 				840B3EE31E89F84500D3AD20 /* ver_line@2x.png */,
@@ -571,6 +580,7 @@
 			files = (
 				8487D5C81E7579C7000C8126 /* right@2x.png in Resources */,
 				846E879F1E7BCFC500DD373A /* delete_yi@2x.png in Resources */,
+				84BE08CB1E8DF24D00F1CAEE /* icon@2x.png in Resources */,
 				840B3EDE1E89F07E00D3AD20 /* Setting.storyboard in Resources */,
 				8487D5C41E757988000C8126 /* important_two@2x.png in Resources */,
 				840B3EE81E8A092F00D3AD20 /* plus_sign@2x.png in Resources */,
@@ -673,6 +683,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				840B3E6D1E88EFBB00D3AD20 /* CreateOrUpdateListViewController.swift in Sources */,
+				84BE08CD1E8DFDF700F1CAEE /* OpenSourceListViewController.swift in Sources */,
 				84FFE1FC1E652259005572BC /* UIColorExtension.swift in Sources */,
 				840B3E711E88EFBB00D3AD20 /* PhotoSelectViewController.swift in Sources */,
 				840B3ED11E88F15D00D3AD20 /* EventAttachmentCell.swift in Sources */,
@@ -721,6 +732,7 @@
 				842D346A1E77B11C00B088B8 /* UIImageExtension.swift in Sources */,
 				840B3EB71E88F01400D3AD20 /* PhotoShowCell.swift in Sources */,
 				840B3EC41E88F04500D3AD20 /* DBManager.swift in Sources */,
+				84BE08CF1E8E017D00F1CAEE /* RBWebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

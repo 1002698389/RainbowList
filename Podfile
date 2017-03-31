@@ -6,5 +6,5 @@ target 'RainbowList' do
 	pod 'DynamicColor','~>3.2.1'
     	pod 'FMDB', '~> 2.6.2'
     	pod 'SnapKit'
-	pod 'Toast'
+	pod 'Toast-Swift'
 end

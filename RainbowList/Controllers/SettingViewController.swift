@@ -99,26 +99,31 @@ class SettingViewController: UITableViewController {
         sliderValueLabel.text = "侧滑菜单比例:\(Int(sender.value * 100))%"
         leftMenuWidthChanged = true
     }
-    @IBAction func increaseTitleLineNumbers(_ sender: Any) {
+    @IBAction func increaseTitleLineNumbers(_ sender: UIButton) {
+        showClickAnimate(forButton: sender)
+        
         if var value = Int(contentLineNumbersTextField.text ?? "") {
             value += 1
             contentLineNumbersTextField.text = "\(value)"
         }
     }
-    @IBAction func decreaseTitleLineNumbers(_ sender: Any) {
+    @IBAction func decreaseTitleLineNumbers(_ sender: UIButton) {
+        showClickAnimate(forButton: sender)
         if var value = Int(contentLineNumbersTextField.text ?? "") {
             value -= 1
             value = max(0, value)
             contentLineNumbersTextField.text = "\(value)"
         }
     }
-    @IBAction func increaseRemarkLineNumbers(_ sender: Any) {
+    @IBAction func increaseRemarkLineNumbers(_ sender: UIButton) {
+        showClickAnimate(forButton: sender)
         if var value = Int(remarkLineNumbersTextField.text ?? "") {
             value += 1
             remarkLineNumbersTextField.text = "\(value)"
         }
     }
-    @IBAction func decreaseRemarkLineNumbers(_ sender: Any) {
+    @IBAction func decreaseRemarkLineNumbers(_ sender: UIButton) {
+        showClickAnimate(forButton: sender)
         if var value = Int(remarkLineNumbersTextField.text ?? "") {
             value -= 1
             value = max(0, value)
@@ -126,7 +131,13 @@ class SettingViewController: UITableViewController {
         }
     }
     
-    
+    func showClickAnimate(forButton btn: UIButton) {
+        UIView.animate(withDuration: 0.1, animations: {
+            btn.transform = btn.transform.scaledBy(x: 1.2, y: 1.2)
+        }) { (completed) in
+            btn.transform = CGAffineTransform.identity
+        }
+    }
     func sendEmail() {
         if MFMailComposeViewController.canSendMail(){
             let controller = MFMailComposeViewController()
@@ -139,7 +150,9 @@ class SettingViewController: UITableViewController {
             content += "系统:\(UIDevice.current.systemVersion)\n"
             content += "App版本:\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "")"
             controller.setMessageBody(content, isHTML: false)
-            
+            controller.navigationBar.isTranslucent = false
+            controller.navigationBar.tintColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
+
             //打开界面
             present(controller, animated: true, completion: nil)
         }else{
@@ -147,17 +160,15 @@ class SettingViewController: UITableViewController {
         }
     }
     
-    func shareApp() {
-        
-        let textToShare = "彩虹清单-让生活变得简单!"
-        let icon = UIImage(named:"picture")!
-        let downloadUrl = NSURL(string: "https://itunes.apple.com/us/app/id970057582")!
-        let objectsToShare = [textToShare,icon,downloadUrl] as [Any]
-        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-        activityVC.excludedActivityTypes = [UIActivityType.addToReadingList, UIActivityType.print]
-        
-        activityVC.popoverPresentationController?.sourceView = shareCell
-        present(activityVC, animated: true, completion: nil)
+    
+    
+    func appReview() {
+        let urlString = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=970057582"
+        if let url = URL(string: urlString) {
+            if UIApplication.shared.canOpenURL(url){
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
         
     }
     // MARK: Notification Handler
@@ -184,13 +195,12 @@ extension SettingViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 1 {
-            
-            if indexPath.row == 0 {//分享应用
-                shareApp()
-            }else if indexPath.row == 1 {//反馈
+            if indexPath.row == 0 {//反馈
                 sendEmail()
+            }else if indexPath.row == 1 {//评价
+                appReview()
             }
         }
     }
