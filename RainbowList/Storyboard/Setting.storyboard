@@ -321,7 +321,7 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="z8K-he-D6m">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_border.png" translatesAutoresizingMaskIntoConstraints="NO" id="z8K-he-D6m">
                                 <rect key="frame" x="147" y="17" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="r8p-h4-Zw8"/>
@@ -329,12 +329,12 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="彩虹清单 V1.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TPx-qq-4mh">
-                                <rect key="frame" x="140" y="107" width="94.5" height="18"/>
+                                <rect key="frame" x="140" y="105" width="94.5" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vBo-6V-1rc">
-                                <rect key="frame" x="156" y="389" width="62" height="110"/>
+                                <rect key="frame" x="156" y="387" width="62" height="110"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azd-Ep-aoc">
                                         <rect key="frame" x="0.0" y="0.0" width="62" height="30"/>
@@ -367,7 +367,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJe-CP-XwD">
-                                <rect key="frame" x="106" y="155" width="163.5" height="154"/>
+                                <rect key="frame" x="106" y="153" width="163.5" height="154"/>
                                 <attributedString key="attributedText">
                                     <fragment content="也许迷途的惆怅">
                                         <attributes>
@@ -490,7 +490,7 @@ Cg
                             <constraint firstItem="eJe-CP-XwD" firstAttribute="top" secondItem="TPx-qq-4mh" secondAttribute="bottom" constant="30" id="I7N-3H-6TC"/>
                             <constraint firstItem="z8K-he-D6m" firstAttribute="centerX" secondItem="8wi-i0-hpH" secondAttribute="centerX" id="PaE-8H-Por"/>
                             <constraint firstItem="vBo-6V-1rc" firstAttribute="centerX" secondItem="8wi-i0-hpH" secondAttribute="centerX" id="dVg-lA-iBe"/>
-                            <constraint firstItem="TPx-qq-4mh" firstAttribute="top" secondItem="z8K-he-D6m" secondAttribute="bottom" constant="10" id="hQx-va-wUa"/>
+                            <constraint firstItem="TPx-qq-4mh" firstAttribute="top" secondItem="z8K-he-D6m" secondAttribute="bottom" constant="8" id="hQx-va-wUa"/>
                             <constraint firstItem="eJe-CP-XwD" firstAttribute="centerX" secondItem="8wi-i0-hpH" secondAttribute="centerX" id="sJ2-3H-myH"/>
                         </constraints>
                     </view>
@@ -612,7 +612,7 @@ Cg
         </scene>
     </scenes>
     <resources>
-        <image name="icon.png" width="60" height="60"/>
+        <image name="icon_border.png" width="120" height="120"/>
         <image name="minus_sign.png" width="32" height="32"/>
         <image name="plus_sign.png" width="32" height="32"/>
     </resources>
