@@ -8,7 +8,6 @@
 
 import UIKit
 import UserNotifications
-//import GDPerformanceView_Swift
 import Toast_Swift
 
 @UIApplicationMain
@@ -21,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print(documentUrl?.path ?? "")
         
+        //数据库初始化
         initDatabase()
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -32,16 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.white
         ToastManager.shared.duration = 2
         
-        //性能监视
-//        GDPerformanceMonitor.sharedInstance.startMonitoring()
-//        GDPerformanceMonitor.sharedInstance.deviceVersionHidden = true
-//        GDPerformanceMonitor.sharedInstance.appVersionHidden = true
-        
-        
+        //本地通知
         UNUserNotificationCenter.current().delegate = UserNotificationManager.shared
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(pushToNotificationDetail(notification:)), name: Notification.Name(NotificationConstants.userNotificationTriggerNotification), object: nil)
-        
         
         return true
     }
@@ -50,15 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func initDatabase(){
         
         if let value = UserDefaults.standard.string(forKey: k_DefaultsKey_AppVersion) {
-            
             print("app version:" + value)
-            
         } else {
-            
             print("first time run app")
-            
             UserDefaults.standard.set(k_SCREEN_WIDTH * 0.3, forKey: k_Defaultkey_LeftMenuMaxWidth)
-            
             DBManager.shared.insertDefaultData()
         }
         

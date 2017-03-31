@@ -45,7 +45,7 @@ class EventListViewController: BaseViewController {
         btn.setImage(img, for: .normal)
         btn.setTitle("标题", for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        btn.tintColor = k_Default_ListColor
+        btn.tintColor = UIColor(hex: 0xCCCCCC)
         btn.contentHorizontalAlignment = .left
         btn.imageEdgeInsets = UIEdgeInsetsMake(2, 0, 0, 0)
         btn.contentEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 0)
@@ -143,7 +143,9 @@ class EventListViewController: BaseViewController {
     func changeList(notification: Notification) {
         if let userInfo = notification.userInfo {
             if let list = userInfo[NotificationConstants.selectedListKey] as? RBList {
-               showData(list: list)
+                showData(list: list)
+            }else {
+                showData(list: nil)
             }
         }
     }
@@ -161,7 +163,7 @@ class EventListViewController: BaseViewController {
         let btn = UIButton()
         let img = UIImage.init(named: "add_event")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         btn.setImage(img, for: .normal)
-        btn.tintColor = k_Default_ListColor
+        btn.tintColor = UIColor(hex: 0xCCCCCC)
         btn.backgroundColor = UIColor.white
         btn.layer.cornerRadius = EventListViewController.kAddButtonWidth / 2.0
         btn.layer.masksToBounds = true
@@ -182,6 +184,7 @@ class EventListViewController: BaseViewController {
             titleButton.setTitle("无数据", for: .normal)
             titleButton.setTitleColor(UIColor.white, for: .normal)
             addEventButton.isHidden = true
+            emptyView.isHidden = true
             return
         }
         
@@ -331,11 +334,13 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                 }
             }
             archive.backgroundColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
+            
             let delete = UITableViewRowAction(style: .normal, title: "删除") { action, index in
                 DBManager.shared.deleteEvent(event: event)
                 if let index = self.events?.index(of: event) {
                     self.events?.remove(at: index)
                     self.tableView.reloadData()
+                    self.refreshEmptyView()
                 }
             }
             delete.backgroundColor = UIColor.red
@@ -356,6 +361,8 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                         }
                     }
                     archive.backgroundColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
+                    
+                    
                     let delete = UITableViewRowAction(style: .normal, title: "删除") { action, index in
                         DBManager.shared.deleteEvent(event: event)
                         if let index = evs.index(of: event){

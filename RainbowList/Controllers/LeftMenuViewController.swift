@@ -159,7 +159,12 @@ class LeftMenuViewController: UIViewController {
     
     func refreshDataAndScrollToBottom() {
         refreshData()
-        tableView.scrollToRow(at: IndexPath(row: lists.count - 1, section: 0), at: .bottom, animated: true)
+        if lists.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: lists.count - 1, section: 0), at: .bottom, animated: true)
+            if lists.count == 1 {
+                self.selectFirstRow()
+            }
+        }
     }
     
     func refreshData() {
@@ -167,15 +172,15 @@ class LeftMenuViewController: UIViewController {
         lists.append(contentsOf:DBManager.shared.findAlllist())
         tableView.reloadData()
         tableView.bounces = CGFloat(lists.count) * LeftMenuViewController.kTableviewRowHeight > LeftMenuViewController.kTableviewHeight
-        
-        print(lists.map{"\($0.name)=\($0.orderNum)"})
     }
     func selectFirstRow() {
-        let firsRow = IndexPath.init(row: 0, section: 0)
-        selectRowByCode = true
-        self.tableView.selectRow(at: firsRow, animated: false, scrollPosition: .none)
-        self.tableView(self.tableView, didSelectRowAt: firsRow)
-        selectRowByCode = false
+        if lists.count > 0 {
+            let firsRow = IndexPath.init(row: 0, section: 0)
+            selectRowByCode = true
+            self.tableView.selectRow(at: firsRow, animated: false, scrollPosition: .none)
+            self.tableView(self.tableView, didSelectRowAt: firsRow)
+            selectRowByCode = false
+        }
     }
     func beginEditing() {
         
@@ -229,6 +234,13 @@ class LeftMenuViewController: UIViewController {
     }
     
     func deleteList(list: RBList) {
+        
+//        if self.lists.count == 1 {
+//            view.makeToast("只少需要保留一个清单！")
+//            return
+//        }
+//        
+        
         let alert = UIAlertController(title: "警告", message: "该清单中所有内容将被一同删除，且无法恢复!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "确定", style: .destructive, handler: {
@@ -237,6 +249,9 @@ class LeftMenuViewController: UIViewController {
             self.refreshData()
             if list == self.selectedList {
                 self.selectFirstRow()
+            }
+            if self.lists.count == 0 {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:NotificationConstants.selectListNotification), object: nil, userInfo: [NotificationConstants.selectedListKey:""])
             }
         }))
         self.present(alert, animated: true, completion: nil)

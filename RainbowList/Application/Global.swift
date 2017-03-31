@@ -21,9 +21,6 @@ let k_Defaultkey_RemarkLineNumbers = "k_Defaultkey_RemarkLineNumbers"
 
 let k_AppVersion: String = Bundle.main.infoDictionary! ["CFBundleShortVersionString"] as! String
 
-let k_Default_ListColor = UIColor(hex: 0xCCCCCC)
-
-
 let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
 
 let k_ListTable_OrderBase = 500
