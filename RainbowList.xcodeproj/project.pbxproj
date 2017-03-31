@@ -11,7 +11,6 @@
 		840865B91E84DB74002AE62F /* add_group@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840865B81E84DB74002AE62F /* add_group@2x.png */; };
 		840865C11E85092A002AE62F /* left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840865C01E85092A002AE62F /* left@2x.png */; };
 		840865C31E85098A002AE62F /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840865C21E85098A002AE62F /* back@2x.png */; };
-		840B3E6B1E88EFBB00D3AD20 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B3E421E88EFBB00D3AD20 /* BaseViewController.swift */; };
 		840B3E6C1E88EFBB00D3AD20 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B3E431E88EFBB00D3AD20 /* CameraViewController.swift */; };
 		840B3E6D1E88EFBB00D3AD20 /* CreateOrUpdateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B3E441E88EFBB00D3AD20 /* CreateOrUpdateListViewController.swift */; };
 		840B3E6E1E88EFBB00D3AD20 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B3E451E88EFBB00D3AD20 /* EventDetailViewController.swift */; };
@@ -84,6 +83,10 @@
 		84BE08CF1E8E017D00F1CAEE /* RBWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE08CE1E8E017D00F1CAEE /* RBWebViewController.swift */; };
 		84BE08D11E8E3E6900F1CAEE /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BE08D01E8E3E6900F1CAEE /* icon@2x.png */; };
 		84BE08D51E8E41F200F1CAEE /* icon_border@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BE08D41E8E41F200F1CAEE /* icon_border@2x.png */; };
+		84BE08D71E8E678200F1CAEE /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BE08D61E8E678200F1CAEE /* UMMobClick.framework */; };
+		84BE08DD1E8E893700F1CAEE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BE08DC1E8E893700F1CAEE /* libsqlite3.tbd */; };
+		84BE08DF1E8E894500F1CAEE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BE08DE1E8E894500F1CAEE /* CoreTelephony.framework */; };
+		84BE08E11E8E895400F1CAEE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BE08E01E8E895400F1CAEE /* libz.tbd */; };
 		84BEF2841E7125860077E88B /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEF2831E7125860077E88B /* delete@2x.png */; };
 		84BEF29E1E724A800077E88B /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEF29C1E724A800077E88B /* checked@2x.png */; };
 		84EC02BB1E64325F008DE6EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EC02BA1E64325F008DE6EB /* Assets.xcassets */; };
@@ -120,7 +123,6 @@
 		840865B81E84DB74002AE62F /* add_group@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_group@2x.png"; sourceTree = "<group>"; };
 		840865C01E85092A002AE62F /* left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left@2x.png"; sourceTree = "<group>"; };
 		840865C21E85098A002AE62F /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
-		840B3E421E88EFBB00D3AD20 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		840B3E431E88EFBB00D3AD20 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		840B3E441E88EFBB00D3AD20 /* CreateOrUpdateListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrUpdateListViewController.swift; sourceTree = "<group>"; };
 		840B3E451E88EFBB00D3AD20 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -193,6 +195,11 @@
 		84BE08CE1E8E017D00F1CAEE /* RBWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RBWebViewController.swift; sourceTree = "<group>"; };
 		84BE08D01E8E3E6900F1CAEE /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		84BE08D41E8E41F200F1CAEE /* icon_border@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_border@2x.png"; sourceTree = "<group>"; };
+		84BE08D61E8E678200F1CAEE /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
+		84BE08DB1E8E67D100F1CAEE /* RainbowList-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RainbowList-Bridging-Header.h"; sourceTree = "<group>"; };
+		84BE08DC1E8E893700F1CAEE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		84BE08DE1E8E894500F1CAEE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		84BE08E01E8E895400F1CAEE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		84BEF2831E7125860077E88B /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		84BEF29C1E724A800077E88B /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		84EC02B01E64325F008DE6EB /* RainbowList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainbowList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,6 +228,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84BE08E11E8E895400F1CAEE /* libz.tbd in Frameworks */,
+				84BE08DF1E8E894500F1CAEE /* CoreTelephony.framework in Frameworks */,
+				84BE08DD1E8E893700F1CAEE /* libsqlite3.tbd in Frameworks */,
+				84BE08D71E8E678200F1CAEE /* UMMobClick.framework in Frameworks */,
 				84151D1B1E8D4C7200CB936A /* Photos.framework in Frameworks */,
 				F59C36B2466D84FA0E923FDF /* Pods_RainbowList.framework in Frameworks */,
 			);
@@ -249,7 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				840B3EC71E88F08400D3AD20 /* MainContainerViewController.swift */,
-				840B3E421E88EFBB00D3AD20 /* BaseViewController.swift */,
 				840B3E431E88EFBB00D3AD20 /* CameraViewController.swift */,
 				840B3E441E88EFBB00D3AD20 /* CreateOrUpdateListViewController.swift */,
 				840B3E451E88EFBB00D3AD20 /* EventDetailViewController.swift */,
@@ -393,6 +403,7 @@
 		84A80AE51E6433AB009D9ADD /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				84BE08DB1E8E67D100F1CAEE /* RainbowList-Bridging-Header.h */,
 				840B3EC51E88F06700D3AD20 /* Global.swift */,
 				84A80B3A1E643415009D9ADD /* AppDelegate.swift */,
 			);
@@ -423,6 +434,7 @@
 		84BEF2871E7148AA0077E88B /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				84BE08D61E8E678200F1CAEE /* UMMobClick.framework */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -488,6 +500,9 @@
 		886E13DD4BCF2A765E851F0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84BE08E01E8E895400F1CAEE /* libz.tbd */,
+				84BE08DE1E8E894500F1CAEE /* CoreTelephony.framework */,
+				84BE08DC1E8E893700F1CAEE /* libsqlite3.tbd */,
 				84151D1A1E8D4C7200CB936A /* Photos.framework */,
 				3ED8D59B0E693B706C28B4A3 /* Pods_RainbowList.framework */,
 			);
@@ -548,6 +563,7 @@
 					84EC02AF1E64325F008DE6EB = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = PA4DUKD849;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					84EC02C31E64325F008DE6EB = {
@@ -715,7 +731,6 @@
 				840B3EBE1E88F01400D3AD20 /* RBDatePickerView.swift in Sources */,
 				840B3EB81E88F01400D3AD20 /* PriorityCell.swift in Sources */,
 				840B3ED31E88F15D00D3AD20 /* EventContentCell.swift in Sources */,
-				840B3E6B1E88EFBB00D3AD20 /* BaseViewController.swift in Sources */,
 				840B3EB21E88F01400D3AD20 /* EventCell.swift in Sources */,
 				840B3E6F1E88EFBB00D3AD20 /* EventListViewController.swift in Sources */,
 				840B3EEC1E8AC16A00D3AD20 /* SystemUtil.swift in Sources */,
@@ -868,12 +883,19 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = PA4DUKD849;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RainbowList/Library",
+				);
 				INFOPLIST_FILE = RainbowList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = aLazyCoder.RainbowList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RainbowList/Application/RainbowList-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -885,12 +907,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = PA4DUKD849;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RainbowList/Library",
+				);
 				INFOPLIST_FILE = RainbowList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = aLazyCoder.RainbowList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RainbowList/Application/RainbowList-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

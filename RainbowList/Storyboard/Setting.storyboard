@@ -39,7 +39,6 @@
                                                 </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.20000000000000001" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="cAV-sN-5Ai">
                                                     <rect key="frame" x="179" y="14.5" width="180" height="31"/>
-                                                    <color key="minimumTrackTintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="sliderValueChanged:" destination="7xQ-h1-cIl" eventType="valueChanged" id="0zC-Im-0Gh"/>
                                                     </connections>
@@ -482,7 +481,7 @@ Cg
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="z8K-he-D6m" firstAttribute="top" secondItem="WuE-3i-Idc" secondAttribute="bottom" constant="17" id="8bn-Ha-6XL"/>
                             <constraint firstItem="vBo-6V-1rc" firstAttribute="top" secondItem="eJe-CP-XwD" secondAttribute="bottom" constant="80" id="9MN-Hk-2pk"/>

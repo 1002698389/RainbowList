@@ -110,7 +110,7 @@ final class DBManager: NSObject {
 
     
     func createList(list: RBList) {
-        
+        MobClick.beginEvent(UMEvent_CreateNewList)
         dbQueue.inTransaction { (db, rollback) in
             do {
                 var listCount: Int = 0
@@ -132,7 +132,7 @@ final class DBManager: NSObject {
     }
     
     func updateList(list: RBList) {
-        
+        MobClick.beginEvent(UMEvent_ModifyList)
         dbQueue.inDatabase { db in
             do {
                 let sql = "UPDATE tb_list SET name = ?, theme_color_hex = ? WHERE id = ?;;"
@@ -145,7 +145,7 @@ final class DBManager: NSObject {
     }
     
     func deleteList(list: RBList) {
-        
+        MobClick.beginEvent(UMEvent_DeleteList)
         //先删事件
         let events = self.findEvents(inList: list)
         for event in events {
@@ -164,7 +164,7 @@ final class DBManager: NSObject {
     }
     
     func changeListOrder(list: RBList, newOrderNum: Int) {
-        
+        MobClick.beginEvent(UMEvent_ModifyListOrder)
         dbQueue.inDatabase { db in
             do {
                 let sql = "UPDATE tb_list SET order_num = ? WHERE id = ?;"
@@ -177,8 +177,8 @@ final class DBManager: NSObject {
         listCache = nil
     }
     func recreateListOrders(lists: [RBList]) {
-        print("recreateListOrders =========")
         
+        MobClick.beginEvent(UMEvent_RecreateListOrder)
         dbQueue.inDatabase { db in
             do {
                 for i in 0..<lists.count {
@@ -323,7 +323,7 @@ final class DBManager: NSObject {
     }
     
     func addNewEvent(event: RBEvent) {
-        
+        MobClick.beginEvent(UMEvent_CreateNewEvent)
         UserNotificationManager.shared.addUserNotification(forEvent: event)
         
         let sql_alarm = "INSERT INTO tb_alarm(id, event_id, ring_time, create_time) values(?,?,?,?);"
@@ -360,6 +360,7 @@ final class DBManager: NSObject {
     }
     
     func deleteEvent(event: RBEvent) {
+        MobClick.beginEvent(UMEvent_DeleteEvent)
         
         UserNotificationManager.shared.removeUserNotification(forEvent: event)
         
@@ -392,7 +393,7 @@ final class DBManager: NSObject {
     
     //FIXME: 关联对象目前是删掉重建，后面优化为把需要具体更新的关联对象传过来，针对具体变更更新
     func updateEvent(event: RBEvent) {
-        
+        MobClick.beginEvent(UMEvent_ModifyEvent)
         UserNotificationManager.shared.removeUserNotification(forEvent: event)
         UserNotificationManager.shared.addUserNotification(forEvent: event)
         
@@ -473,7 +474,7 @@ final class DBManager: NSObject {
     }
     
     func changeState(forEvent event: RBEvent, isFinished: Bool) {
-        
+        MobClick.beginEvent(isFinished ? UMEvent_ArchiveEvent : UMEvent_UnarchiveEvent)
         if isFinished {
             UserNotificationManager.shared.removeUserNotification(forEvent: event)
         }else{

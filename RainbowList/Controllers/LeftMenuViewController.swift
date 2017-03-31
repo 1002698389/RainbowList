@@ -184,6 +184,8 @@ class LeftMenuViewController: UIViewController {
     }
     func beginEditing() {
         
+        MobClick.beginEvent(UMEvent_ClickEditListButton)
+        
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: NotificationConstants.openLeftMenuEntirelyNotification), object: nil)
 
         self.closeButton.isHidden = false
@@ -224,6 +226,8 @@ class LeftMenuViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: NotificationConstants.openLeftMenuNotification), object: nil)
     }
     func settingBtnClicked() {
+        MobClick.beginEvent(UMEvent_ClickSettingButton)
+        
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: NotificationConstants.jumpToSettingPageNotification), object: nil)
     }
     
@@ -239,7 +243,7 @@ class LeftMenuViewController: UIViewController {
 //            view.makeToast("只少需要保留一个清单！")
 //            return
 //        }
-//        
+
         
         let alert = UIAlertController(title: "警告", message: "该清单中所有内容将被一同删除，且无法恢复!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))

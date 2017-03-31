@@ -37,6 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(pushToNotificationDetail(notification:)), name: Notification.Name(NotificationConstants.userNotificationTriggerNotification), object: nil)
         
+        //友盟统计
+        if let config = UMAnalyticsConfig.sharedInstance() {
+            config.appKey = UMAppKey
+            MobClick.start(withConfigure: config)
+        }
+        
+
         return true
     }
     

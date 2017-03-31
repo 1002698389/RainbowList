@@ -9,7 +9,7 @@
 import UIKit
 import DynamicColor
 
-class EventListViewController: BaseViewController {
+class EventListViewController: UIViewController {
     
     static let kAddButtonWidth: CGFloat = 56
     static let eventCellIdentifier = "listCellIdentifier"
@@ -88,19 +88,20 @@ class EventListViewController: BaseViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         view.backgroundColor = UIColor(hex: 0xF0EFF5)
         shouldShowArchivedData = UserDefaults.standard.bool(forKey: k_Defaultkey_ShowArchivedData)
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "显示已归档", style: .plain, target: self, action: #selector(shouOrHideArchive))
         
         setupSubviews()
 
-        //监听切换列表通知
+        //监听通知
         NotificationCenter.default.addObserver(self, selector: #selector(changeList(notification:)), name: Notification.Name(rawValue: NotificationConstants.selectListNotification), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshList(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldRequeryFromDatabaseNotification), object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldNotRequeryNotification), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(presentNewVC(notification:)), name: Notification.Name(rawValue: NotificationConstants.presentNewViewControllerNotification), object: nil)
         //加载默认清单
         let list = DBManager.shared.findAlllist()
         self.list = list.first
@@ -138,6 +139,17 @@ class EventListViewController: BaseViewController {
         
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleButton)
+    }
+    
+    func presentNewVC(notification: Notification) {
+        if self === self.navigationController?.topViewController {
+            if let userInfo = notification.userInfo {
+                if let vc = userInfo[NotificationConstants.presentNewViewControllerKey] as? UIViewController {
+                    self.navigationController?.present(vc, animated: true, completion: nil)
+                }
+            }
+        }
+        
     }
     
     func changeList(notification: Notification) {
@@ -229,6 +241,7 @@ class EventListViewController: BaseViewController {
             inputView.delegate = self
             inputView.show(inView: self.navigationController?.view)
         }
+        
     }
     
     func refreshEmptyView() {

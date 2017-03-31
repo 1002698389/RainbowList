@@ -25,6 +25,26 @@ let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDom
 
 let k_ListTable_OrderBase = 500
 
+//友盟统计
+
+let UMAppKey = ""
+let UMEvent_CreateNewEvent = "UMEvent_CreateNewEvent"
+let UMEvent_CreateNewList = "UMEvent_CreateNewList"
+let UMEvent_DeleteEvent = "UMEvent_DeleteEvent"
+let UMEvent_DeleteList = "UMEvent_DeleteList"
+let UMEvent_ModifyEvent = "UMEvent_ModifyEvent"
+let UMEvent_ModifyList = "UMEvent_ModifyList"
+let UMEvent_ModifyListOrder = "UMEvent_ModifyListOrder"
+let UMEvent_RecreateListOrder = "UMEvent_RecreateListOrder"
+let UMEvent_ArchiveEvent = "UMEvent_ArchiveEvent"
+let UMEvent_UnarchiveEvent = "UMEvent_UnarchiveEvent"
+let UMEvent_ChangeSlideWidth = "UMEvent_ChangeSlideWidth"
+let UMEvent_ChangeContentLineNumber = "UMEvent_ChangeContentLineNumber"
+let UMEvent_ClickAboutCell = "UMEvent_ClickAboutCell"
+let UMEvent_ClickReviewCell = "UMEvent_ClickReviewCell"
+let UMEvent_ClickShareAppButton = "UMEvent_ClickShareAppButton"
+let UMEvent_ClickSettingButton = "UMEvent_ClickSttingButton"
+let UMEvent_ClickEditListButton = "UMEvent_ClickEditListButton"
 
 //通知
 struct NotificationConstants{
