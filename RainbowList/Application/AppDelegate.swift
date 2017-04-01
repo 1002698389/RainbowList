@@ -38,10 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(pushToNotificationDetail(notification:)), name: Notification.Name(NotificationConstants.userNotificationTriggerNotification), object: nil)
         
         //友盟统计
+//        MobClick.setLogEnabled(true)
         if let config = UMAnalyticsConfig.sharedInstance() {
             config.appKey = UMAppKey
             MobClick.start(withConfigure: config)
         }
+        
         
 
         return true

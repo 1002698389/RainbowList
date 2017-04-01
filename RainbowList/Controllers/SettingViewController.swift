@@ -167,7 +167,7 @@ class SettingViewController: UITableViewController {
     
     
     func appReview() {
-        let urlString = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=970057582"
+        let urlString = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1221862568"
         if let url = URL(string: urlString) {
             if UIApplication.shared.canOpenURL(url){
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)

@@ -27,7 +27,7 @@ let k_ListTable_OrderBase = 500
 
 //友盟统计
 
-let UMAppKey = ""
+let UMAppKey = "58de113307fe6511540013ed"
 let UMEvent_CreateNewEvent = "UMEvent_CreateNewEvent"
 let UMEvent_CreateNewList = "UMEvent_CreateNewList"
 let UMEvent_DeleteEvent = "UMEvent_DeleteEvent"
@@ -85,41 +85,4 @@ struct NotificationConstants{
     static let userNotificationTriggerNotification = "userNotificationTriggerNotification"
     //触发通知对象的key，value为一个RBEvent id
     static let userNotificationTriggerKey = "userNotificationTriggerKey"
-}
-
-//延时调用封装
-typealias Task = (_ cancel : Bool) -> Void
-
-func delay(_ time: TimeInterval, task: @escaping ()->()) ->  Task? {
-    
-    func dispatch_later(block: @escaping ()->()) {
-        let t = DispatchTime.now() + time
-        DispatchQueue.main.asyncAfter(deadline: t, execute: block)
-    }
-    var closure: (()->Void)? = task
-    var result: Task?
-    
-    let delayedClosure: Task = {
-        cancel in
-        if let internalClosure = closure {
-            if (cancel == false) {
-                DispatchQueue.main.async(execute: internalClosure)
-            }
-        }
-        closure = nil
-        result = nil
-    }
-    
-    result = delayedClosure
-    
-    dispatch_later {
-        if let delayedClosure = result {
-            delayedClosure(false)
-        }
-    }
-    return result
-}
-
-func cancel(_ task: Task?) {
-    task?(true)
 }
