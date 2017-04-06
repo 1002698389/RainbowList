@@ -25,6 +25,8 @@ let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDom
 
 let k_ListTable_OrderBase = 500
 
+let k_appid = "1221862568"
+
 //友盟统计
 
 let UMAppKey = "58de113307fe6511540013ed"

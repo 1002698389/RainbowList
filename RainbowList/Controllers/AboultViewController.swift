@@ -45,7 +45,7 @@ class AboultViewController: UIViewController {
         
         let textToShare = "彩虹清单-让生活变得简单!"
         let icon = UIImage(named:"picture")!
-        let downloadUrl = NSURL(string: "https://itunes.apple.com/us/app/id970057582")!
+        let downloadUrl = NSURL(string: "https://itunes.apple.com/us/app/id\(k_appid)")!
         let objectsToShare = [textToShare,icon,downloadUrl] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivityType.addToReadingList, UIActivityType.print]
