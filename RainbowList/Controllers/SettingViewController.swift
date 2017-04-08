@@ -35,7 +35,7 @@ class SettingViewController: UITableViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         if leftMenuWidthChanged {
-            MobClick.beginEvent(UMEvent_ChangeSlideWidth)
+            MobClick.event(UMEvent_ChangeSlideWidth)
             UserDefaults.standard.set(sliderView.value * Float(k_SCREEN_WIDTH), forKey: k_Defaultkey_LeftMenuMaxWidth)
             NotificationCenter.default.post(name: Notification.Name(NotificationConstants.refreshLeftMenuMaxWidthNotification), object: nil)
         }
@@ -134,7 +134,7 @@ class SettingViewController: UITableViewController {
     
     func showClickAnimate(forButton btn: UIButton) {
         
-        MobClick.beginEvent(UMEvent_ChangeContentLineNumber)
+        MobClick.event(UMEvent_ChangeContentLineNumber)
         
         UIView.animate(withDuration: 0.1, animations: {
             btn.transform = btn.transform.scaledBy(x: 1.2, y: 1.2)
@@ -204,7 +204,7 @@ extension SettingViewController {
             if indexPath.row == 0 {//反馈
                 sendEmail()
             }else if indexPath.row == 1 {//评价
-                MobClick.beginEvent(UMEvent_ClickReviewCell)
+                MobClick.event(UMEvent_ClickReviewCell)
                 appReview()
             }
         }

@@ -22,7 +22,7 @@ class AboultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        MobClick.beginEvent(UMEvent_ClickAboutCell)
+        MobClick.event(UMEvent_ClickAboutCell)
         
         iconImageView.layer.cornerRadius = 8
         iconImageView.layer.masksToBounds = true
@@ -41,7 +41,7 @@ class AboultViewController: UIViewController {
     
     @IBAction func shareApp(_ sender: UIButton) {
         
-        MobClick.beginEvent(UMEvent_ClickShareAppButton)
+        MobClick.event(UMEvent_ClickShareAppButton)
         
         let textToShare = "彩虹清单-让生活变得简单!"
         let icon = UIImage(named:"picture")!

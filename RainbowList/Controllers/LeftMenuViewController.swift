@@ -29,7 +29,7 @@ class LeftMenuViewController: UIViewController {
         tool.addSubview(self.edittingButton)
         self.edittingButton.snp.makeConstraints({ (make) in
             make.left.top.equalToSuperview()
-            make.width.height.equalTo(LeftMenuViewController.kUpperToolbarHeight)
+            make.width.height.equalTo(tool.snp.height)
         })
         
         
@@ -40,7 +40,7 @@ class LeftMenuViewController: UIViewController {
         tool.addSubview(self.settingButton)
         self.settingButton.snp.makeConstraints({ (make) in
             make.left.top.equalToSuperview()
-            make.width.height.equalTo(LeftMenuViewController.kBottomToolbarHeight)
+            make.width.height.equalTo(tool.snp.height)
         })
         return tool
     }()
@@ -184,7 +184,7 @@ class LeftMenuViewController: UIViewController {
     }
     func beginEditing() {
         
-        MobClick.beginEvent(UMEvent_ClickEditListButton)
+        MobClick.event(UMEvent_ClickEditListButton)
         
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: NotificationConstants.openLeftMenuEntirelyNotification), object: nil)
 
@@ -226,7 +226,7 @@ class LeftMenuViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: NotificationConstants.openLeftMenuNotification), object: nil)
     }
     func settingBtnClicked() {
-        MobClick.beginEvent(UMEvent_ClickSettingButton)
+        MobClick.event(UMEvent_ClickSettingButton)
         
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: NotificationConstants.jumpToSettingPageNotification), object: nil)
     }
