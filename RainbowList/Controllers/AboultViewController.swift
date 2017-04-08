@@ -44,7 +44,7 @@ class AboultViewController: UIViewController {
         MobClick.event(UMEvent_ClickShareAppButton)
         
         let textToShare = "彩虹清单-让生活变得简单!"
-        let icon = UIImage(named:"picture")!
+        let icon = UIImage(named:"icon")!
         let downloadUrl = NSURL(string: "https://itunes.apple.com/us/app/id\(k_appid)")!
         let objectsToShare = [textToShare,icon,downloadUrl] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
