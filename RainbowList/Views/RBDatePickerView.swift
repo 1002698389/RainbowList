@@ -12,15 +12,14 @@ import Toast_Swift
 protocol RBDatePickerViewDelegate: class {
     
     func cancelPick(datePickerView: RBDatePickerView)
-    func confirmPick(datePickerView: RBDatePickerView, selectedDate: Date)
+    func confirmPick(datePickerView: RBDatePickerView, selectedDate: Date, repeatType: RBRepeatType)
     
 }
 
 class RBDatePickerView: UIView {
 
-    static let kDatePickerHeight: CGFloat = 216
     static let kDateToolbarHeight: CGFloat = 40
-    static let kViewHeight: CGFloat = kDatePickerHeight + kDateToolbarHeight
+    static let kRepeatChooseViewHeight: CGFloat = 35
     
     weak var delegate: RBDatePickerViewDelegate?
     
@@ -32,6 +31,8 @@ class RBDatePickerView: UIView {
             self.layoutIfNeeded()
         }
     }
+    
+    var repeatType: RBRepeatType
     
     lazy var toolbar: UIView = {
         var view = UIView()
@@ -74,6 +75,14 @@ class RBDatePickerView: UIView {
         return view
     }()
     
+    lazy var segmentView: UISegmentedControl = {
+        var segment = UISegmentedControl(items: ["提醒一次","每日重复","每周重复","每月重复"])
+        segment.addTarget(self, action: #selector(segmentValueChanged(sender:)), for: .valueChanged)
+        segment.tintColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
+        segment.selectedSegmentIndex = 0
+        return segment
+    }()
+    
     lazy var datePicker: UIDatePicker = {
         var picker = UIDatePicker()
         picker.date = self.date
@@ -81,23 +90,32 @@ class RBDatePickerView: UIView {
     }()
     
     
-    init(date: Date = DateUtil.getNextNeatDate()) {
+    init(date: Date = DateUtil.getNextNeatDate(), repeatType: RBRepeatType = RBRepeatType.none) {
         self.date = date
+        self.repeatType = repeatType
+        
         super.init(frame: CGRect.zero)
         self.backgroundColor = UIColor.white
         
         addSubview(toolbar)
+        addSubview(segmentView)
         addSubview(datePicker)
+        
+        self.segmentView.selectedSegmentIndex = repeatType.rawValue
         
         toolbar.snp.makeConstraints { (make) in
             make.left.top.right.equalTo(self)
             make.height.equalTo(RBDatePickerView.kDateToolbarHeight)
         }
         
+        segmentView.snp.makeConstraints { (make) in
+            make.top.equalTo(toolbar.snp.bottom).offset(30)
+            make.height.equalTo(RBDatePickerView.kRepeatChooseViewHeight)
+            make.centerX.equalToSuperview()
+        }
         datePicker.snp.makeConstraints { (make) in
-            make.centerY.equalTo(self).offset(RBDatePickerView.kDateToolbarHeight/2)
-            make.centerX.equalTo(self).offset(-10) //iphone6s显示偏右？
-            make.height.equalTo(RBDatePickerView.kDatePickerHeight)
+            make.bottom.equalToSuperview().offset(-40)
+            make.centerX.equalToSuperview().offset(-10) //iphone6s显示偏右？
         }
     }
     
@@ -112,11 +130,15 @@ class RBDatePickerView: UIView {
     func confirmBtnClicked() {
 //        print("\(datePicker.date)")
         
-        if datePicker.date < Date() {
+        if datePicker.date < Date() && self.repeatType == RBRepeatType.none{
             UIApplication.shared.keyWindow?.makeToast("时间已过，提醒将不会发生！", duration: 3, position:.center)
         }
         
-        self.delegate?.confirmPick(datePickerView: self, selectedDate: datePicker.date)
+        self.delegate?.confirmPick(datePickerView: self, selectedDate: datePicker.date, repeatType: repeatType)
     }
 
+    func segmentValueChanged(sender: UISegmentedControl) {
+        print("======\(sender.selectedSegmentIndex)")
+        self.repeatType = RBRepeatType(rawValue: sender.selectedSegmentIndex)!
+    }
 }

@@ -9,7 +9,13 @@
 import UIKit
 import SnapKit
 
+protocol EventCellDelegate: class {
+    func archiveBtnClicked(cell: EventCell)
+}
+
 class EventCell: UITableViewCell {
+    
+    static let kDefaultContentTextColor = UIColor(hexString: "#2E2E3B")
     
     let kMarkViewWidth: CGFloat = 40
     let kToolbarHeight: CGFloat = 15
@@ -18,6 +24,8 @@ class EventCell: UITableViewCell {
     let kCommentViewWidth: CGFloat = 80
     let kBtnMargin: CGFloat = 10
     let kPriorityWidth: CGFloat = 50
+    
+    weak var delegate: EventCellDelegate?
     
     lazy var contentBackgroundView: UIView = {
         var view = UIView()
@@ -46,7 +54,7 @@ class EventCell: UITableViewCell {
         var label = UILabel(frame: CGRect.zero)
         label.font = UIFont.systemFont(ofSize: 18)
         label.text = "这里是标题"
-        label.textColor = UIColor(hexString: "#2E2E3B")
+        label.textColor = kDefaultContentTextColor
         label.numberOfLines = 0
         label.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         label.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
@@ -144,7 +152,7 @@ class EventCell: UITableViewCell {
             self.markButton.tintColor = UIColor(hexString: event?.list.themeColorHexString)
             
             if let alarm = event?.alarm {
-                self.alarmView.setTitle("\(DateUtil.stringInReadableFormat(date: alarm.ringTime))", for: .normal)
+                self.alarmView.setTitle("\(DateUtil.stringInReadableFormat(date: alarm.ringTime, repeatType: alarm.repeatType))", for: .normal)
             }else{
                 self.alarmView.setTitle("", for: .normal)
             }
@@ -261,10 +269,12 @@ class EventCell: UITableViewCell {
                 attr.addAttribute(NSStrikethroughStyleAttributeName, value: NSNumber.init(value: 1), range: NSMakeRange(0, content.characters.count))
                 attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.lightGray, range: NSMakeRange(0, content.characters.count))
                 contentLabel.attributedText = attr
+                self.alarmView.tintColor = UIColor.gray
             }
         }else{
             self.contentLabel.text = self.event?.content
-            self.contentLabel.textColor = UIColor(hexString: "#2E2E3B")
+            self.contentLabel.textColor = EventCell.kDefaultContentTextColor
+            self.alarmView.tintColor = UIColor(hexString: event?.list.themeColorHexString)
         }
     }
     
@@ -369,7 +379,9 @@ class EventCell: UITableViewCell {
     
     func markBtnClicked(sender: UIButton) {
         
-        if let event = event {
+        self.delegate?.archiveBtnClicked(cell: self)
+        
+    /*    if let event = event {
             DBManager.shared.changeState(forEvent: event, isFinished: !sender.isSelected)
         }
         
@@ -378,6 +390,6 @@ class EventCell: UITableViewCell {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue:NotificationConstants.refreshEventListShouldRequeryFromDatabaseNotification), object: nil, userInfo: nil)
         }
-        
+      */
     }
 }

@@ -19,6 +19,8 @@ let k_Defaultkey_LeftMenuMaxWidth = "k_Defaultkey_LeftMenuMaxWidth"
 let k_Defaultkey_ContentLineNumbers = "k_Defaultkey_ContentLineNumbers"
 let k_Defaultkey_RemarkLineNumbers = "k_Defaultkey_RemarkLineNumbers"
 
+let k_Defaultkey_HasShowAlert_ArchiveAlarm = "k_Defaultkey_HasShowAlert_ArchiveAlarm"
+
 let k_AppVersion: String = Bundle.main.infoDictionary! ["CFBundleShortVersionString"] as! String
 
 let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first

@@ -8,8 +8,11 @@
 
 import UIKit
 
-enum RBRepeatType {
-    
+enum RBRepeatType: Int {
+    case none
+    case everyDay
+    case everyWeek
+    case everyMonth
 }
 
 class RBAlarm: NSObject {
@@ -18,16 +21,19 @@ class RBAlarm: NSObject {
     var ringTime : Date
     var createTime: Date
     var eventId: String
+    var repeatType: RBRepeatType
     
-    init (identifier: String, ringTime: Date, eventId: String, createTime: Date){
+    init (identifier: String, ringTime: Date, eventId: String, createTime: Date, repeatType: RBRepeatType){
+        
         self.identifier = identifier
         self.ringTime = ringTime
         self.eventId = eventId
         self.createTime = createTime
+        self.repeatType = repeatType
     }
     
     convenience init(ringTime: Date, eventId: String) {
-        self.init(identifier: UUID().uuidString, ringTime: ringTime, eventId: eventId, createTime: Date())
+        self.init(identifier: UUID().uuidString, ringTime: ringTime, eventId: eventId, createTime: Date(), repeatType: .none)
     }
  
     override var description: String {

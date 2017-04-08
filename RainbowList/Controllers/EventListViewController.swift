@@ -263,6 +263,49 @@ class EventListViewController: UIViewController {
         UserDefaults.standard.set(shouldShowArchivedData, forKey: k_Defaultkey_ShowArchivedData)
         UserDefaults.standard.synchronize()
     }
+    
+    func archive(event: RBEvent) {
+        
+        if event.alarm != nil{
+            let hasShow = UserDefaults.standard.bool(forKey: k_Defaultkey_HasShowAlert_ArchiveAlarm)
+            
+            if !hasShow {
+                let alert = UIAlertController(title: "提示", message: "归档后，此项目相关提醒将被取消！", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "知道了", style: .cancel, handler: {
+                    _ in
+                    self.realArchive(event: event)
+                }))
+                self.present(alert, animated: true, completion: nil)
+                
+                UserDefaults.standard.set(true, forKey: k_Defaultkey_HasShowAlert_ArchiveAlarm)
+                UserDefaults.standard.synchronize()
+                
+            }else {
+                realArchive(event: event)
+            }
+        }else {
+            realArchive(event: event)
+        }
+    }
+    func realArchive(event: RBEvent) {
+        event.isFinished = true
+        tableView.reloadData()
+        
+        DBManager.shared.changeState(forEvent: event, isFinished: true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.showData(list: self.list)
+        }
+    }
+    
+    func unarchive(event: RBEvent) {
+        event.isFinished = false
+        tableView.reloadData()
+        DBManager.shared.changeState(forEvent: event, isFinished: false)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.showData(list: self.list, scrollToTop: true)
+        }
+    }
+    
 }
 
 extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
@@ -305,6 +348,7 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                 }
             }
         }
+        cell.delegate = self
         cell.setNumberOfLines(forTitle: self.titleLineNumbers, forRemark: self.remarkLineNumbers)
         return cell
     }
@@ -337,16 +381,9 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                 return nil
             }
             let archive = UITableViewRowAction(style: .normal, title: "归档") { action, index in
-                
-                event.isFinished = true
-                tableView.reloadData()
-                
-                DBManager.shared.changeState(forEvent: event, isFinished: true)
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-                    self.showData(list: self.list)
-                }
+                self.archive(event: event)
             }
-            archive.backgroundColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
+            archive.backgroundColor = UIColor.darkGray
             
             let delete = UITableViewRowAction(style: .normal, title: "删除") { action, index in
                 DBManager.shared.deleteEvent(event: event)
@@ -366,15 +403,9 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                 if var evs = dic[key] {
                     let event = evs[indexPath.row]
                     let archive = UITableViewRowAction(style: .normal, title: "解档") { action, index in
-                        event.isFinished = false
-                        tableView.reloadData()
-                        DBManager.shared.changeState(forEvent: event, isFinished: false)
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-                            self.showData(list: self.list, scrollToTop: true)
-                        }
+                        self.unarchive(event: event)
                     }
-                    archive.backgroundColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
-                    
+                    archive.backgroundColor = UIColor.darkGray
                     
                     let delete = UITableViewRowAction(style: .normal, title: "删除") { action, index in
                         DBManager.shared.deleteEvent(event: event)
@@ -441,21 +472,6 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
         
         return footerView
     }
-    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        
-//        let offSet = tableView.contentOffset.y;
-//        if offSet < 0 {
-//            return;
-//        }
-//        let oldRect = cell.frame;
-//        var newRect = cell.frame;
-//        newRect.origin.x += 50;
-//        cell.frame = newRect;
-//        UIView.animate(withDuration: 0.5, delay: Double(indexPath.row) * 0.1, options: UIViewAnimationOptions.curveEaseIn, animations: {
-//            cell.frame = oldRect;
-//        }, completion: nil)
-//    }
 }
 
 extension EventListViewController: EventInputViewDelegate {
@@ -464,4 +480,33 @@ extension EventListViewController: EventInputViewDelegate {
         showData(list: self.list, scrollToTop: true)
     }
 
+}
+extension EventListViewController: EventCellDelegate {
+    func archiveBtnClicked(cell: EventCell) {
+        
+        if let indexPath = self.tableView.indexPath(for: cell) {
+            
+            if indexPath.section == 0 {
+                if let event = self.events?[indexPath.row] {
+                    if event.isFinished {
+                        unarchive(event: event)
+                    }else {
+                        archive(event: event)
+                    }
+                }
+            }else {
+                if let dic = archivedEventsDictionary {
+                    let key = Array(dic.keys)[indexPath.section-1]
+                    if var evs = dic[key] {
+                        let event = evs[indexPath.row]
+                        if event.isFinished {
+                            unarchive(event: event)
+                        }else {
+                            archive(event: event)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

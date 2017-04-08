@@ -69,20 +69,17 @@ class UserNotificationManager: NSObject {
     func realAddUserNotifiaction(forEvent event: RBEvent) {
         
         if let alarm = event.alarm {
-            let content = UNMutableNotificationContent()
-            content.title = "提醒"
-            content.body = event.content
-            content.sound = UNNotificationSound(named: "alarm.mp3")
             
-            let dateComponents = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: alarm.ringTime)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-            
-            let requestIdentifier = event.identifier
-            let request = UNNotificationRequest(identifier: requestIdentifier, content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request) { error in
-                if error == nil {
-                    print("Time Interval Notification scheduled: \(requestIdentifier) for event:\(event.identifier)")
-                }
+            let content = generateNotificationContent(event: event)
+            switch alarm.repeatType {
+            case .none:
+                addNotificationNoRepeat(identifier: event.identifier, date: alarm.ringTime, content: content)
+            case .everyDay:
+                addNotificationRepeatEveryDay(identifier: event.identifier, date: alarm.ringTime, content: content)
+            case .everyWeek:
+                addNotificationRepeatEveryWeek(identifier: event.identifier, date: alarm.ringTime, content: content)
+            case .everyMonth:
+                addNotificationRepeatEveryMonth(identifier: event.identifier, date: alarm.ringTime, content: content)
             }
         }
     }
@@ -95,7 +92,57 @@ class UserNotificationManager: NSObject {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
     
+    //不重复
+    func addNotificationNoRepeat(identifier: String, date: Date, content: UNNotificationContent) {
+        
+        let dateComponents = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+
+            
+        addUserNotification(identifier: identifier, trigger: trigger, content: content)
+    }
+    //每日重复
+    func addNotificationRepeatEveryDay(identifier: String, date: Date, content: UNNotificationContent) {
+        
+        let dateComponents = Calendar.current.dateComponents([.hour,.minute,.second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        addUserNotification(identifier: identifier, trigger: trigger, content: content)
+    }
+    //每周重复
+    func addNotificationRepeatEveryWeek(identifier: String, date: Date, content: UNNotificationContent) {
+        
+        let dateComponents = Calendar.current.dateComponents([.weekday,.hour,.minute,.second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        addUserNotification(identifier: identifier, trigger: trigger, content: content)
+    }
+    //每月重复
+    func addNotificationRepeatEveryMonth(identifier: String, date: Date, content: UNNotificationContent) {
+        let dateComponents = Calendar.current.dateComponents([.day,.hour,.minute,.second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        addUserNotification(identifier: identifier, trigger: trigger, content: content)
+    }
     
+    //提醒内容
+    func generateNotificationContent(event: RBEvent) -> UNNotificationContent{
+        let content = UNMutableNotificationContent()
+        content.title = "提醒"
+        content.body = event.content
+        content.sound = UNNotificationSound(named: "alarm.mp3")
+        return content
+    }
+    
+    //添加提醒
+    func addUserNotification(identifier: String, trigger: UNCalendarNotificationTrigger, content: UNNotificationContent) {
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) { error in
+            if error == nil {
+                print("Time Interval Notification scheduled: \(identifier) for event:\(identifier)")
+            }
+        }
+    }
 }
 
 extension UserNotificationManager: UNUserNotificationCenterDelegate {

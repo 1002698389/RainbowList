@@ -366,53 +366,62 @@ class EventInputView: UIView {
         shouldChangeContentViewFrameWhenKeyboardHidden = false
         self.textInputView.resignFirstResponder()
         
-        //添加闹钟时间选择视图
-        if let date = self.event.alarm?.ringTime {
-            datePickerView = RBDatePickerView(date: date)
-        }else{
-            datePickerView = RBDatePickerView()
-        }
-        datePickerView?.delegate = self
         
-        if datePickerView?.superview == nil {
-            self.addSubview(datePickerView!)
-            datePickerView?.snp.makeConstraints { (make) in
-                make.top.equalTo(contentView.snp.top)
-//                make.top.equalTo(contentView.snp.bottom).offset(-EventInputView.kToolbarHeight)
-                make.left.right.bottom.equalTo(self)
+        let dateView = DateChoosePopView(date: self.event.alarm?.ringTime, repeatType: self.event.alarm?.repeatType)
+        dateView.show(inView: UIApplication.shared.keyWindow, chooseCompleted: {
+            date, repeatType in
+            if date != nil {
+                self.addAlarm(date: date!, repeatType: repeatType!)
+            }else {
+                self.deletaAlarm()
             }
-            self.setNeedsLayout()
+        }) {
+            self.textInputView.becomeFirstResponder()
         }
         
-        datePickerView?.alpha = 0
         UIView.animate(withDuration: 0.25, animations: {
-            self.datePickerView?.alpha = 1
+            self.contentViewBottomConstraint?.update(offset: 0)
+            self.layoutIfNeeded()
         }){(_) in
         }
+        //添加闹钟时间选择视图
+        //        if let date = self.event.alarm?.ringTime, let repeatType = self.event.alarm?.repeatType {
+        //            datePickerView = RBDatePickerView(date: date, repeatType: repeatType)
+        //        }else{
+        //            datePickerView = RBDatePickerView()
+        //        }
+        //        datePickerView?.delegate = self
+        //
+        //        if datePickerView?.superview == nil {
+        //            self.addSubview(datePickerView!)
+        //            datePickerView?.snp.makeConstraints { (make) in
+        //                make.top.equalTo(contentView.snp.top)
+        ////                make.top.equalTo(contentView.snp.bottom).offset(-EventInputView.kToolbarHeight)
+        //                make.left.right.bottom.equalTo(self)
+        //            }
+        //            self.setNeedsLayout()
+        //        }
+        //
+        //        datePickerView?.alpha = 0
         
     }
     
-    
-    func hideDatePickerView() {
-        self.textInputView.becomeFirstResponder()
-    }
-    
-    func addAlarm(date: Date) {
-        event.alarm = RBAlarm(ringTime: date, eventId: self.event.identifier)
+    func addAlarm(date: Date, repeatType: RBRepeatType) {
+        let alarm = RBAlarm(ringTime: date, eventId: self.event.identifier)
+        alarm.repeatType = repeatType
+        event.alarm = alarm
         alarmBtn.isSelected = true
-        let title = "  \(DateUtil.stringInReadableFormat(date: date)) "
+        let title = "  \(DateUtil.stringInReadableFormat(date: date, repeatType: alarm.repeatType)) "
         alarmBtn.setTitle(title, for: .normal)
-        hideDatePickerView()
     }
     func deletaAlarm() {
         event.alarm = nil
         alarmBtn.isSelected = false
         alarmBtn.setTitle("", for: .normal)
-        hideDatePickerView()
     }
     
     func showRemarkInputView() {
-        
+        self.backgroundView.isUserInteractionEnabled = false
         if self.remarkView.superview == nil {
             self.addSubview(self.remarkView)
             self.remarkView.snp.makeConstraints { (make) in
@@ -434,7 +443,7 @@ class EventInputView: UIView {
     }
     
     func hideRemarkInputView() {
-        
+        self.backgroundView.isUserInteractionEnabled = true
         self.textInputView.becomeFirstResponder()
 
         if self.remarkView.superview != nil {
@@ -465,9 +474,9 @@ class EventInputView: UIView {
     }
     
     func showPictureChooseView() {
-        
         self.shouldChangeContentViewFrameWhenKeyboardHidden = false
         self.textInputView.resignFirstResponder()
+        self.backgroundView.isUserInteractionEnabled = false
         
         if self.pictureChooseView == nil {
             self.pictureChooseView = RBPictureChooseView(event: self.event)
@@ -499,9 +508,9 @@ class EventInputView: UIView {
             make.width.equalTo(btnWidthNormal)
         })
         self.textInputView.becomeFirstResponder()
+        self.backgroundView.isUserInteractionEnabled = true
     }
     func addImages(images: [RBImage]) {
-        
         self.pictureBtn.isSelected = true
         self.pictureBtn.setTitle(" \(images.count)", for: .normal)
         self.event.images = images
@@ -511,12 +520,14 @@ class EventInputView: UIView {
         })
         
         self.textInputView.becomeFirstResponder()
+        self.backgroundView.isUserInteractionEnabled = true
         
     }
     
     func showPriorityChooseView() {
         self.shouldChangeContentViewFrameWhenKeyboardHidden = false
         self.textInputView.resignFirstResponder()
+        self.backgroundView.isUserInteractionEnabled = false
         
         if self.priorityChooseView == nil {
             self.priorityChooseView = RBPriorityChooseView(priority: self.event.priority)
@@ -544,12 +555,14 @@ class EventInputView: UIView {
         let arr = Array.init(repeating: "!", count: priority)
         self.priorityBtn.setTitle(" \(arr.joined())", for: .normal)
         self.textInputView.becomeFirstResponder()
+        self.backgroundView.isUserInteractionEnabled = true
     }
     func deletePriority() {
         self.event.priority = 0
         self.priorityBtn.isSelected = false
         self.priorityBtn.setTitle("", for: .normal)
         self.textInputView.becomeFirstResponder()
+        self.backgroundView.isUserInteractionEnabled = true
     }
     
     func addNewEvent() {
@@ -585,16 +598,16 @@ class EventInputView: UIView {
                            options: animationCurve,
                            animations: {
                             self.contentViewBottomConstraint?.update(offset: -(keyboardHeightConstant))
-                            self.datePickerView?.alpha = 0
+//                            self.datePickerView?.alpha = 0
                             self.pictureChooseView?.alpha = 0
                             self.priorityChooseView?.alpha = 0
                             self.layoutIfNeeded()
             },completion:{ _ in
-
-                if self.datePickerView?.superview != nil {
-                    self.datePickerView?.removeFromSuperview()
-                    self.datePickerView = nil
-                }
+//
+//                if self.datePickerView?.superview != nil {
+//                    self.datePickerView?.removeFromSuperview()
+//                    self.datePickerView = nil
+//                }
                 
                 if self.pictureChooseView?.superview != nil {
                     self.pictureChooseView?.removeFromSuperview()
@@ -675,9 +688,11 @@ extension EventInputView: RBDatePickerViewDelegate {
         deletaAlarm()
     }
     
-    func confirmPick(datePickerView: RBDatePickerView, selectedDate: Date) {
-        addAlarm(date: selectedDate)
+    func confirmPick(datePickerView: RBDatePickerView, selectedDate: Date, repeatType: RBRepeatType) {
+        addAlarm(date: selectedDate, repeatType: repeatType)
     }
+    
+    
 }
 
 extension EventInputView: RBPictureChooseViewDelegate {

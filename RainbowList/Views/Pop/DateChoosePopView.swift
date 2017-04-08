@@ -10,20 +10,22 @@ import UIKit
 import SnapKit
 
 
-typealias DateChooseCompletedBlock = (Date?) -> Void
-
+typealias DateChooseCompletedBlock = (Date?, RBRepeatType?) -> Void
+typealias DismissCompletedBlock = () -> Void
 
 class DateChoosePopView: UIView {
 
     static let kCellIdentifierForContent = "kCellIdentifierForContent"
-    static let kContentViewMaxHeight = k_SCREEN_HEIGHT / 2
+    static let kContentViewMaxHeight: CGFloat = 380
     static let kCellRowHeight: CGFloat = 50
     
     var contentViewBottomConstraint: Constraint?
     
     var dateChooseCompletedBlock: DateChooseCompletedBlock?
+    var dismissCompletedBlock: DismissCompletedBlock?
     
     var initDate: Date
+    var repeatType: RBRepeatType
     
     lazy var contentHeight: CGFloat = {
         return  DateChoosePopView.kContentViewMaxHeight
@@ -52,17 +54,19 @@ class DateChoosePopView: UIView {
     }()
     
     lazy var pickerView: RBDatePickerView = {
-        var pickerView = RBDatePickerView(date: self.initDate)
+        var pickerView = RBDatePickerView(date: self.initDate, repeatType: self.repeatType)
         pickerView.delegate = self
         pickerView.backgroundColor = UIColor.white
         return pickerView
     }()
     // MARK: - Life Cycle
-    init(date: Date?) {
+    init(date: Date?, repeatType: RBRepeatType?) {
         if date != nil {
             self.initDate = date!
+            self.repeatType = repeatType!
         }else {
             self.initDate = DateUtil.getNextNeatDate()
+            self.repeatType = RBRepeatType.none
         }
         super.init(frame: UIScreen.main.bounds)
         addSubview(backgroundView)
@@ -90,9 +94,10 @@ class DateChoosePopView: UIView {
     //MARK: - Public Method
     
     //显示自己
-    func show(inView view: UIView?, chooseCompleted: @escaping DateChooseCompletedBlock) {
+    func show(inView view: UIView?, chooseCompleted: @escaping DateChooseCompletedBlock, dismissCompleted: DismissCompletedBlock?) {
         
         self.dateChooseCompletedBlock = chooseCompleted
+        self.dismissCompletedBlock = dismissCompleted
         
         if self.superview == nil {
             if let v = view {
@@ -128,7 +133,7 @@ class DateChoosePopView: UIView {
     
     // MARK: - Interaction Event Handler
     func tapBackgroundView() {
-        self.dismiss()
+        self.dismiss(completed: self.dismissCompletedBlock)
     }
 }
 
@@ -138,17 +143,25 @@ extension DateChoosePopView: RBDatePickerViewDelegate {
     func cancelPick(datePickerView: RBDatePickerView) {
         self.dismiss(){
             if let block = self.dateChooseCompletedBlock {
-                block(nil)
+                block(nil, nil)
+            }
+            if let block = self.dismissCompletedBlock {
+                block()
             }
             self.dateChooseCompletedBlock = nil
+            self.dismissCompletedBlock = nil
         }
     }
-    func confirmPick(datePickerView: RBDatePickerView, selectedDate: Date) {
+    func confirmPick(datePickerView: RBDatePickerView, selectedDate: Date, repeatType: RBRepeatType) {
         self.dismiss(){
             if let block = self.dateChooseCompletedBlock {
-                block(selectedDate)
+                block(selectedDate, repeatType)
+            }
+            if let block = self.dismissCompletedBlock {
+                block()
             }
             self.dateChooseCompletedBlock = nil
+            self.dismissCompletedBlock = nil
         }
     }
 }

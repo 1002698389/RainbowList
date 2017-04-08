@@ -149,11 +149,13 @@ class EventDetailViewController: UITableViewController {
     }
     
     func showDateChooseView() {
-        let dateView = DateChoosePopView(date: self.event.alarm?.ringTime)
-        dateView.show(inView: self.navigationController?.view) { date in
+        let dateView = DateChoosePopView(date: self.event.alarm?.ringTime, repeatType: self.event.alarm?.repeatType)
+        dateView.show(inView: self.navigationController?.view, chooseCompleted: {
+            date, repeatType in
             if date != nil {
                 if let alarm = self.event.alarm {
                     alarm.ringTime = date!
+                    alarm.repeatType = repeatType!
                 }else {
                     self.event.alarm = RBAlarm(ringTime: date!, eventId: self.event.identifier)
                 }
@@ -163,7 +165,9 @@ class EventDetailViewController: UITableViewController {
             }
             
             self.tableView.reloadData()
-        }
+            
+        }, dismissCompleted: nil)
+        
     }
     
     func showPriorityChooseView() {
@@ -292,7 +296,7 @@ extension EventDetailViewController {
                 
                 if let alarm = self.event.alarm {
                     cell.config(description: "提醒:",
-                                content: DateUtil.stringInReadableFormat(date: alarm.ringTime),
+                                content: DateUtil.stringInReadableFormat(date: alarm.ringTime, repeatType: alarm.repeatType),
                                 textAlignment: .right,
                                 textColor: UIColor.darkGray)
                 }else {

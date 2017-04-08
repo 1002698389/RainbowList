@@ -40,8 +40,8 @@ final class DBManager: NSObject {
         //事件表
         sql += "CREATE TABLE IF NOT EXISTS tb_event(id TEXT PRIMARY KEY, list_id TEXT, alarm_id TEXT, content TEXT, remark TEXT,image_ids TEXT, priority INTEGER, is_finished BOOL, create_time TEXT, update_time TEXT);"
         
-        //闹钟表
-        sql += "CREATE TABLE IF NOT EXISTS tb_alarm(id TEXT PRIMARY KEY, event_id TEXT, create_time TEXT, ring_time TEXT);"
+        //闹钟表 1.01增加字段repeat_type
+        sql += "CREATE TABLE IF NOT EXISTS tb_alarm(id TEXT PRIMARY KEY, event_id TEXT, create_time TEXT, ring_time TEXT, repeat_type INTEGER);"
         
         //评论表
         sql += "CREATE TABLE IF NOT EXISTS tb_comment(id TEXT PRIMARY KEY,event_id TEXT, content TEXT, create_time TEXT);"
@@ -49,8 +49,21 @@ final class DBManager: NSObject {
         dbQueue.inDatabase { (db) -> Void in
             db?.executeStatements(sql)
         }
+        
+        updateTable()
     }
     
+    func updateTable() {
+        
+        dbQueue.inDatabase { (db) -> Void in
+            
+            if let exist = db?.columnExists("repeat_type", inTableWithName: "tb_alarm") {
+                if !exist {
+                    db?.executeStatements("ALTER TABLE tb_alarm ADD repeat_type INTEGER;")
+                }
+            }
+        }
+    }
     
     func insertDefaultData() {
         
@@ -197,7 +210,7 @@ final class DBManager: NSObject {
     
     // MARK:  Event
     func findEvent(eventId: String) -> RBEvent? {
-        let sql = "SELECT e.id, e.list_id, e.content, e.remark, e.create_time as event_create_time, e.update_time as event_update_time, e.is_finished, e.priority, e.image_ids, e.alarm_id, a.ring_time, a.create_time as alarm_create_time, (SELECT count(id) FROM tb_comment WHERE event_id = e.id) as comments_count, l.name as list_name, l.theme_color_hex, l.order_num, l.create_time as list_create_time FROM tb_event as e LEFT JOIN tb_alarm as a on e.alarm_id == a.id LEFT JOIN tb_list as l on e.list_id == l.id WHERE e.id = ? ORDER BY event_update_time DESC;"
+        let sql = "SELECT e.id, e.list_id, e.content, e.remark, e.create_time as event_create_time, e.update_time as event_update_time, e.is_finished, e.priority, e.image_ids, e.alarm_id, a.ring_time, a.create_time as alarm_create_time, a.repeat_type, (SELECT count(id) FROM tb_comment WHERE event_id = e.id) as comments_count, l.name as list_name, l.theme_color_hex, l.order_num, l.create_time as list_create_time FROM tb_event as e LEFT JOIN tb_alarm as a on e.alarm_id == a.id LEFT JOIN tb_list as l on e.list_id == l.id WHERE e.id = ? ORDER BY event_update_time DESC;"
 
         var rtnEvent: RBEvent? = nil
         dbQueue.inDatabase { (db) in
@@ -220,6 +233,7 @@ final class DBManager: NSObject {
                         let orderNum = Int(result.int(forColumn: "order_num"))
                         let listCreateTimeInterval = result.longLongInt(forColumn: "list_create_time")
                         let listCreateTime = Date(timeIntervalSince1970: TimeInterval(listCreateTimeInterval))
+                        let repeatType = Int(result.int(forColumn: "repeat_type"))
                         
                         let list = RBList(identifier: listId, name: listName, themeColorHexString: themeColor, orderNum: orderNum, createTime: listCreateTime)
                         let event = RBEvent(identifier: id, content: content, list: list, createTime: createTime, updateTime: updateTime)
@@ -243,7 +257,7 @@ final class DBManager: NSObject {
                             let ringTime = Date(timeIntervalSince1970: TimeInterval(ringTimeInterval))
                             let ringCreateTimeInterval = result.longLongInt(forColumn: "alarm_create_time")
                             let ringCreateTime = Date(timeIntervalSince1970: TimeInterval(ringCreateTimeInterval))
-                            let alarm = RBAlarm(identifier: alarmId, ringTime: ringTime, eventId: event.identifier, createTime: ringCreateTime)
+                            let alarm = RBAlarm(identifier: alarmId, ringTime: ringTime, eventId: event.identifier, createTime: ringCreateTime, repeatType: RBRepeatType(rawValue: repeatType)!)
                             event.alarm = alarm
                         }
                         
@@ -262,7 +276,7 @@ final class DBManager: NSObject {
     
     func findEvents(inList list: RBList, isFinished: Bool = false) -> [RBEvent] {
         
-        let sql = "SELECT e.id, e.list_id, e.content, e.remark, e.create_time as event_create_time, e.update_time as event_update_time, e.is_finished, e.priority, e.image_ids, e.alarm_id, a.ring_time, a.create_time as alarm_create_time, (SELECT count(id) FROM tb_comment WHERE event_id = e.id) as comments_count FROM tb_event as e LEFT JOIN tb_alarm as a on e.alarm_id == a.id WHERE e.list_id = ? and e.is_finished = \(isFinished ? 1: 0) ORDER BY event_update_time DESC;"
+        let sql = "SELECT e.id, e.list_id, e.content, e.remark, e.create_time as event_create_time, e.update_time as event_update_time, e.is_finished, e.priority, e.image_ids, e.alarm_id, a.ring_time, a.create_time as alarm_create_time, a.repeat_type, (SELECT count(id) FROM tb_comment WHERE event_id = e.id) as comments_count FROM tb_event as e LEFT JOIN tb_alarm as a on e.alarm_id == a.id WHERE e.list_id = ? and e.is_finished = \(isFinished ? 1: 0) ORDER BY event_update_time DESC;"
         
         var events = [RBEvent]()
         dbQueue.inDatabase { (db) in
@@ -281,6 +295,7 @@ final class DBManager: NSObject {
                         let priority = Int(result.int(forColumn: "priority"))
                         let isFinished = result.bool(forColumn: "is_finished")
                         let commentCount = Int(result.int(forColumn: "comments_count"))
+                        let repeatType = Int(result.int(forColumn: "repeat_type"))
                         
                         let event = RBEvent(identifier: id, content: content, list: list, createTime: createTime, updateTime: updateTime)
                         event.remark = remark
@@ -303,7 +318,7 @@ final class DBManager: NSObject {
                             let ringTime = Date(timeIntervalSince1970: TimeInterval(ringTimeInterval))
                             let ringCreateTimeInterval = result.longLongInt(forColumn: "alarm_create_time")
                             let ringCreateTime = Date(timeIntervalSince1970: TimeInterval(ringCreateTimeInterval))
-                            let alarm = RBAlarm(identifier: alarmId, ringTime: ringTime, eventId: event.identifier, createTime: ringCreateTime)
+                            let alarm = RBAlarm(identifier: alarmId, ringTime: ringTime, eventId: event.identifier, createTime: ringCreateTime, repeatType: RBRepeatType(rawValue: repeatType)!)
                             event.alarm = alarm
                         }
                         events.append(event)
@@ -326,14 +341,14 @@ final class DBManager: NSObject {
         MobClick.event(UMEvent_CreateNewEvent)
         UserNotificationManager.shared.addUserNotification(forEvent: event)
         
-        let sql_alarm = "INSERT INTO tb_alarm(id, event_id, ring_time, create_time) values(?,?,?,?);"
+        let sql_alarm = "INSERT INTO tb_alarm(id, event_id, ring_time, create_time, repeat_type) values(?,?,?,?,?);"
         
         let sql_event = "INSERT INTO tb_event(id, list_id, alarm_id, content, remark, priority, image_ids, is_finished, create_time, update_time) values(?,?,?,?,?,?,?,?,?,?);"
         
         dbQueue.inTransaction { (db, rollback) in
             do {
                 if let alarm = event.alarm {
-                    try db?.executeUpdate(sql_alarm, values: [alarm.identifier, event.identifier, alarm.ringTime.timeIntervalSince1970 , alarm.createTime.timeIntervalSince1970])
+                    try db?.executeUpdate(sql_alarm, values: [alarm.identifier, event.identifier, alarm.ringTime.timeIntervalSince1970 , alarm.createTime.timeIntervalSince1970, alarm.repeatType.rawValue])
                 }
                 
                 let alarmId: Any = event.alarm?.identifier ?? NSNull()
