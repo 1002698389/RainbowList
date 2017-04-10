@@ -319,20 +319,23 @@ extension LeftMenuViewController: UITableViewDataSource,UITableViewDelegate {
         
         if sourceIndexPath.row != destinationIndexPath.row {
             
-            swap(&lists[sourceIndexPath.row], &lists[destinationIndexPath.row])
+            let list = lists[sourceIndexPath.row]
+            lists.remove(at: sourceIndexPath.row)
+            lists.insert(list, at: destinationIndexPath.row)
             
+            //改变数据库order_num
             let newRow = destinationIndexPath.row
             let prevOrderNum: Int = newRow > 0 ? lists[newRow - 1].orderNum : 0
             let nextOrderNum: Int = newRow < (lists.count - 1) ? lists[newRow + 1].orderNum : (lists.count + 1) * k_ListTable_OrderBase
             let newOrder: Int = (prevOrderNum + nextOrderNum) / 2
-            print("\(lists[newRow].name)-new order: ========== \(newOrder)")
+            print("\(lists[newRow].name)：new order: ========== \(newOrder)")
             
             if newOrder - prevOrderNum < 2 || nextOrderNum - newOrder < 2 {
                 DBManager.shared.recreateListOrders(lists: lists)
                 self.refreshData()
             }else{
                 lists[newRow].orderNum = newOrder
-                DBManager.shared.changeListOrder(list: lists[sourceIndexPath.row], newOrderNum: newOrder)
+                DBManager.shared.changeListOrder(list: lists[destinationIndexPath.row], newOrderNum: newOrder)
             }
             
             print(lists.map{"\($0.name)=\($0.orderNum)"})

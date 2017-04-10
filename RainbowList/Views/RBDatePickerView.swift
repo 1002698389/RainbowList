@@ -64,12 +64,10 @@ class RBDatePickerView: UIView {
         deleteBtn.snp.makeConstraints({ (make) in
             make.left.equalTo(view).offset(10)
             make.top.bottom.equalTo(view)
-            make.width.equalTo(80)
         })
         confirmBtn.snp.makeConstraints({ (make) in
             make.right.equalTo(view).offset(-10)
             make.top.bottom.equalTo(view)
-            make.width.equalTo(80)
         })
         
         return view
