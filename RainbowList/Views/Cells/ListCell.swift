@@ -64,7 +64,7 @@ class ListCell: UITableViewCell {
         markView.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.contentView)
             make.left.equalTo(self.contentView).offset(10)
-            make.width.height.equalTo(kTagViewWidth)
+            make.width.height.equalTo(kTagViewWidth).priority(.high)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(markView.snp.right).offset(10)
