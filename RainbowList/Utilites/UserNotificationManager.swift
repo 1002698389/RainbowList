@@ -131,6 +131,7 @@ class UserNotificationManager: NSObject {
         content.title = "提醒"
         content.body = event.content
         content.sound = UNNotificationSound(named: "alarm.mp3")
+        content.badge = 1
         return content
     }
     
