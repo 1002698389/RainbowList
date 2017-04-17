@@ -34,11 +34,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //配置本地通知
         UNUserNotificationCenter.current().delegate = UserNotificationManager.shared
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        application.applicationIconBadgeNumber = 0
+        
+        UserNotificationManager.shared.resetUserNotification()
         
         //点击通知进入后，push到详情页
         NotificationCenter.default.addObserver(self, selector: #selector(pushToNotificationDetail(notification:)), name: Notification.Name(NotificationConstants.userNotificationTriggerNotification), object: nil)
         
-        application.applicationIconBadgeNumber = 0
         
         //友盟统计
 //        MobClick.setLogEnabled(true)
@@ -78,6 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         application.applicationIconBadgeNumber = 0
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }

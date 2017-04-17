@@ -11,35 +11,12 @@ import UserNotifications
 
 class UserNotificationManager: NSObject {
     
+    
     static let shared = UserNotificationManager()
     private override init() {
     }
     
-    func requestUserNotificationAuthorization(completionHandler: @escaping () -> ()) {
-
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.alert,.sound]) { (granted, error) in
-            if granted {
-                print("authorization succeed!")
-                completionHandler()
-            }else{
-                self.presentRquestAuthorAlert()
-            }
-        }
-    }
-    
-    func presentRquestAuthorAlert() {
-        
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "获取通知权限失败！", message: "在应用被授予使用系统通知权限之前，提醒功能将无法正常使用。", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "去授权", style: .default, handler: {
-                _ in
-                SystemUtil.jumpToSettingPage()
-            }))
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-        }
-        
-    }
+    // MARK: - Public Method
     
     func addUserNotification(forEvent event: RBEvent) {
         
@@ -65,7 +42,50 @@ class UserNotificationManager: NSObject {
         })
 
     }
+    func removeUserNotification(forEvent event: RBEvent) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [event.identifier])
+    }
     
+    func removeAllUserNotifications() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
+
+    func resetUserNotification() {
+        removeAllUserNotifications()
+        
+        for list in DBManager.shared.findAlllist() {
+            for item in DBManager.shared.findEvents(inList: list) {
+                addUserNotification(forEvent: item)
+            }
+        }
+    }
+    
+    // MARK: - Private Method
+    func requestUserNotificationAuthorization(completionHandler: @escaping () -> ()) {
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.alert,.sound]) { (granted, error) in
+            if granted {
+                print("authorization succeed!")
+                completionHandler()
+            }else{
+                self.presentRquestAuthorAlert()
+            }
+        }
+    }
+    
+    func presentRquestAuthorAlert() {
+        
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "获取通知权限失败！", message: "在应用被授予使用系统通知权限之前，提醒功能将无法正常使用。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "去授权", style: .default, handler: {
+                _ in
+                SystemUtil.jumpToSettingPage()
+            }))
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
+        
+    }
     func realAddUserNotifiaction(forEvent event: RBEvent) {
         
         if let alarm = event.alarm {
@@ -83,17 +103,12 @@ class UserNotificationManager: NSObject {
             }
         }
     }
-    
-    func removeUserNotification(forEvent event: RBEvent) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [event.identifier])
-    }
-    
-    func removeAllUserNotifications() {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-    }
-    
     //不重复
     func addNotificationNoRepeat(identifier: String, date: Date, content: UNNotificationContent) {
+
+        if date < Date() {
+            return
+        }
         
         let dateComponents = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
