@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-protocol EventRemarkCellDelegate: class {
+protocol EventRemarkCellDelegate: NSObjectProtocol {
     
     func remarkChanged(remarkCell: EventRemarkCell, text: String)
     func beginEdit(remarkCell: EventRemarkCell)

@@ -18,7 +18,7 @@ enum EventAdditionalType {
     case priority
 }
 
-protocol EventInputViewDelegate: class {
+protocol EventInputViewDelegate: NSObjectProtocol {
     
     func finishedInput(inputView: EventInputView)
 }

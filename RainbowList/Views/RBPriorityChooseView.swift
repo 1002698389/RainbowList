@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol RBPriorityChooseViewDelegate: class{
+protocol RBPriorityChooseViewDelegate: NSObjectProtocol {
     func cancelChoose(priorityView: RBPriorityChooseView)
     func confirmChoose(priorityView: RBPriorityChooseView, priority: Int)
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Toast_Swift
 
-protocol RBDatePickerViewDelegate: class {
+protocol RBDatePickerViewDelegate: NSObjectProtocol {
     
     func cancelPick(datePickerView: RBDatePickerView)
     func confirmPick(datePickerView: RBDatePickerView, selectedDate: Date, repeatType: RBRepeatType)

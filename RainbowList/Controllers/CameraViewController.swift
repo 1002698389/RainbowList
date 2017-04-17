@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-protocol  CameraViewControllerDelegate: class{
+protocol  CameraViewControllerDelegate: NSObjectProtocol{
     
     func cameraVCDidCanceled(cameraViewController: CameraViewController)
     func cameraVCDidSuccessed(cameraViewController: CameraViewController, image: UIImage)

@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol EventContentCellDelegate: class {
+protocol EventContentCellDelegate: NSObjectProtocol {
     
     func contentChanged(contentCell: EventContentCell, text: String)
     func beginEdit(contentCell: EventContentCell)

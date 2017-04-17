@@ -32,7 +32,6 @@ class LeftMenuViewController: UIViewController {
             make.width.height.equalTo(tool.snp.height)
         })
         
-        
         return tool
     }()
     lazy var bottomToolbar: UIView = {
@@ -217,7 +216,6 @@ class LeftMenuViewController: UIViewController {
             let listIds = self.lists.map{$0.identifier}
             if let index = listIds.index(of: list.identifier) {
                 let indexPath = IndexPath(row: index, section: 0)
-//                self.tableView(self.tableView, didSelectRowAt: indexPath)
                 self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
                 self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             }
@@ -231,12 +229,14 @@ class LeftMenuViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: NotificationConstants.jumpToSettingPageNotification), object: nil)
     }
     
+    func syncData() {
+        print("== sync data")
+    }
     func addBtnClicked() {
         let createVC = CreateOrUpdateListViewController()
         let nav = UINavigationController(rootViewController: createVC)
         self.present(nav, animated: true, completion: nil)
     }
-    
     func deleteList(list: RBList) {
         
 //        if self.lists.count == 1 {

@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-protocol RBPictureChooseViewDelegate: class {
+protocol RBPictureChooseViewDelegate: NSObjectProtocol {
     
     func cancelChoose(pictureView: RBPictureChooseView)
     func confirmChoose(pictureView: RBPictureChooseView, chosenImages: [RBImage])

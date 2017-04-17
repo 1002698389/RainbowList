@@ -23,7 +23,7 @@ class RBWebViewController: UIViewController {
     }
     
     lazy var progressView: UIProgressView = {
-        var progress = UIProgressView(frame: CGRect(x: 0, y: 0, width: k_SCREEN_WIDTH, height: 1))
+        var progress = UIProgressView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 1))
         progress.progress = 0
         progress.tintColor = UIColor.green
         progress.trackTintColor = UIColor.clear

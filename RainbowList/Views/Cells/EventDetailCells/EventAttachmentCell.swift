@@ -7,7 +7,7 @@
 //
 
 import UIKit
-protocol EventAttachmentCellDelegate: class{
+protocol EventAttachmentCellDelegate: NSObjectProtocol {
     
     func deleteImage(image: RBImage)
 }

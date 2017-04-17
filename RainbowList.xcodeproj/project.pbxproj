@@ -82,7 +82,7 @@
 		84BE08CD1E8DFDF700F1CAEE /* OpenSourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE08CC1E8DFDF700F1CAEE /* OpenSourceListViewController.swift */; };
 		84BE08CF1E8E017D00F1CAEE /* RBWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE08CE1E8E017D00F1CAEE /* RBWebViewController.swift */; };
 		84BE08D11E8E3E6900F1CAEE /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BE08D01E8E3E6900F1CAEE /* icon@2x.png */; };
-		84BE08D51E8E41F200F1CAEE /* icon_border@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BE08D41E8E41F200F1CAEE /* icon_border@2x.png */; };
+		84BE08D51E8E41F200F1CAEE /* icon_border90@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BE08D41E8E41F200F1CAEE /* icon_border90@2x.png */; };
 		84BE08D71E8E678200F1CAEE /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BE08D61E8E678200F1CAEE /* UMMobClick.framework */; };
 		84BE08DD1E8E893700F1CAEE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BE08DC1E8E893700F1CAEE /* libsqlite3.tbd */; };
 		84BE08DF1E8E894500F1CAEE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BE08DE1E8E894500F1CAEE /* CoreTelephony.framework */; };
@@ -92,6 +92,8 @@
 		84EC02BB1E64325F008DE6EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EC02BA1E64325F008DE6EB /* Assets.xcassets */; };
 		84EC02BE1E64325F008DE6EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84EC02BC1E64325F008DE6EB /* LaunchScreen.storyboard */; };
 		84EC02C91E64325F008DE6EB /* RainbowListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EC02C81E64325F008DE6EB /* RainbowListTests.swift */; };
+		84F31D0A1E9B95F60054FFFB /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F31D091E9B95F60054FFFB /* SyncManager.swift */; };
+		84F31D191E9CE3C80054FFFB /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F31D181E9CE3C80054FFFB /* ConfigManager.swift */; };
 		84F8F7CF1E7A47CF00A7D50A /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F8F7CE1E7A47CF00A7D50A /* arrow@2x.png */; };
 		84FE07121E6D78A30066A984 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84FE07111E6D78A30066A984 /* add@2x.png */; };
 		84FFE1FC1E652259005572BC /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1FB1E652259005572BC /* UIColorExtension.swift */; };
@@ -194,7 +196,7 @@
 		84BE08CC1E8DFDF700F1CAEE /* OpenSourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSourceListViewController.swift; sourceTree = "<group>"; };
 		84BE08CE1E8E017D00F1CAEE /* RBWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RBWebViewController.swift; sourceTree = "<group>"; };
 		84BE08D01E8E3E6900F1CAEE /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		84BE08D41E8E41F200F1CAEE /* icon_border@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_border@2x.png"; sourceTree = "<group>"; };
+		84BE08D41E8E41F200F1CAEE /* icon_border90@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_border90@2x.png"; sourceTree = "<group>"; };
 		84BE08D61E8E678200F1CAEE /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		84BE08DB1E8E67D100F1CAEE /* RainbowList-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RainbowList-Bridging-Header.h"; sourceTree = "<group>"; };
 		84BE08DC1E8E893700F1CAEE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -209,6 +211,9 @@
 		84EC02C41E64325F008DE6EB /* RainbowListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RainbowListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EC02C81E64325F008DE6EB /* RainbowListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainbowListTests.swift; sourceTree = "<group>"; };
 		84EC02CA1E64325F008DE6EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84F31D091E9B95F60054FFFB /* SyncManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
+		84F31D0B1E9B969D0054FFFB /* RainbowList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RainbowList.entitlements; sourceTree = "<group>"; };
+		84F31D181E9CE3C80054FFFB /* ConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
 		84F8F7CE1E7A47CF00A7D50A /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		84FE07111E6D78A30066A984 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		84FFE1FB1E652259005572BC /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -360,7 +365,7 @@
 		840D0E311E8B668200979236 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				84BE08D41E8E41F200F1CAEE /* icon_border@2x.png */,
+				84BE08D41E8E41F200F1CAEE /* icon_border90@2x.png */,
 				84BE08D01E8E3E6900F1CAEE /* icon@2x.png */,
 				840B3EE51E8A092F00D3AD20 /* minus_sign@2x.png */,
 				840B3EE61E8A092F00D3AD20 /* plus_sign@2x.png */,
@@ -427,6 +432,8 @@
 				84B9B9E11E69B3F10040662B /* DateUtil.swift */,
 				840B3EE91E8AB63B00D3AD20 /* UserNotificationManager.swift */,
 				840B3EEB1E8AC16A00D3AD20 /* SystemUtil.swift */,
+				84F31D091E9B95F60054FFFB /* SyncManager.swift */,
+				84F31D181E9CE3C80054FFFB /* ConfigManager.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -462,6 +469,7 @@
 		84EC02B21E64325F008DE6EB /* RainbowList */ = {
 			isa = PBXGroup;
 			children = (
+				84F31D0B1E9B969D0054FFFB /* RainbowList.entitlements */,
 				840B3EDC1E89F07E00D3AD20 /* Storyboard */,
 				84A80AE51E6433AB009D9ADD /* Application */,
 				840B3E411E88EFBB00D3AD20 /* Controllers */,
@@ -566,6 +574,14 @@
 						DevelopmentTeam = PA4DUKD849;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 					84EC02C31E64325F008DE6EB = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -614,7 +630,7 @@
 				840865B91E84DB74002AE62F /* add_group@2x.png in Resources */,
 				840B3EE41E89F84500D3AD20 /* ver_line@2x.png in Resources */,
 				840D0E3C1E8B742700979236 /* alarm.mp3 in Resources */,
-				84BE08D51E8E41F200F1CAEE /* icon_border@2x.png in Resources */,
+				84BE08D51E8E41F200F1CAEE /* icon_border90@2x.png in Resources */,
 				84BEF29E1E724A800077E88B /* checked@2x.png in Resources */,
 				846E87A31E7BD5EA00DD373A /* yi@2x.png in Resources */,
 				84A80B321E6433E6009D9ADD /* hidden@2x.png in Resources */,
@@ -727,10 +743,12 @@
 				840B3ED21E88F15D00D3AD20 /* EventCommentCell.swift in Sources */,
 				84BE08C91E8D62FB00F1CAEE /* AboultViewController.swift in Sources */,
 				840B3EB41E88F01400D3AD20 /* ListCell.swift in Sources */,
+				84F31D191E9CE3C80054FFFB /* ConfigManager.swift in Sources */,
 				840B3E6C1E88EFBB00D3AD20 /* CameraViewController.swift in Sources */,
 				84B9B9E01E6978550040662B /* ThemeManager.swift in Sources */,
 				84A80B3B1E643415009D9ADD /* AppDelegate.swift in Sources */,
 				840B3EC81E88F08400D3AD20 /* MainContainerViewController.swift in Sources */,
+				84F31D0A1E9B95F60054FFFB /* SyncManager.swift in Sources */,
 				840B3EBD1E88F01400D3AD20 /* PriorityChoosePopView.swift in Sources */,
 				84B9B9E21E69B3F10040662B /* DateUtil.swift in Sources */,
 				840B3EBC1E88F01400D3AD20 /* GroupChoosePopView.swift in Sources */,
@@ -902,6 +920,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = PA4DUKD849;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -912,6 +931,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = aLazyCoder.RainbowList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RainbowList/Application/RainbowList-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -926,6 +947,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = PA4DUKD849;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -936,6 +958,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = aLazyCoder.RainbowList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RainbowList/Application/RainbowList-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

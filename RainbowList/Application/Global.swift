@@ -13,24 +13,13 @@ import UIKit
 let k_SCREEN_HEIGHT = UIScreen.main.bounds.height
 let k_SCREEN_WIDTH = UIScreen.main.bounds.width
 
-let k_DefaultsKey_AppVersion = "k_DefaultsKey_AppVersion"
-let k_Defaultkey_ShowArchivedData = "k_Defaultkey_ShowArchivedData"
-let k_Defaultkey_LeftMenuMaxWidth = "k_Defaultkey_LeftMenuMaxWidth"
-let k_Defaultkey_ContentLineNumbers = "k_Defaultkey_ContentLineNumbers"
-let k_Defaultkey_RemarkLineNumbers = "k_Defaultkey_RemarkLineNumbers"
-
-let k_Defaultkey_HasShowAlert_ArchiveAlarm = "k_Defaultkey_HasShowAlert_ArchiveAlarm"
-
-let k_AppVersion: String = Bundle.main.infoDictionary! ["CFBundleShortVersionString"] as! String
-
-let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-
 let k_ListTable_OrderBase = 500
-
 let k_appid = "1221862568"
 
-//友盟统计
+let k_AppVersion: String = Bundle.main.infoDictionary! ["CFBundleShortVersionString"] as! String
+let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
 
+//友盟统计
 let UMAppKey = "58de113307fe6511540013ed"
 let UMEvent_CreateNewEvent = "UMEvent_CreateNewEvent"
 let UMEvent_CreateNewList = "UMEvent_CreateNewList"
@@ -50,7 +39,7 @@ let UMEvent_ClickShareAppButton = "UMEvent_ClickShareAppButton"
 let UMEvent_ClickSettingButton = "UMEvent_ClickSttingButton"
 let UMEvent_ClickEditListButton = "UMEvent_ClickEditListButton"
 
-//通知
+//通知常量
 struct NotificationConstants{
     //展开左菜单通知
     static let openLeftMenuNotification = "openLeftMenuNotification"

@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-protocol EventCellDelegate: class {
+protocol EventCellDelegate: NSObjectProtocol {
     func archiveBtnClicked(cell: EventCell)
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-protocol PhotoSelectDelegate: class{
+protocol PhotoSelectDelegate: NSObjectProtocol {
     func completeSelect(photoSelectViewController: PhotoSelectViewController, assets: [PHAsset])
 }
 

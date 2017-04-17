@@ -18,24 +18,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        print(documentUrl?.path ?? "")
-        
-        //数据库初始化
-        initDatabase()
+//        print(documentUrl?.path ?? "")
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
-        window?.makeKeyAndVisible()
         window?.rootViewController = MainContainerViewController()
         
+        //app数据初始化
+        ConfigManager.shared.initConfig()
+
         //定制UI
         UINavigationBar.appearance().tintColor = UIColor.white
         ToastManager.shared.duration = 2
         
-        //本地通知
+        //配置本地通知
         UNUserNotificationCenter.current().delegate = UserNotificationManager.shared
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        
+        //点击通知进入后，push到详情页
         NotificationCenter.default.addObserver(self, selector: #selector(pushToNotificationDetail(notification:)), name: Notification.Name(NotificationConstants.userNotificationTriggerNotification), object: nil)
+        
+        application.applicationIconBadgeNumber = 0
         
         //友盟统计
 //        MobClick.setLogEnabled(true)
@@ -44,27 +47,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             MobClick.start(withConfigure: config)
         }
         
-        
-
+        window?.makeKeyAndVisible()
         return true
     }
     
-    
-    func initDatabase(){
-        
-        if let value = UserDefaults.standard.string(forKey: k_DefaultsKey_AppVersion) {
-            print("app version:" + value)
-        } else {
-            print("first time run app")
-            UserDefaults.standard.set(k_SCREEN_WIDTH * 0.3, forKey: k_Defaultkey_LeftMenuMaxWidth)
-            DBManager.shared.insertDefaultData()
-        }
-        
-        UserDefaults.standard.set(k_AppVersion, forKey: k_DefaultsKey_AppVersion)
-        UserDefaults.standard.synchronize()
-    }
-
-    
+    //FIXME: 暂时这样简单处理，可能存在一些问题
     func pushToNotificationDetail(notification: Notification) {
         if let eventId = notification.userInfo?[NotificationConstants.userNotificationTriggerKey] as? String{
             let rootVC = MainContainerViewController()
@@ -91,6 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 

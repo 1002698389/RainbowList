@@ -7,7 +7,7 @@
 //
 
 import UIKit
-protocol PhotoShowCellDelegate: class {
+protocol PhotoShowCellDelegate: NSObjectProtocol {
     
     func deleteImage(photoShowCell: PhotoShowCell, identifier: String)
 }

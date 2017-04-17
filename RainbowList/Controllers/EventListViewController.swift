@@ -90,7 +90,7 @@ class EventListViewController: UIViewController {
         super.viewDidLoad()
     
         view.backgroundColor = UIColor(hex: 0xF0EFF5)
-        shouldShowArchivedData = UserDefaults.standard.bool(forKey: k_Defaultkey_ShowArchivedData)
+        shouldShowArchivedData = ConfigManager.shared.shouldShowArchiveData
         
         setupSubviews()
 
@@ -99,7 +99,7 @@ class EventListViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshList(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldRequeryFromDatabaseNotification), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldNotRequeryNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableViewWithoutRequeryDatabase(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldNotRequeryNotification), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(presentNewVC(notification:)), name: Notification.Name(rawValue: NotificationConstants.presentNewViewControllerNotification), object: nil)
         //加载默认清单
@@ -166,9 +166,9 @@ class EventListViewController: UIViewController {
         showData(list: self.list, scrollToTop: true)
     }
     
-    func refreshTableView(notification: Notification){
-        self.titleLineNumbers = UserDefaults.standard.integer(forKey: k_Defaultkey_ContentLineNumbers)
-        self.remarkLineNumbers = UserDefaults.standard.integer(forKey: k_Defaultkey_RemarkLineNumbers)
+    func refreshTableViewWithoutRequeryDatabase(notification: Notification){
+        self.titleLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellContent
+        self.remarkLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellRemark
         self.tableView.reloadData()
     }
     func generateNewAddButton() -> UIButton {
@@ -187,8 +187,8 @@ class EventListViewController: UIViewController {
     func showData(list: RBList?, scrollToTop: Bool = false) {
         self.list = list
         
-        self.titleLineNumbers = UserDefaults.standard.integer(forKey: k_Defaultkey_ContentLineNumbers)
-        self.remarkLineNumbers = UserDefaults.standard.integer(forKey: k_Defaultkey_RemarkLineNumbers)
+        self.titleLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellContent
+        self.remarkLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellRemark
         
         guard let list = list else {
             navigationController?.navigationBar.barTintColor = UIColor.gray
@@ -260,14 +260,13 @@ class EventListViewController: UIViewController {
 //            self.navigationItem.rightBarButtonItem?.title = "显示已归档"
 //        }
         showData(list: self.list)
-        UserDefaults.standard.set(shouldShowArchivedData, forKey: k_Defaultkey_ShowArchivedData)
-        UserDefaults.standard.synchronize()
+        ConfigManager.shared.shouldShowArchiveData = shouldShowArchivedData
     }
     
     func archive(event: RBEvent) {
         
         if event.alarm != nil{
-            let hasShow = UserDefaults.standard.bool(forKey: k_Defaultkey_HasShowAlert_ArchiveAlarm)
+            let hasShow = ConfigManager.shared.hasShowAlertForArchiveData
             
             if !hasShow {
                 let alert = UIAlertController(title: "提示", message: "归档后，此项目相关提醒将被取消！", preferredStyle: .alert)
@@ -277,9 +276,7 @@ class EventListViewController: UIViewController {
                 }))
                 self.present(alert, animated: true, completion: nil)
                 
-                UserDefaults.standard.set(true, forKey: k_Defaultkey_HasShowAlert_ArchiveAlarm)
-                UserDefaults.standard.synchronize()
-                
+                ConfigManager.shared.hasShowAlertForArchiveData = true
             }else {
                 realArchive(event: event)
             }

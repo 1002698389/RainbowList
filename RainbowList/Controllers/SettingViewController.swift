@@ -34,20 +34,19 @@ class SettingViewController: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        
         if leftMenuWidthChanged {
             MobClick.event(UMEvent_ChangeSlideWidth)
-            UserDefaults.standard.set(sliderView.value * Float(k_SCREEN_WIDTH), forKey: k_Defaultkey_LeftMenuMaxWidth)
-            NotificationCenter.default.post(name: Notification.Name(NotificationConstants.refreshLeftMenuMaxWidthNotification), object: nil)
+            ConfigManager.shared.leftMenuWidth = CGFloat(sliderView.value) * k_SCREEN_WIDTH
         }
         
         if let value = Int(contentLineNumbersTextField.text ?? "") {
-            UserDefaults.standard.set(value, forKey: k_Defaultkey_ContentLineNumbers)
+            ConfigManager.shared.maxLineNumbersForEventCellContent = value
         }
+        
         if let value = Int(remarkLineNumbersTextField.text ?? "") {
-            UserDefaults.standard.set(value, forKey: k_Defaultkey_RemarkLineNumbers)
+            ConfigManager.shared.maxLineNumbersForEventCellRemark = value
         }
-        UserDefaults.standard.synchronize()
-        NotificationCenter.default.post(name: Notification.Name(NotificationConstants.refreshEventListShouldNotRequeryNotification), object: nil)
     }
     
     // MARK: Inherit Method
@@ -62,17 +61,17 @@ class SettingViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 80, 0)
         
-        let oldValue = UserDefaults.standard.float(forKey:k_Defaultkey_LeftMenuMaxWidth) / Float(k_SCREEN_WIDTH)
-        sliderView.value = oldValue
+        let oldValue = ConfigManager.shared.leftMenuWidth / k_SCREEN_WIDTH
+        sliderView.value = Float(oldValue)
         sliderValueLabel.text = "侧滑菜单比例:\(Int(oldValue * 100))%"
         sliderView.tintColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
         let img = UIImage(named:"ver_line")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         sliderView.setThumbImage(img, for: .normal)
         
-        let titleLineNumbers = UserDefaults.standard.integer(forKey: k_Defaultkey_ContentLineNumbers)
-        contentLineNumbersTextField.text = "\(titleLineNumbers)"
+        let contentLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellContent
+        contentLineNumbersTextField.text = "\(contentLineNumbers)"
         contentLineNumbersTextField.isEnabled = false
-        let remarkLineNumbers = UserDefaults.standard.integer(forKey: k_Defaultkey_RemarkLineNumbers)
+        let remarkLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellRemark
         remarkLineNumbersTextField.text = "\(remarkLineNumbers)"
         remarkLineNumbersTextField.isEnabled = false
         
@@ -97,6 +96,12 @@ class SettingViewController: UITableViewController {
     
    
     @IBAction func sliderValueChanged(_ sender: UISlider) {
+        
+        //太小了设置按钮都露不出来了
+        if sender.value < 0.2 {
+            sender.value = 0.2
+        }
+        
         sliderValueLabel.text = "侧滑菜单比例:\(Int(sender.value * 100))%"
         leftMenuWidthChanged = true
     }

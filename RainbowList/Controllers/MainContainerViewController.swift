@@ -228,7 +228,7 @@ class MainContainerViewController: UIViewController {
     }
 
     func refreshLeftMenuMaxWidth() {
-        lefMenuMaxWidth = CGFloat(UserDefaults.standard.float(forKey: k_Defaultkey_LeftMenuMaxWidth))
+        lefMenuMaxWidth = ConfigManager.shared.leftMenuWidth
     }
 
 }

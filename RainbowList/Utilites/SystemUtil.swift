@@ -18,4 +18,18 @@ class SystemUtil: NSObject {
         }
     }
     
+    
+    class func makeAlert(inController controller: UIViewController, title: String, message: String, dismissTitle: String) -> Void
+    {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: dismissTitle,
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        controller.present(alert, animated: true,
+                     completion: nil)
+    }
 }

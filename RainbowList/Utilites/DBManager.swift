@@ -148,7 +148,7 @@ final class DBManager: NSObject {
         MobClick.event(UMEvent_ModifyList)
         dbQueue.inDatabase { db in
             do {
-                let sql = "UPDATE tb_list SET name = ?, theme_color_hex = ? WHERE id = ?;;"
+                let sql = "UPDATE tb_list SET name = ?, theme_color_hex = ? WHERE id = ?;"
                 try db?.executeUpdate(sql, values: [list.name, list.themeColorHexString, list.identifier])
             }catch {
                 print("========data operation error!")
