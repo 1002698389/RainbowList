@@ -18,7 +18,6 @@ class PhotoSelectViewController: UIViewController {
     static let kPhotoCellIdentifier = "kPhotoCellIdentifier"
     weak var delegate: PhotoSelectDelegate?
     var allPhotos: PHFetchResult<PHAsset>?
-    let imageManager = PHCachingImageManager()
     var thumbnailSize: CGSize!
     var previousPreheatRect = CGRect.zero
     
@@ -212,7 +211,7 @@ extension PhotoSelectViewController: UICollectionViewDataSource, UICollectionVie
         if let photos = allPhotos {
             let asset = photos.object(at: indexPath.item)
             cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+            PHImageManager.default().requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
                 if cell.representedAssetIdentifier == asset.localIdentifier {
                     cell.thumbnailImage = image
                 }
