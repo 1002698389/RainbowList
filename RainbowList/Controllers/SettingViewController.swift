@@ -151,13 +151,13 @@ class SettingViewController: UITableViewController {
         if MFMailComposeViewController.canSendMail(){
             let controller = MFMailComposeViewController()
             controller.mailComposeDelegate = self
-            controller.setSubject("#意见反馈#--彩虹清单")
+            controller.setSubject("#意见反馈#--\(k_AppDisplayName)")
             controller.setToRecipients(["develop4ios@163.com"])
             
             var content = "\n\n\n\n\n\n\n\n\n\n\n"
             content += "设备:\(UIDevice.current.model)\n"
             content += "系统:\(UIDevice.current.systemVersion)\n"
-            content += "App版本:\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "")"
+            content += "App版本:\(k_AppVersion)"
             controller.setMessageBody(content, isHTML: false)
             controller.navigationBar.isTranslucent = false
             controller.navigationBar.tintColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
@@ -172,7 +172,7 @@ class SettingViewController: UITableViewController {
     
     
     func appReview() {
-        let urlString = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=\(k_appid)"
+        let urlString = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=\(k_Appid)"
         if let url = URL(string: urlString) {
             if UIApplication.shared.canOpenURL(url){
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)

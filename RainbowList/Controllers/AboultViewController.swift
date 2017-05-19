@@ -17,6 +17,7 @@ class AboultViewController: UIViewController {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contactMeButton: UIButton!
     
+    @IBOutlet weak var appNameVersionLabel: UILabel!
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -26,6 +27,8 @@ class AboultViewController: UIViewController {
         
         iconImageView.layer.cornerRadius = 8
         iconImageView.layer.masksToBounds = true
+        
+        appNameVersionLabel.text = "\(k_AppDisplayName) V\(k_AppVersion)"
         
         opensourceButton.setTitleColor(UIColor(hexString: ThemeManager.shared.themeColorHexString), for: .normal)
         shareButton.setTitleColor(UIColor(hexString: ThemeManager.shared.themeColorHexString), for: .normal)
@@ -43,9 +46,9 @@ class AboultViewController: UIViewController {
         
         MobClick.event(UMEvent_ClickShareAppButton)
         
-        let textToShare = "彩虹清单-让生活变得简单!"
+        let textToShare = "\(k_AppDisplayName)-让生活变得简单!"
         let icon = UIImage(named:"icon")!
-        let downloadUrl = NSURL(string: "https://itunes.apple.com/us/app/id\(k_appid)")!
+        let downloadUrl = NSURL(string: "https://itunes.apple.com/us/app/id\(k_Appid)")!
         let objectsToShare = [textToShare,icon,downloadUrl] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivityType.addToReadingList, UIActivityType.print]
@@ -58,7 +61,7 @@ class AboultViewController: UIViewController {
         if MFMailComposeViewController.canSendMail(){
             let controller = MFMailComposeViewController()
             controller.mailComposeDelegate = self
-            controller.setSubject("#用户交流#--彩虹清单")
+            controller.setSubject("#用户交流#--\(k_AppDisplayName)")
             controller.setToRecipients(["develop4ios@163.com"])
             
             controller.setMessageBody("", isHTML: false)

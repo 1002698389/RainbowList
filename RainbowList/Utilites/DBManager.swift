@@ -71,7 +71,7 @@ final class DBManager: NSObject {
         
         dbQueue.inTransaction { (db, rollback) in
             do {
-                try db?.executeUpdate("delete from tb_list", values: nil)
+//                try db?.executeUpdate("delete from tb_list", values: nil)
                 
                 try db?.executeUpdate(sql, values: [UUID().uuidString, "待办", k_ListTable_OrderBase * 2,ThemeManager.shared.allPredefinedColorHexStrings[0], Date().timeIntervalSince1970])
                 try db?.executeUpdate(sql, values: [UUID().uuidString, "购物", k_ListTable_OrderBase * 3,ThemeManager.shared.allPredefinedColorHexStrings[19], Date().timeIntervalSince1970])

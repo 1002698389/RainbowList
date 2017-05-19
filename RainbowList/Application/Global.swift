@@ -14,9 +14,11 @@ let k_SCREEN_HEIGHT = UIScreen.main.bounds.height
 let k_SCREEN_WIDTH = UIScreen.main.bounds.width
 
 let k_ListTable_OrderBase = 500
-let k_appid = "1221862568"
+let k_Appid = "1221862568"
+let k_AppDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") ?? ""
+let k_AppVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? ""
 
-let k_AppVersion: String = Bundle.main.infoDictionary! ["CFBundleShortVersionString"] as! String
+
 let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
 
 //友盟统计
