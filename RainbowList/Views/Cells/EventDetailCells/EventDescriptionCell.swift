@@ -8,9 +8,10 @@
 
 import UIKit
 
+private let kTextDefaultFont: UIFont = UIFont.systemFont(ofSize: 14)
+
 class EventDescriptionCell: EventDetailCell {
 
-    static let kTextDefaultFont: UIFont = UIFont.systemFont(ofSize: 14)
     
     var desc: String? {
         didSet{

@@ -13,11 +13,12 @@ import SnapKit
 typealias DateChooseCompletedBlock = (Date?, RBRepeatType?) -> Void
 typealias DismissCompletedBlock = () -> Void
 
+private let kCellIdentifierForContent = "kCellIdentifierForContent"
+private let kContentViewMaxHeight: CGFloat = 380
+private let kCellRowHeight: CGFloat = 50
+
 class DateChoosePopView: UIView {
 
-    static let kCellIdentifierForContent = "kCellIdentifierForContent"
-    static let kContentViewMaxHeight: CGFloat = 380
-    static let kCellRowHeight: CGFloat = 50
     
     var contentViewBottomConstraint: Constraint?
     
@@ -28,7 +29,7 @@ class DateChoosePopView: UIView {
     var repeatType: RBRepeatType
     
     lazy var contentHeight: CGFloat = {
-        return  DateChoosePopView.kContentViewMaxHeight
+        return  kContentViewMaxHeight
     }()
     
     //背景

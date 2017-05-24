@@ -23,12 +23,13 @@ protocol EventInputViewDelegate: NSObjectProtocol {
     func finishedInput(inputView: EventInputView)
 }
 
+private let kTextViewFontSize: CGFloat = 20
+private let kTextViewHeight: CGFloat = 150 //文本框高度
+private let kToolbarHeight: CGFloat = 40 //工具栏高度
+private let kContentViewHeight: CGFloat = kTextViewHeight + kToolbarHeight
+
 class EventInputView: UIView {
     
-    static let kTextViewFontSize: CGFloat = 20
-    static let kTextViewHeight: CGFloat = 150 //文本框高度
-    static let kToolbarHeight: CGFloat = 40 //工具栏高度
-    static let kContentViewHeight: CGFloat = kTextViewHeight + kToolbarHeight
 
     let btnWidthNormal = 40
     let btnWidthHighlighted = 50
@@ -264,7 +265,7 @@ class EventInputView: UIView {
         contentView.snp.makeConstraints { (make) in
             self.contentViewBottomConstraint = make.bottom.equalTo(self.snp.bottom).constraint
             make.left.right.equalTo(self)
-            make.height.equalTo(EventInputView.kContentViewHeight)
+            make.height.equalTo(kContentViewHeight)
         }
         self.layoutIfNeeded()
         
@@ -310,7 +311,7 @@ class EventInputView: UIView {
         if self.superview != nil {
             UIView.animate(withDuration: 0.25, animations: {
                 self.backgroundView.alpha = 0
-                self.contentViewBottomConstraint?.update(offset: EventInputView.kContentViewHeight)
+                self.contentViewBottomConstraint?.update(offset: kContentViewHeight)
                 self.layoutIfNeeded()
             }, completion: { (_) in
                 

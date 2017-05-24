@@ -11,11 +11,12 @@ import SnapKit
 
 typealias InputCompletedBlock = (String) -> Void
 
+private let kTextViewFontSize: CGFloat = 17
+private let kTextViewHeight: CGFloat = 150 //文本框高度
+private let kContentViewHeight: CGFloat = kTextViewHeight
+
 class CommentEditPopView: UIView {
 
-    static let kTextViewFontSize: CGFloat = 17
-    static let kTextViewHeight: CGFloat = 150 //文本框高度
-    static let kContentViewHeight: CGFloat = kTextViewHeight
     
     let btnWidthNormal = 40
     let btnWidthHighlighted = 50
@@ -88,7 +89,7 @@ class CommentEditPopView: UIView {
         contentView.snp.makeConstraints { (make) in
             self.contentViewBottomConstraint = make.bottom.equalTo(self.snp.bottom).constraint
             make.left.right.equalTo(self)
-            make.height.equalTo(CommentEditPopView.kContentViewHeight)
+            make.height.equalTo(kContentViewHeight)
         }
         self.layoutIfNeeded()
         
@@ -135,7 +136,7 @@ class CommentEditPopView: UIView {
         if self.superview != nil {
             UIView.animate(withDuration: 0.25, animations: {
                 self.backgroundView.alpha = 0
-                self.contentViewBottomConstraint?.update(offset: CommentEditPopView.kContentViewHeight)
+                self.contentViewBottomConstraint?.update(offset: kContentViewHeight)
                 self.layoutIfNeeded()
             }, completion: { (_) in
                 

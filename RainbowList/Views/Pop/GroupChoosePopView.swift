@@ -11,11 +11,12 @@ import SnapKit
 
 typealias ListChooseCompletedBlock = (RBList) -> Void
 
+private let kCellIdentifierForContent = "kCellIdentifierForContent"
+private let kContentViewMaxHeight = k_SCREEN_HEIGHT / 3 * 2
+private let kCellRowHeight: CGFloat = 50
+
 class ListChoosePopView: UIView {
     
-    static let kCellIdentifierForContent = "kCellIdentifierForContent"
-    static let kContentViewMaxHeight = k_SCREEN_HEIGHT / 3 * 2
-    static let kCellRowHeight: CGFloat = 50
     
     var contentViewBottomConstraint: Constraint?
     
@@ -28,7 +29,7 @@ class ListChoosePopView: UIView {
     }()
     
     lazy var contentHeight: CGFloat = {
-        return  min(ListChoosePopView.kContentViewMaxHeight, ListChoosePopView.kCellRowHeight * CGFloat(self.list.count))
+        return  min(kContentViewMaxHeight, kCellRowHeight * CGFloat(self.list.count))
     }()
     
     //背景
@@ -61,8 +62,8 @@ class ListChoosePopView: UIView {
         tableView.backgroundColor = UIColor.clear
         tableView.rowHeight = kCellRowHeight
         tableView.separatorStyle = .singleLine
-        tableView.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: ListChoosePopView.kCellIdentifierForContent)
-        tableView.bounces = CGFloat(self.list.count) * ListChoosePopView.kCellRowHeight > ListChoosePopView.kContentViewMaxHeight
+        tableView.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForContent)
+        tableView.bounces = CGFloat(self.list.count) * kCellRowHeight > kContentViewMaxHeight
         return tableView
     }()
     // MARK: - Life Cycle
@@ -147,7 +148,7 @@ extension ListChoosePopView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListChoosePopView.kCellIdentifierForContent)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForContent)!
         
         let list = self.list[indexPath.row]
         cell.textLabel?.text = list.name

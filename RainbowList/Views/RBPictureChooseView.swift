@@ -15,12 +15,14 @@ protocol RBPictureChooseViewDelegate: NSObjectProtocol {
     func confirmChoose(pictureView: RBPictureChooseView, chosenImages: [RBImage])
     
 }
+
+private let kPhotoShowCellIdentifier = "kPhotoShowCellIdentifier"
+private let kPictureAddCellIdentifier = "kPictureAddCellIdentifier"
+private let kPictureCellWidth: CGFloat = 90
+private let kToolbarHeight: CGFloat = 40
+
 class RBPictureChooseView: UIView {
 
-    static let kPhotoShowCellIdentifier = "kPhotoShowCellIdentifier"
-    static let kPictureAddCellIdentifier = "kPictureAddCellIdentifier"
-    static let kPictureCellWidth: CGFloat = 90
-    static let kToolbarHeight: CGFloat = 40
     
     weak var delegate: RBPictureChooseViewDelegate?
     
@@ -120,7 +122,7 @@ class RBPictureChooseView: UIView {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInset = inset
-        collectionView.register(PhotoShowCell.classForCoder(), forCellWithReuseIdentifier: RBPictureChooseView.kPhotoShowCellIdentifier)
+        collectionView.register(PhotoShowCell.classForCoder(), forCellWithReuseIdentifier: kPhotoShowCellIdentifier)
         return collectionView
     }()
     
@@ -162,7 +164,7 @@ class RBPictureChooseView: UIView {
         
         toolbar.snp.makeConstraints { (make) in
             make.left.top.right.equalTo(self)
-            make.height.equalTo(RBPictureChooseView.kToolbarHeight)
+            make.height.equalTo(kToolbarHeight)
         }
         pictureCollectionView.snp.makeConstraints { (make) in
             make.top.equalTo(toolbar.snp.bottom)
@@ -238,7 +240,7 @@ extension RBPictureChooseView: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: PhotoShowCell = collectionView.dequeueReusableCell(withReuseIdentifier: RBPictureChooseView.kPhotoShowCellIdentifier, for: indexPath) as! PhotoShowCell
+        let cell: PhotoShowCell = collectionView.dequeueReusableCell(withReuseIdentifier: kPhotoShowCellIdentifier, for: indexPath) as! PhotoShowCell
         cell.delegate = self
         cell.representedAssetIdentifier = self.images[indexPath.item].identifier
         cell.imageView.image = self.images[indexPath.item].thumbnail

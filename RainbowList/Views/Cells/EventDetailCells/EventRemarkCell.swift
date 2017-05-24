@@ -16,10 +16,11 @@ protocol EventRemarkCellDelegate: NSObjectProtocol {
     func endEdit(remarkCell: EventRemarkCell)
 }
 
+private let kTextDefaultFont: UIFont = UIFont.systemFont(ofSize: 15)
+private let kToolbarHeight: CGFloat = 40
+
 class EventRemarkCell: EventDetailCell {
 
-    static let kTextDefaultFont: UIFont = UIFont.systemFont(ofSize: 15)
-    static let kToolbarHeight: CGFloat = 40
     
     weak var delegate: EventRemarkCellDelegate?
     
@@ -59,7 +60,7 @@ class EventRemarkCell: EventDetailCell {
     }()
 
     lazy var toolbar: UIView = {
-        var view = UIView(frame: CGRect(x: 0, y: 0, width: k_SCREEN_WIDTH, height: EventRemarkCell.kToolbarHeight))
+        var view = UIView(frame: CGRect(x: 0, y: 0, width: k_SCREEN_WIDTH, height: kToolbarHeight))
         view.backgroundColor = UIColor(hex: 0xf6f6f6)
     
         let btn = UIButton()

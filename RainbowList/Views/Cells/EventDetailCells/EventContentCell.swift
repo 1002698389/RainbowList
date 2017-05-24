@@ -16,10 +16,10 @@ protocol EventContentCellDelegate: NSObjectProtocol {
     func endEdit(contentCell: EventContentCell)
 }
 
-
+private let kTextViewFontSize: CGFloat = 20
+private let kToolbarHeight: CGFloat = 40
 class EventContentCell: EventDetailCell {
 
-    static let kTextViewFontSize: CGFloat = 20
     
     weak var delegate: EventContentCellDelegate?
     
@@ -52,7 +52,7 @@ class EventContentCell: EventDetailCell {
     }()
     
     lazy var toolbar: UIView = {
-        var view = UIView(frame: CGRect(x: 0, y: 0, width: k_SCREEN_WIDTH, height: EventRemarkCell.kToolbarHeight))
+        var view = UIView(frame: CGRect(x: 0, y: 0, width: k_SCREEN_WIDTH, height: kToolbarHeight))
         view.backgroundColor = UIColor(hex: 0xf6f6f6)
         
         let btn = UIButton()

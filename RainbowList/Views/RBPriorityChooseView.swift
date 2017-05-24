@@ -13,11 +13,12 @@ protocol RBPriorityChooseViewDelegate: NSObjectProtocol {
     func confirmChoose(priorityView: RBPriorityChooseView, priority: Int)
 }
 
+private let kToolbarHeight: CGFloat = 40
+private let kCellIdentifier = "kCellIdentifier"
+private let kRowHeigth: CGFloat = 80
+
 class RBPriorityChooseView: UIView {
 
-    static let kToolbarHeight: CGFloat = 40
-    static let kCellIdentifier = "kCellIdentifier"
-    static let rowHeigth: CGFloat = 80
     
     weak var delegate: RBPriorityChooseViewDelegate?
     let priorities: [Int] = [1, 2, 3]
@@ -77,8 +78,8 @@ class RBPriorityChooseView: UIView {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor.clear
-        tableView.rowHeight = RBPriorityChooseView.rowHeigth
-        tableView.register(PriorityCell.classForCoder(), forCellReuseIdentifier: RBPriorityChooseView.kCellIdentifier)
+        tableView.rowHeight = kRowHeigth
+        tableView.register(PriorityCell.classForCoder(), forCellReuseIdentifier: kCellIdentifier)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.bounces = false
@@ -111,13 +112,13 @@ class RBPriorityChooseView: UIView {
         
         toolbar.snp.makeConstraints { (make) in
             make.left.top.right.equalTo(self)
-            make.height.equalTo(RBPictureChooseView.kToolbarHeight)
+            make.height.equalTo(kToolbarHeight)
         }
         
         priorityListView.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 260, height: RBPriorityChooseView.rowHeigth * CGFloat(self.priorities.count)))
+            make.size.equalTo(CGSize(width: 260, height: kRowHeigth * CGFloat(self.priorities.count)))
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(RBPriorityChooseView.kToolbarHeight/2)
+            make.centerY.equalToSuperview().offset(kToolbarHeight/2)
         }
     }
     // MARK: - Public Method
@@ -142,7 +143,7 @@ extension RBPriorityChooseView: UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: RBPriorityChooseView.kCellIdentifier) as! PriorityCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier) as! PriorityCell
         cell.priority = priorities[indexPath.row]
         return cell
     }

@@ -13,9 +13,10 @@ protocol EventCellDelegate: NSObjectProtocol {
     func archiveBtnClicked(cell: EventCell)
 }
 
+private let kDefaultContentTextColor = UIColor(hexString: "#2E2E3B")
+
 class EventCell: UITableViewCell {
     
-    static let kDefaultContentTextColor = UIColor(hexString: "#2E2E3B")
     
     let kMarkViewWidth: CGFloat = 40
     let kToolbarHeight: CGFloat = 15
@@ -273,7 +274,7 @@ class EventCell: UITableViewCell {
             }
         }else{
             self.contentLabel.text = self.event?.content
-            self.contentLabel.textColor = EventCell.kDefaultContentTextColor
+            self.contentLabel.textColor = kDefaultContentTextColor
             self.alarmView.tintColor = UIColor(hexString: event?.list.themeColorHexString)
         }
     }

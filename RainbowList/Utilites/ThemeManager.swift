@@ -8,6 +8,7 @@
 
 import UIKit
 
+private let kDefaultThemeColorHexString: String = "#666666"
 
 final class ThemeManager: NSObject {
 
@@ -15,9 +16,8 @@ final class ThemeManager: NSObject {
     private override init() {
     }
     
-    static let kDefaultThemeColorHexString: String = "#666666"
     
-    var themeColorHexString: String = ThemeManager.kDefaultThemeColorHexString
+    var themeColorHexString: String = kDefaultThemeColorHexString
     
     var allPredefinedColorHexStrings: [String] = ["#F44336","#e91e63","#9c27b0","#C36EE0","#673ab7",
                                             "#3f51b5","#1565C0","#03a9f4","#00bcd4","#5CA4F4",

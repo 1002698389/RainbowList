@@ -8,13 +8,12 @@
 
 import UIKit
 
+private let dateFormatter = DateFormatter()
+private let oneDayInterval: Double = 60 * 60 * 24
+private let twoDayInterval: Double = oneDayInterval * 2
+private let calendar = Calendar.current
+
 final class DateUtil: NSObject {
-    
-    static let dateFormatter = DateFormatter()
-    static let oneDayInterval: Double = 60 * 60 * 24
-    static let twoDayInterval: Double = oneDayInterval * 2
-    static let calendar = Calendar.current
-    
     
     class func stringInReadableFormat(date: Date?) -> String {
         

@@ -9,11 +9,12 @@
 import UIKit
 import DynamicColor
 
+private let eventCellIdentifier = "listCellIdentifier"
+private let kAddButtonWidth: CGFloat = 56
+private let kFooterViewHeight: CGFloat = 100
+
 class EventListViewController: UIViewController {
     
-    static let kAddButtonWidth: CGFloat = 56
-    static let eventCellIdentifier = "listCellIdentifier"
-    static let kFooterViewHeight: CGFloat = 100
     
     var events: [RBEvent]?
     var list: RBList?
@@ -31,7 +32,7 @@ class EventListViewController: UIViewController {
         tableView.backgroundColor = UIColor.clear
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.register(EventCell.classForCoder(), forCellReuseIdentifier: EventListViewController.eventCellIdentifier)
+        tableView.register(EventCell.classForCoder(), forCellReuseIdentifier: eventCellIdentifier)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
         tableView.showsVerticalScrollIndicator = false
@@ -93,18 +94,12 @@ class EventListViewController: UIViewController {
         shouldShowArchivedData = ConfigManager.shared.shouldShowArchiveData
         
         setupSubviews()
-
-        //监听通知
-        NotificationCenter.default.addObserver(self, selector: #selector(changeList(notification:)), name: Notification.Name(rawValue: NotificationConstants.selectListNotification), object: nil)
+        addNotifications()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshList(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldRequeryFromDatabaseNotification), object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableViewWithoutRequeryDatabase(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldNotRequeryNotification), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(presentNewVC(notification:)), name: Notification.Name(rawValue: NotificationConstants.presentNewViewControllerNotification), object: nil)
-        //加载默认清单
-        let list = DBManager.shared.findAlllist()
-        self.list = list.first
+        //加载第一个清单
+        self.list = DBManager.shared.findAlllist().first
+        self.titleLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellContent
+        self.remarkLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellRemark
         
     }
     deinit {
@@ -114,11 +109,11 @@ class EventListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        showData(list: self.list)
+        showData(inList: self.list)
     }
     
     
-    // MARK: - custom method
+    // MARK: - Private Method
     
     func setupSubviews() {
         view.addSubview(tableView)
@@ -130,7 +125,7 @@ class EventListViewController: UIViewController {
         }
         addEventButton.snp.makeConstraints { (make) in
             make.right.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, 20, 20))
-            make.width.height.equalTo(EventListViewController.kAddButtonWidth)
+            make.width.height.equalTo(kAddButtonWidth)
         }
         emptyView.snp.makeConstraints { (make) in
             make.center.width.equalToSuperview()
@@ -139,6 +134,17 @@ class EventListViewController: UIViewController {
         
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleButton)
+    }
+    
+    func addNotifications() {
+        //监听通知
+        NotificationCenter.default.addObserver(self, selector: #selector(changeList(notification:)), name: Notification.Name(rawValue: NotificationConstants.selectListNotification), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshList(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldRequeryFromDatabaseNotification), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableViewWithoutRequeryDatabase(notification:)), name: Notification.Name(rawValue: NotificationConstants.refreshEventListShouldNotRequeryNotification), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(presentNewVC(notification:)), name: Notification.Name(rawValue: NotificationConstants.presentNewViewControllerNotification), object: nil)
     }
     
     func presentNewVC(notification: Notification) {
@@ -155,15 +161,15 @@ class EventListViewController: UIViewController {
     func changeList(notification: Notification) {
         if let userInfo = notification.userInfo {
             if let list = userInfo[NotificationConstants.selectedListKey] as? RBList {
-                showData(list: list)
+                showData(inList: list)
             }else {
-                showData(list: nil)
+                showData(inList: nil)
             }
         }
     }
-    
+
     func refreshList(notification: Notification) {
-        showData(list: self.list, scrollToTop: true)
+        showData(inList: self.list, scrollToTop: true)
     }
     
     func refreshTableViewWithoutRequeryDatabase(notification: Notification){
@@ -177,18 +183,15 @@ class EventListViewController: UIViewController {
         btn.setImage(img, for: .normal)
         btn.tintColor = UIColor(hex: 0xCCCCCC)
         btn.backgroundColor = UIColor.white
-        btn.layer.cornerRadius = EventListViewController.kAddButtonWidth / 2.0
+        btn.layer.cornerRadius = kAddButtonWidth / 2.0
         btn.layer.masksToBounds = true
         btn.imageView?.contentMode = .scaleAspectFit
         btn.addTarget(self, action: #selector(createButtonClicked), for: .touchUpInside)
         return btn
     }
     
-    func showData(list: RBList?, scrollToTop: Bool = false) {
+    func showData(inList list: RBList?, scrollToTop: Bool = false) {
         self.list = list
-        
-        self.titleLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellContent
-        self.remarkLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellRemark
         
         guard let list = list else {
             navigationController?.navigationBar.barTintColor = UIColor.gray
@@ -219,12 +222,8 @@ class EventListViewController: UIViewController {
             if scrollToTop {
                 tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             }
-//            else{
-//            tableView.scrollToRow(at: IndexPath(row: self.events!.count-1, section: 0), at: .bottom, animated: true)
-//            }
         }
         refreshEmptyView()
-       
     }
     
     func titleBtnClicked() {
@@ -252,14 +251,14 @@ class EventListViewController: UIViewController {
         addEventButton.isHidden = !emptyView.isHidden
 
     }
-    func shouOrHideArchive() {
+    func showOrHideArchive() {
         shouldShowArchivedData = !shouldShowArchivedData
 //        if shouldShowArchivedData {
 //            self.navigationItem.rightBarButtonItem?.title = "隐藏已归档"
 //        }else {
 //            self.navigationItem.rightBarButtonItem?.title = "显示已归档"
 //        }
-        showData(list: self.list)
+        showData(inList: self.list)
         ConfigManager.shared.shouldShowArchiveData = shouldShowArchivedData
     }
     
@@ -290,7 +289,7 @@ class EventListViewController: UIViewController {
         
         DBManager.shared.changeState(forEvent: event, isFinished: true)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.showData(list: self.list)
+            self.showData(inList: self.list)
         }
     }
     
@@ -299,7 +298,7 @@ class EventListViewController: UIViewController {
         tableView.reloadData()
         DBManager.shared.changeState(forEvent: event, isFinished: false)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.showData(list: self.list, scrollToTop: true)
+            self.showData(inList: self.list, scrollToTop: true)
         }
     }
     
@@ -332,7 +331,7 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: EventListViewController.eventCellIdentifier) as! EventCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: eventCellIdentifier) as! EventCell
         
         if indexPath.section == 0 {
             cell.event = events?[indexPath.row]
@@ -408,7 +407,7 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                         DBManager.shared.deleteEvent(event: event)
                         if let index = evs.index(of: event){
                             evs.remove(at: index)
-                            self.showData(list: self.list)
+                            self.showData(inList: self.list)
                         }
                     }
                     delete.backgroundColor = UIColor.red
@@ -428,7 +427,7 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
         if section == 0 {
-            return EventListViewController.kFooterViewHeight
+            return kFooterViewHeight
         }
         
         return CGFloat.leastNonzeroMagnitude
@@ -457,14 +456,14 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
         let btnWidth: CGFloat = 80
         let btnHeight: CGFloat = 25
         let btn = UIButton(frame: CGRect(x: (k_SCREEN_WIDTH - btnWidth) / 2,
-                                         y: (EventListViewController.kFooterViewHeight - btnHeight) / 2,
+                                         y: (kFooterViewHeight - btnHeight) / 2,
                                          width: btnWidth,
                                          height: btnHeight))
         btn.setTitleColor(UIColor.lightGray, for: .normal)
         btn.setTitle(shouldShowArchivedData ? "隐藏已归档" : "显示已归档", for: .normal)
 //        btn.backgroundColor = UIColor(hexString: ThemeManager.shared.themeColorHexString)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        btn.addTarget(self, action: #selector(shouOrHideArchive), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(showOrHideArchive), for: .touchUpInside)
         footerView.addSubview(btn)
         
         return footerView
@@ -474,7 +473,7 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
 extension EventListViewController: EventInputViewDelegate {
     
     func finishedInput(inputView: EventInputView) {
-        showData(list: self.list, scrollToTop: true)
+        showData(inList: self.list, scrollToTop: true)
     }
 
 }

@@ -16,10 +16,11 @@ protocol RBDatePickerViewDelegate: NSObjectProtocol {
     
 }
 
+private let kDateToolbarHeight: CGFloat = 40
+private let kRepeatChooseViewHeight: CGFloat = 35
+
 class RBDatePickerView: UIView {
 
-    static let kDateToolbarHeight: CGFloat = 40
-    static let kRepeatChooseViewHeight: CGFloat = 35
     
     weak var delegate: RBDatePickerViewDelegate?
     
@@ -103,12 +104,12 @@ class RBDatePickerView: UIView {
         
         toolbar.snp.makeConstraints { (make) in
             make.left.top.right.equalTo(self)
-            make.height.equalTo(RBDatePickerView.kDateToolbarHeight)
+            make.height.equalTo(kDateToolbarHeight)
         }
         
         segmentView.snp.makeConstraints { (make) in
             make.top.equalTo(toolbar.snp.bottom).offset(30)
-            make.height.equalTo(RBDatePickerView.kRepeatChooseViewHeight)
+            make.height.equalTo(kRepeatChooseViewHeight)
             make.centerX.equalToSuperview()
         }
         datePicker.snp.makeConstraints { (make) in

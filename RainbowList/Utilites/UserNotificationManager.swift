@@ -11,7 +11,6 @@ import UserNotifications
 
 class UserNotificationManager: NSObject {
     
-    
     static let shared = UserNotificationManager()
     private override init() {
     }

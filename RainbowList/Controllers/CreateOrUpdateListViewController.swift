@@ -8,14 +8,15 @@
 
 import UIKit
 
+private let kBackgroundColor = UIColor(hex: 0x233142)
+private let kTextfieldHeight: CGFloat = 50
+private let kCellIdentifier = "kCellIdentifier"
+private let kCollecionViewInset = UIEdgeInsetsMake(10, 20, 10, 20)
+private let kCollectionViewColumnCount: CGFloat = 5
+private let kMinimumItemSpacing: CGFloat = 15
+
 class CreateOrUpdateListViewController: UIViewController {
 
-    static let kBackgroundColor = UIColor(hex: 0x233142)
-    static let kTextfieldHeight: CGFloat = 50
-    static let kCellIdentifier = "kCellIdentifier"
-    static let kCollecionViewInset = UIEdgeInsetsMake(10, 20, 10, 20)
-    static let kCollectionViewColumnCount: CGFloat = 5
-    static let kMinimumItemSpacing: CGFloat = 15
 
     var oldList: RBList?
     
@@ -85,18 +86,18 @@ class CreateOrUpdateListViewController: UIViewController {
         collection.backgroundColor = UIColor.clear
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
-        collection.contentInset = CreateOrUpdateListViewController.kCollecionViewInset
-        collection.register(MarkCell.classForCoder(), forCellWithReuseIdentifier: CreateOrUpdateListViewController.kCellIdentifier)
+        collection.contentInset = kCollecionViewInset
+        collection.register(MarkCell.classForCoder(), forCellWithReuseIdentifier: kCellIdentifier)
         collection.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapCollectionView(sender:))))
         return collection
     }()
     
     lazy var flowLayout: UICollectionViewFlowLayout  = {
         var layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = CreateOrUpdateListViewController.kMinimumItemSpacing
+        layout.minimumInteritemSpacing = kMinimumItemSpacing
         layout.minimumLineSpacing = 5
         layout.scrollDirection = .vertical
-        let cellWidth = (UIScreen.main.bounds.size.width - CreateOrUpdateListViewController.kCollecionViewInset.left - CreateOrUpdateListViewController.kCollecionViewInset.right) / CreateOrUpdateListViewController.kCollectionViewColumnCount - CreateOrUpdateListViewController.kMinimumItemSpacing
+        let cellWidth = (UIScreen.main.bounds.size.width - kCollecionViewInset.left - kCollecionViewInset.right) / kCollectionViewColumnCount - kMinimumItemSpacing
         layout.itemSize = CGSize(width: cellWidth,height: cellWidth)
         return layout
     }()
@@ -112,7 +113,7 @@ class CreateOrUpdateListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = CreateOrUpdateListViewController.kBackgroundColor
+        self.view.backgroundColor = kBackgroundColor
         
         customNavgation()
         setupSubviews()
@@ -150,7 +151,7 @@ class CreateOrUpdateListViewController: UIViewController {
         textField.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
-            make.height.equalTo(CreateOrUpdateListViewController.kTextfieldHeight)
+            make.height.equalTo(kTextfieldHeight)
             make.top.equalToSuperview().offset(20)
         }
         collectionView.snp.makeConstraints { (make) in
@@ -160,7 +161,7 @@ class CreateOrUpdateListViewController: UIViewController {
     }
     func customNavgation() {
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = CreateOrUpdateListViewController.kBackgroundColor
+        self.navigationController?.navigationBar.barTintColor = kBackgroundColor
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         let img = UIImage(named: "close")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
@@ -219,7 +220,7 @@ extension CreateOrUpdateListViewController: UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOrUpdateListViewController.kCellIdentifier, for: indexPath) as! MarkCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCellIdentifier, for: indexPath) as! MarkCell
         let colorHex = themeColorHexStrings[indexPath.row]
         cell.themeColor = UIColor(hexString: colorHex)
         cell.hasUsed = ThemeManager.shared.usedColorHexStrings.contains(colorHex)

@@ -9,16 +9,17 @@
 import UIKit
 import Photos
 
+private let kCellIdentifierForContent = "kCellIdentifierForContent"
+private let kCellIdentifierForRemark = "kCellIdentifierForRemark"
+private let kCellIdentifierForList = "kCellIdentifierForList"
+private let kCellIdentifierForPriority = "kCellIdentifierForPriority"
+private let kCellIdentifierForAlarm = "kCellIdentifierForAlarm"
+private let kCellIdentifierForAttachment = "kCellIdentifierForAttachment"
+private let kCellIdentifierForComment = "kCellIdentifierForComment"
+private let kCellIdentifierForDesc = "kCellIdentifierForDesc"
+
 class EventDetailViewController: UITableViewController {
 
-    static let kCellIdentifierForContent = "kCellIdentifierForContent"
-    static let kCellIdentifierForRemark = "kCellIdentifierForRemark"
-    static let kCellIdentifierForList = "kCellIdentifierForList"
-    static let kCellIdentifierForPriority = "kCellIdentifierForPriority"
-    static let kCellIdentifierForAlarm = "kCellIdentifierForAlarm"
-    static let kCellIdentifierForAttachment = "kCellIdentifierForAttachment"
-    static let kCellIdentifierForComment = "kCellIdentifierForComment"
-    static let kCellIdentifierForDesc = "kCellIdentifierForDesc"
     
     let kSectionIndexForContent = 0
     let kSectionIndexForRemark = 1
@@ -80,14 +81,14 @@ class EventDetailViewController: UITableViewController {
         tableView.separatorStyle = .singleLine
         tableView.allowsSelectionDuringEditing = true
         
-        tableView.register(EventContentCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForContent)
-        tableView.register(EventRemarkCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForRemark)
-        tableView.register(EventSelectTextCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForList)
-        tableView.register(EventSelectTextCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForAlarm)
-        tableView.register(EventSelectTextCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForPriority)
-        tableView.register(EventAttachmentCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForAttachment)
-        tableView.register(EventCommentCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForComment)
-        tableView.register(EventDescriptionCell.classForCoder(), forCellReuseIdentifier: EventDetailViewController.kCellIdentifierForDesc)
+        tableView.register(EventContentCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForContent)
+        tableView.register(EventRemarkCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForRemark)
+        tableView.register(EventSelectTextCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForList)
+        tableView.register(EventSelectTextCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForAlarm)
+        tableView.register(EventSelectTextCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForPriority)
+        tableView.register(EventAttachmentCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForAttachment)
+        tableView.register(EventCommentCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForComment)
+        tableView.register(EventDescriptionCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForDesc)
         tableView.tableFooterView = UIView()
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 80, 0)
     }
@@ -266,14 +267,14 @@ extension EventDetailViewController {
         switch indexPath.section {
         //section0:内容
         case kSectionIndexForContent:
-            let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForContent) as! EventContentCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForContent) as! EventContentCell
             cell.content = self.event.content
             cell.delegate = self
             cell.isEditingState = self.isEditing
             return cell
         //section1:备注
         case kSectionIndexForRemark:
-            let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForRemark) as! EventRemarkCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForRemark) as! EventRemarkCell
             cell.content = self.event.remark ?? ""
             cell.isEditingState = self.isEditing
             cell.delegate = self
@@ -283,7 +284,7 @@ extension EventDetailViewController {
         case kSectionIndexForList:
             switch indexPath.row {
             case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForList) as! EventSelectTextCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForList) as! EventSelectTextCell
                 cell.config(description: "清单:",
                             content:self.event.list.name,
                             textAlignment: .right,
@@ -292,7 +293,7 @@ extension EventDetailViewController {
                 return cell
             case 1:
                 
-                let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForAlarm) as! EventSelectTextCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForAlarm) as! EventSelectTextCell
                 
                 if let alarm = self.event.alarm {
                     cell.config(description: "提醒:",
@@ -310,7 +311,7 @@ extension EventDetailViewController {
 
             case 2:
                 
-                let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForList) as! EventSelectTextCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForList) as! EventSelectTextCell
                 let arr = Array.init(repeating: "!", count: self.event.priority)
                 if arr.count > 0 {
                     cell.config(description: "优先级:",
@@ -334,12 +335,12 @@ extension EventDetailViewController {
         //section3:附件
         case kSectionIndexForAttachment:
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForDesc) as! EventDescriptionCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForDesc) as! EventDescriptionCell
                 cell.desc = "附件(\(self.event.images?.count ?? 0))"
                 cell.isEditingState = self.isEditing
                 return cell
             }else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForAttachment) as! EventAttachmentCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForAttachment) as! EventAttachmentCell
                 cell.delegate = self
                 cell.images = self.event.images
                 cell.isEditingState = self.isEditing
@@ -349,12 +350,12 @@ extension EventDetailViewController {
         //section4:评论
         case kSectionIndexForComment:
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForDesc) as! EventDescriptionCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForDesc) as! EventDescriptionCell
                 cell.desc = "评论(\(self.event.comments?.count ?? 0))"
                 cell.isEditingState = self.isEditing
                 return cell
             }else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: EventDetailViewController.kCellIdentifierForComment) as! EventCommentCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForComment) as! EventCommentCell
                 cell.comment = self.event.comments?[indexPath.row-1]
                 cell.isEditingState = self.isEditing
                 return cell
@@ -504,8 +505,8 @@ extension EventDetailViewController: PhotoSelectDelegate {
             let id = String(self.event.identifier) + String(Date.timeIntervalSinceReferenceDate) + "_i"
             let img = RBImage(identifier: id, event: self.event)
             
-            let showWidth = CGFloat(ass.pixelWidth / ass.pixelHeight) * (EventAttachmentCell.kPhotoHight)
-            let thumbNailSize = CGSize(width: showWidth * UIScreen.main.scale, height: EventAttachmentCell.kPhotoHight * UIScreen.main.scale)
+            let showWidth = CGFloat(ass.pixelWidth / ass.pixelHeight) * (EventAttachmentCell.photoHeight)
+            let thumbNailSize = CGSize(width: showWidth * UIScreen.main.scale, height: EventAttachmentCell.photoHeight * UIScreen.main.scale)
                 
             PHImageManager.default().requestImage(for: ass, targetSize: thumbNailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
                 

@@ -9,9 +9,10 @@
 import UIKit
 
 
+private let kMainShadowViewMaxAlpha:CGFloat = 0.1
+
 class MainContainerViewController: UIViewController {
     
-    static let kMainShadowViewMaxAlpha:CGFloat = 0.1
     
     var leftMenuViewController: UIViewController!
     var leftMenuView: UIView!
@@ -98,7 +99,7 @@ class MainContainerViewController: UIViewController {
         UIView.animate(withDuration: 0.25, animations: {
             self.mainView.frame = CGRect(x: self.lefMenuMaxWidth, y: 0, width: k_SCREEN_WIDTH, height: k_SCREEN_HEIGHT)
             self.leftMenuView.frame = CGRect(x: 0, y: 0, width: self.lefMenuMaxWidth, height: k_SCREEN_HEIGHT)
-            self.mainMaskView.alpha = MainContainerViewController.kMainShadowViewMaxAlpha
+            self.mainMaskView.alpha = kMainShadowViewMaxAlpha
             self.setNeedsStatusBarAppearanceUpdate()
         }) { (_) in
             self.isLeftMenuOpen = true
@@ -125,7 +126,7 @@ class MainContainerViewController: UIViewController {
         UIView.animate(withDuration: 0.25, animations: {
             self.mainView.frame = CGRect(x: k_SCREEN_WIDTH, y: 0, width: k_SCREEN_WIDTH, height: k_SCREEN_HEIGHT)
             self.leftMenuView.frame = CGRect(x: 0, y: 0, width: k_SCREEN_WIDTH, height: k_SCREEN_HEIGHT)
-            self.mainMaskView.alpha = MainContainerViewController.kMainShadowViewMaxAlpha
+            self.mainMaskView.alpha = kMainShadowViewMaxAlpha
             self.setNeedsStatusBarAppearanceUpdate()
         }) { (_) in
             self.isLeftMenuOpen = true
@@ -144,7 +145,7 @@ class MainContainerViewController: UIViewController {
             mainView.frame = CGRect(x: min(offset, self.lefMenuMaxWidth), y: 0, width: k_SCREEN_WIDTH, height: k_SCREEN_HEIGHT)
             
             
-            mainMaskView.alpha = min(MainContainerViewController.kMainShadowViewMaxAlpha * offset / self.lefMenuMaxWidth, MainContainerViewController.kMainShadowViewMaxAlpha)
+            mainMaskView.alpha = min(kMainShadowViewMaxAlpha * offset / self.lefMenuMaxWidth, kMainShadowViewMaxAlpha)
             
             
         }else if offset < 0 {
@@ -156,7 +157,7 @@ class MainContainerViewController: UIViewController {
             leftMenuView.frame = CGRect(x: max(offset, -self.lefMenuMaxWidth), y: 0, width: self.lefMenuMaxWidth, height: k_SCREEN_HEIGHT)
             mainView.frame = CGRect(x: max(self.lefMenuMaxWidth+offset, 0), y: 0, width: k_SCREEN_WIDTH, height: k_SCREEN_HEIGHT)
             
-            mainMaskView.alpha = max(MainContainerViewController.kMainShadowViewMaxAlpha * (self.lefMenuMaxWidth+offset) / self.lefMenuMaxWidth, 0)
+            mainMaskView.alpha = max(kMainShadowViewMaxAlpha * (self.lefMenuMaxWidth+offset) / self.lefMenuMaxWidth, 0)
         }
         
 //        print("----\(mainShadowView.alpha)")

@@ -14,8 +14,11 @@ protocol EventAttachmentCellDelegate: NSObjectProtocol {
 
 class EventAttachmentCell: EventDetailCell {
 
+    static var photoHeight: CGFloat {
+        return 200
+    }
+    
     weak var delegate: EventAttachmentCellDelegate?
-    static let kPhotoHight: CGFloat = 200
     let kImageMargin: CGFloat = 5
     let kButtonBaseTag = 1000
     let kImageViewBaseTag = 2000
@@ -45,8 +48,8 @@ class EventAttachmentCell: EventDetailCell {
                 var sumWidth: CGFloat = kImageMargin
                 for i in 0 ..< imgs.count {
                     if let img = imgs[i].thumbnail {
-                        let showWidth = img.size.width / img.size.height * (EventAttachmentCell.kPhotoHight)
-                        let frame = CGRect(x: sumWidth, y: 0, width: showWidth, height: EventAttachmentCell.kPhotoHight)
+                        let showWidth = img.size.width / img.size.height * (EventAttachmentCell.photoHeight)
+                        let frame = CGRect(x: sumWidth, y: 0, width: showWidth, height: EventAttachmentCell.photoHeight)
                         let imgView = generateImageView(frame: frame, image:img)
                         imgView.tag = kImageViewBaseTag + i
                         let tap = UITapGestureRecognizer(target: self, action: #selector(tapImageView(gesture:)))
@@ -59,7 +62,7 @@ class EventAttachmentCell: EventDetailCell {
                         imageViews.append(imgView)
                     }
                 }
-                contentScrollView.contentSize = CGSize(width: sumWidth, height: EventAttachmentCell.kPhotoHight)
+                contentScrollView.contentSize = CGSize(width: sumWidth, height: EventAttachmentCell.photoHeight)
             }
             
             if let imgs = images, let oldImgs = _oldImages {
@@ -122,7 +125,7 @@ class EventAttachmentCell: EventDetailCell {
         contentView.addSubview(contentScrollView)
         contentScrollView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview().inset(UIEdgeInsetsMake(10, 0, 10, 0))
-            make.height.equalTo(EventAttachmentCell.kPhotoHight)
+            make.height.equalTo(EventAttachmentCell.photoHeight)
             make.width.equalTo(k_SCREEN_WIDTH)
         }
     }
@@ -185,8 +188,8 @@ class EventAttachmentCell: EventDetailCell {
             let imgView = self.imageViews[i]
             if let imgs = self.images{
                 if let img = imgs[i].thumbnail {
-                    let showWidth = img.size.width / img.size.height * (EventAttachmentCell.kPhotoHight)
-                    imgView.frame = CGRect(x: sumWidth, y: 0, width: showWidth, height: EventAttachmentCell.kPhotoHight)
+                    let showWidth = img.size.width / img.size.height * (EventAttachmentCell.photoHeight)
+                    imgView.frame = CGRect(x: sumWidth, y: 0, width: showWidth, height: EventAttachmentCell.photoHeight)
                     sumWidth += showWidth + kImageMargin
                 }
             }

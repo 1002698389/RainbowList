@@ -8,15 +8,15 @@
 
 import UIKit
 
+private let k_DefaultsKey_AppVersion = "k_DefaultsKey_AppVersion"
+private let k_Defaultkey_ShowArchivedData = "k_Defaultkey_ShowArchivedData"
+private let k_Defaultkey_LeftMenuMaxWidth = "k_Defaultkey_LeftMenuMaxWidth"
+private let k_Defaultkey_ContentLineNumbers = "k_Defaultkey_ContentLineNumbers"
+private let k_Defaultkey_RemarkLineNumbers = "k_Defaultkey_RemarkLineNumbers"
+private let k_Defaultkey_HasShowAlert_ArchiveAlarm = "k_Defaultkey_HasShowAlert_ArchiveAlarm"
+private let k_Defaultkey_SyncEnabled = "k_Defaultkey_SyncEnabled"
+
 class ConfigManager: NSObject {
-    
-    let k_DefaultsKey_AppVersion = "k_DefaultsKey_AppVersion"
-    let k_Defaultkey_ShowArchivedData = "k_Defaultkey_ShowArchivedData"
-    let k_Defaultkey_LeftMenuMaxWidth = "k_Defaultkey_LeftMenuMaxWidth"
-    let k_Defaultkey_ContentLineNumbers = "k_Defaultkey_ContentLineNumbers"
-    let k_Defaultkey_RemarkLineNumbers = "k_Defaultkey_RemarkLineNumbers"
-    let k_Defaultkey_HasShowAlert_ArchiveAlarm = "k_Defaultkey_HasShowAlert_ArchiveAlarm"
-    let k_Defaultkey_SyncEnabled = "k_Defaultkey_SyncEnabled"
     
     static let shared = ConfigManager()
     private override init() {}

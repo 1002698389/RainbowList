@@ -11,11 +11,12 @@ import SnapKit
 
 typealias PriorityChooseCompletedBlock = (Int) -> Void
 
+private let kCellIdentifierForContent = "kCellIdentifierForContent"
+private let kContentViewMaxHeight = k_SCREEN_HEIGHT / 2
+private let kCellRowHeight: CGFloat = 50
+
 class PriorityChoosePopView: UIView {
 
-    static let kCellIdentifierForContent = "kCellIdentifierForContent"
-    static let kContentViewMaxHeight = k_SCREEN_HEIGHT / 2
-    static let kCellRowHeight: CGFloat = 50
     
     var contentViewBottomConstraint: Constraint?
     
@@ -26,7 +27,7 @@ class PriorityChoosePopView: UIView {
     var priorityNames = [PriroityOption.normalImportantString, PriroityOption.quiteImportantString, PriroityOption.veryImportantString, PriroityOption.extremelyImportantString]
     
     lazy var contentHeight: CGFloat = {
-        return  min(PriorityChoosePopView.kContentViewMaxHeight, PriorityChoosePopView.kCellRowHeight * CGFloat(self.priorities.count))
+        return  min(kContentViewMaxHeight, kCellRowHeight * CGFloat(self.priorities.count))
     }()
     
 
@@ -66,8 +67,8 @@ class PriorityChoosePopView: UIView {
         tableView.backgroundColor = UIColor.clear
         tableView.rowHeight = kCellRowHeight
         tableView.separatorStyle = .singleLine
-        tableView.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: PriorityChoosePopView.kCellIdentifierForContent)
-        tableView.bounces = CGFloat(self.priorities.count) * PriorityChoosePopView.kCellRowHeight > PriorityChoosePopView.kContentViewMaxHeight
+        tableView.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: kCellIdentifierForContent)
+        tableView.bounces = CGFloat(self.priorities.count) * kCellRowHeight > kContentViewMaxHeight
         return tableView
     }()
     // MARK: - Life Cycle
@@ -168,7 +169,7 @@ extension PriorityChoosePopView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListChoosePopView.kCellIdentifierForContent)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifierForContent)!
         
         let priority = self.priorities[indexPath.row]
         let name = self.priorityNames[indexPath.row]

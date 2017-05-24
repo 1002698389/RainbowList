@@ -9,16 +9,16 @@
 import UIKit
 import SnapKit
 
+private let kBottomToolbarHeight: CGFloat = 50.0
+private let kUpperToolbarHeight: CGFloat = 50.0
+private let kFooterViewHeight: CGFloat = 50
+private let kVerMargin: CGFloat = 20
+private let cellIdentifier = "cellIdentifier"
+private let kTableviewRowHeight: CGFloat = 40
+private let kTableviewHeight: CGFloat = k_SCREEN_HEIGHT - kUpperToolbarHeight - kBottomToolbarHeight - kVerMargin * 2
 
 class LeftMenuViewController: UIViewController {
 
-    static let kBottomToolbarHeight: CGFloat = 50.0
-    static let kUpperToolbarHeight: CGFloat = 50.0
-    static let kFooterViewHeight: CGFloat = 50
-    static let kVerMargin: CGFloat = 20
-    static let cellIdentifier = "cellIdentifier"
-    static let kTableviewRowHeight: CGFloat = 40
-    static let kTableviewHeight: CGFloat = k_SCREEN_HEIGHT - LeftMenuViewController.kUpperToolbarHeight - LeftMenuViewController.kBottomToolbarHeight - LeftMenuViewController.kVerMargin * 2
     
     var selectedList: RBList?
     var selectRowByCode: Bool = false
@@ -84,8 +84,8 @@ class LeftMenuViewController: UIViewController {
         tableView.backgroundColor = UIColor.clear
         tableView.bounces = false
         tableView.allowsSelectionDuringEditing = true
-        tableView.register(ListCell.classForCoder(), forCellReuseIdentifier: LeftMenuViewController.cellIdentifier)
-        tableView.rowHeight = LeftMenuViewController.kTableviewRowHeight
+        tableView.register(ListCell.classForCoder(), forCellReuseIdentifier: cellIdentifier)
+        tableView.rowHeight = kTableviewRowHeight
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -133,18 +133,18 @@ class LeftMenuViewController: UIViewController {
         upperToolbar.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.top.equalToSuperview().offset(5)
-            make.height.equalTo(LeftMenuViewController.kUpperToolbarHeight)
+            make.height.equalTo(kUpperToolbarHeight)
         }
         bottomToolbar.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().offset(-5)
-            make.height.equalTo(LeftMenuViewController.kBottomToolbarHeight)
+            make.height.equalTo(kBottomToolbarHeight)
         }
         
         tableView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.top.equalTo(upperToolbar.snp.bottom).offset(LeftMenuViewController.kVerMargin)
-            make.height.equalTo(LeftMenuViewController.kTableviewHeight)
+            make.top.equalTo(upperToolbar.snp.bottom).offset(kVerMargin)
+            make.height.equalTo(kTableviewHeight)
         }
         
         closeButton.snp.makeConstraints { (make) in
@@ -170,7 +170,7 @@ class LeftMenuViewController: UIViewController {
         lists.removeAll()
         lists.append(contentsOf:DBManager.shared.findAlllist())
         tableView.reloadData()
-        tableView.bounces = CGFloat(lists.count) * LeftMenuViewController.kTableviewRowHeight > LeftMenuViewController.kTableviewHeight
+        tableView.bounces = CGFloat(lists.count) * kTableviewRowHeight > kTableviewHeight
     }
     func selectFirstRow() {
         if lists.count > 0 {
@@ -270,7 +270,7 @@ extension LeftMenuViewController: UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: LeftMenuViewController.cellIdentifier) as! ListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ListCell
         cell.list = lists[indexPath.row]
         return cell
     }
@@ -344,7 +344,7 @@ extension LeftMenuViewController: UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if tableView.isEditing {
-            return LeftMenuViewController.kFooterViewHeight
+            return kFooterViewHeight
         }
         return 0
     }
@@ -356,7 +356,7 @@ extension LeftMenuViewController: UITableViewDataSource,UITableViewDelegate {
             let btnWidth: CGFloat = 40
             let btnHeight: CGFloat = 40
             let btn = UIButton(frame: CGRect(x: (k_SCREEN_WIDTH - btnWidth) / 2,
-                                             y: (LeftMenuViewController.kFooterViewHeight - btnHeight) / 2,
+                                             y: (kFooterViewHeight - btnHeight) / 2,
                                              width: btnWidth,
                                              height: btnHeight))
             btn.setTitleColor(UIColor.lightGray, for: .normal)

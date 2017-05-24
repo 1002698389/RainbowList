@@ -13,9 +13,10 @@ protocol PhotoSelectDelegate: NSObjectProtocol {
     func completeSelect(photoSelectViewController: PhotoSelectViewController, assets: [PHAsset])
 }
 
+private let kPhotoCellIdentifier = "kPhotoCellIdentifier"
+
 class PhotoSelectViewController: UIViewController {
 
-    static let kPhotoCellIdentifier = "kPhotoCellIdentifier"
     weak var delegate: PhotoSelectDelegate?
     var allPhotos: PHFetchResult<PHAsset>?
     var thumbnailSize: CGSize!
@@ -75,7 +76,7 @@ class PhotoSelectViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.contentInset = inset
         collectionView.allowsMultipleSelection = true
-        collectionView.register(PhotoSelectCell.classForCoder(), forCellWithReuseIdentifier: PhotoSelectViewController.kPhotoCellIdentifier)
+        collectionView.register(PhotoSelectCell.classForCoder(), forCellWithReuseIdentifier: kPhotoCellIdentifier)
         return collectionView
     }()
     // MARK: - Life Cycle
@@ -205,7 +206,7 @@ extension PhotoSelectViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell: PhotoSelectCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoSelectViewController.kPhotoCellIdentifier, for: indexPath) as? PhotoSelectCell
+        guard let cell: PhotoSelectCell = collectionView.dequeueReusableCell(withReuseIdentifier: kPhotoCellIdentifier, for: indexPath) as? PhotoSelectCell
             else { fatalError("unexpected cell in collection view") }
         
         if let photos = allPhotos {
