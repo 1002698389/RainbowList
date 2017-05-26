@@ -44,7 +44,10 @@ class UserNotificationManager: NSObject {
     func removeUserNotification(forEvent event: RBEvent) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [event.identifier])
     }
-    
+    func resetUserNotification(forEvent event: RBEvent) {
+        removeUserNotification(forEvent: event)
+        addUserNotification(forEvent: event)
+    }
     func removeAllUserNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }

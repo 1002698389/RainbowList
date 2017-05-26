@@ -14,6 +14,8 @@ protocol PhotoSelectDelegate: NSObjectProtocol {
 }
 
 private let kPhotoCellIdentifier = "kPhotoCellIdentifier"
+private let kPhotoCellMinMargin: CGFloat = 1
+private let kPhotoColumn: CGFloat = 4
 
 class PhotoSelectViewController: UIViewController {
 
@@ -66,15 +68,18 @@ class PhotoSelectViewController: UIViewController {
     
     lazy var photoCollectionView: UICollectionView = {
         
-        let inset = UIEdgeInsetsMake(10, 10, 10, 10)
+//        let inset = UIEdgeInsetsMake(10, 10, 10, 10)
+        
         let flowLayout = UICollectionViewFlowLayout()
-        let cellWidth = (UIScreen.main.bounds.size.width - inset.left - inset.right)/3-10
+        flowLayout.minimumLineSpacing = kPhotoCellMinMargin
+        flowLayout.minimumInteritemSpacing = kPhotoCellMinMargin
+        let cellWidth = floor((self.view.bounds.size.width - (kPhotoColumn - 1) * kPhotoCellMinMargin) / kPhotoColumn)
         flowLayout.itemSize = CGSize(width: cellWidth,height: cellWidth)
         var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = UIColor.white
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = inset
+//        collectionView.contentInset = inset
         collectionView.allowsMultipleSelection = true
         collectionView.register(PhotoSelectCell.classForCoder(), forCellWithReuseIdentifier: kPhotoCellIdentifier)
         return collectionView

@@ -50,8 +50,11 @@ class RBEvent: NSObject {
     
     
     //临时对象
-    var imagesToDelete: [RBImage]?
-    var imagesToAdd: [RBImage]?
+    var imagesToDeleteForUpdate: [RBImage]?
+    var imagesToAddForUpdate: [RBImage]?
+    
+    var commentsToDeleteForUpdate: [RBComment]?
+    var commentsToAddForUpdate: [RBComment]?
 }
 
 

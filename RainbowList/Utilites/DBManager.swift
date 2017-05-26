@@ -406,12 +406,11 @@ final class DBManager: NSObject {
         }
     }
     
-    //FIXME: 关联对象目前是删掉重建，后面优化为把需要具体更新的关联对象传过来，针对具体变更更新
-    func updateEvent(event: RBEvent) {
+    func updateEvent(event: RBEvent) -> Bool{
         MobClick.event(UMEvent_ModifyEvent)
-        UserNotificationManager.shared.removeUserNotification(forEvent: event)
-        UserNotificationManager.shared.addUserNotification(forEvent: event)
+        UserNotificationManager.shared.resetUserNotification(forEvent: event)
         
+        var rtn = true
         dbQueue.inTransaction { (db, rollback) in
             do {
                 //更新闹钟
@@ -423,15 +422,22 @@ final class DBManager: NSObject {
                 }
                 
                 //更新评论
-                let sql_comment_delete = "DELETE FROM tb_comment WHERE event_id = ?"
-                try db?.executeUpdate(sql_comment_delete, values: [event.identifier])
-                if let comments = event.comments {
+                //删除
+                let sql_comment_delete = "DELETE FROM tb_comment WHERE id = ?"
+                if event.commentsToDeleteForUpdate != nil {
+                    for com in event.commentsToDeleteForUpdate! {
+                        try db?.executeUpdate(sql_comment_delete, values: [com.identifier])
+                    }
+                }
+                //新增
+                if let comments = event.commentsToAddForUpdate {
                     for i in 0..<comments.count {
                         let com = comments[i]
                         let sql_comment_insert = "INSERT INTO tb_comment(id, event_id, content, create_time) values(?,?,?,?);"
                         try db?.executeUpdate(sql_comment_insert, values: [com.identifier, event.identifier, com.content, com.createTime.timeIntervalSince1970])
                     }
                 }
+                
                 //可选字段
                 let alarmId: Any = event.alarm?.identifier ?? NSNull()
                 let remark: Any = event.remark ?? NSNull()
@@ -447,19 +453,21 @@ final class DBManager: NSObject {
                 try db?.executeUpdate(sql_event_update, values: [event.list.identifier, event.content, remark, alarmId, event.priority, image_ids, event.isFinished,event.createTime.timeIntervalSince1970, Date(), event.identifier])
                 
                 //更新图片
-                if event.imagesToDelete != nil {
-                    //保存图片
-                    self.deleteImages(images: event.imagesToDelete!)
+                if event.imagesToDeleteForUpdate != nil {
+                    self.deleteImages(images: event.imagesToDeleteForUpdate!)
                 }
-                if event.imagesToAdd != nil {
-                    //保存图片
-                    self.saveImages(images: event.imagesToAdd!, forEvent: event)
+                if event.imagesToAddForUpdate != nil {
+                    self.saveImages(images: event.imagesToAddForUpdate!, forEvent: event)
                 }
                 
             }catch {
                 print("========data operation error!")
+                rollback?.pointee = true
+                rtn = false
             }
         }
+        
+        return rtn
     }
     
     func findeAllComments(forEvent event: RBEvent) -> [RBComment]?{
@@ -548,7 +556,7 @@ final class DBManager: NSObject {
     
     func saveImages(images: [RBImage], forEvent event: RBEvent) {
         
-        let start = CFAbsoluteTimeGetCurrent()
+//        let start = CFAbsoluteTimeGetCurrent()
         //创建目录
         if !FileManager.default.fileExists(atPath: RBImage.getRelativeThumbnailUrlForEvent(event: event).path) && !FileManager.default.fileExists(atPath: RBImage.getRelativeOriginalUrlForEvent(event: event).path){
             do {
@@ -575,8 +583,8 @@ final class DBManager: NSObject {
             }
         }
         
-        let end = CFAbsoluteTimeGetCurrent()
-        print("保存图片消耗时间:\(end - start)")
+//        let end = CFAbsoluteTimeGetCurrent()
+//        print("保存图片消耗时间:\(end - start)")
     }
     
     func deleteAllImages(forEvent event: RBEvent) {

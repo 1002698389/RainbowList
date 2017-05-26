@@ -7,4 +7,5 @@ target 'RainbowList' do
     	pod 'FMDB', '~> 2.6.2'
     	pod 'SnapKit'
         pod 'Toast-Swift'
+        pod 'LeanCloud'
 end

@@ -15,11 +15,16 @@ let k_SCREEN_WIDTH = UIScreen.main.bounds.width
 
 let k_ListTable_OrderBase = 500
 let k_Appid = "1221862568"
-let k_AppDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") ?? ""
-let k_AppVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? ""
+let k_AppDisplayName: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as! String
+let k_AppVersion: String = Bundle.main.infoDictionary! ["CFBundleShortVersionString"] as! String
+let k_AppBundleId: String = Bundle.main.infoDictionary! ["CFBundleIdentifier"] as! String
+
 
 
 let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+
+let k_ToastLongDuration: TimeInterval = 3
+let k_ToastShortDuration: TimeInterval = 1.5
 
 //友盟统计
 let UMAppKey = "58de113307fe6511540013ed"
@@ -40,7 +45,7 @@ let UMEvent_ClickReviewCell = "UMEvent_ClickReviewCell"
 let UMEvent_ClickShareAppButton = "UMEvent_ClickShareAppButton"
 let UMEvent_ClickSettingButton = "UMEvent_ClickSttingButton"
 let UMEvent_ClickEditListButton = "UMEvent_ClickEditListButton"
-
+let UMEvent_Feedback = "UMEvent_Feedback"
 //通知常量
 struct NotificationConstants{
     //展开左菜单通知

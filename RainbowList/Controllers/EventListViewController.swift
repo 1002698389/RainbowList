@@ -97,7 +97,8 @@ class EventListViewController: UIViewController {
         addNotifications()
         
         //加载第一个清单
-        self.list = DBManager.shared.findAlllist().first
+        showData(inList: DBManager.shared.findAlllist().first)
+        
         self.titleLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellContent
         self.remarkLineNumbers = ConfigManager.shared.maxLineNumbersForEventCellRemark
         
@@ -108,8 +109,6 @@ class EventListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        showData(inList: self.list)
     }
     
     
@@ -132,8 +131,9 @@ class EventListViewController: UIViewController {
             make.height.equalTo(150)
         }
         
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleButton)
+        navigationController?.navigationBar.isTranslucent = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleButton)
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"search"), style: .plain, target: self, action: #selector(searchBtnClicked))
     }
     
     func addNotifications() {
@@ -227,7 +227,7 @@ class EventListViewController: UIViewController {
     }
     
     func titleBtnClicked() {
-        print("left button clicked")
+//        print("left button clicked")
         self.tableView.setEditing(false, animated: true)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationConstants.openLeftMenuNotification), object: nil)
     }
@@ -253,14 +253,10 @@ class EventListViewController: UIViewController {
     }
     func showOrHideArchive() {
         shouldShowArchivedData = !shouldShowArchivedData
-//        if shouldShowArchivedData {
-//            self.navigationItem.rightBarButtonItem?.title = "隐藏已归档"
-//        }else {
-//            self.navigationItem.rightBarButtonItem?.title = "显示已归档"
-//        }
         showData(inList: self.list)
         ConfigManager.shared.shouldShowArchiveData = shouldShowArchivedData
     }
+    
     
     func archive(event: RBEvent) {
         
@@ -301,7 +297,16 @@ class EventListViewController: UIViewController {
             self.showData(inList: self.list, scrollToTop: true)
         }
     }
-    
+ 
+    func searchBtnClicked() {
+        let vc = SearchViewController()
+        vc.themeColor = UIColor(hexString: self.list?.themeColorHexString)
+//        let nav = UINavigationController(rootViewController: vc)
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        navigationController?.definesPresentationContext = true
+        navigationController?.present(vc, animated: true, completion: nil)
+    }
 }
 
 extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
@@ -372,6 +377,7 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
+        //未归档项目
         if indexPath.section == 0 {
             guard let event = self.events?[indexPath.row] else {
                 return nil
@@ -385,7 +391,10 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                 DBManager.shared.deleteEvent(event: event)
                 if let index = self.events?.index(of: event) {
                     self.events?.remove(at: index)
-                    self.tableView.reloadData()
+//                    self.tableView.reloadData()
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRows(at: [indexPath], with: .none)
+                    self.tableView.endUpdates()
                     self.refreshEmptyView()
                 }
             }
@@ -394,7 +403,8 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
             return [delete, archive]
             
         }else{
-            if let dic = archivedEventsDictionary {
+            //已归档项目
+            if var dic = archivedEventsDictionary {
                 let key = Array(dic.keys)[indexPath.section-1]
                 if var evs = dic[key] {
                     let event = evs[indexPath.row]
@@ -405,10 +415,14 @@ extension EventListViewController: UITableViewDataSource,UITableViewDelegate {
                     
                     let delete = UITableViewRowAction(style: .normal, title: "删除") { action, index in
                         DBManager.shared.deleteEvent(event: event)
-                        if let index = evs.index(of: event){
-                            evs.remove(at: index)
-                            self.showData(inList: self.list)
-                        }
+                        self.showData(inList: self.list)
+//                        if let index = evs.index(of: event){
+//                            evs.remove(at: index)
+//                            dic[key] = evs
+//                            self.tableView.beginUpdates()
+//                            self.tableView.deleteRows(at: [indexPath], with: .none)
+//                            self.tableView.endUpdates()
+//                        }
                     }
                     delete.backgroundColor = UIColor.red
                     

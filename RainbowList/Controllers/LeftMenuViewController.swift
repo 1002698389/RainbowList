@@ -237,7 +237,7 @@ class LeftMenuViewController: UIViewController {
         let nav = UINavigationController(rootViewController: createVC)
         self.present(nav, animated: true, completion: nil)
     }
-    func deleteList(list: RBList) {
+    func deleteList(list: RBList, at indexPath: IndexPath) {
         
 //        if self.lists.count == 1 {
 //            view.makeToast("只少需要保留一个清单！")
@@ -250,7 +250,10 @@ class LeftMenuViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "确定", style: .destructive, handler: {
             _ in
             DBManager.shared.deleteList(list: list)
-            self.refreshData()
+//            self.refreshData()
+            self.lists.remove(at: indexPath.row)
+            self.tableView.reloadData()
+            
             if list == self.selectedList {
                 self.selectFirstRow()
             }
@@ -307,7 +310,7 @@ extension LeftMenuViewController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let list = self.lists[indexPath.row]
-            self.deleteList(list: list)
+            self.deleteList(list: list, at: indexPath)
         }
     }
     

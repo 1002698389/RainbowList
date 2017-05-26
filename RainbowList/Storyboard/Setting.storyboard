@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="7xQ-h1-cIl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="7xQ-h1-cIl">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -246,6 +246,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="T5R-Ab-pAa" kind="show" id="qrb-N2-LMN"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="tox-1n-hfS" style="IBUITableViewCellStyleDefault" id="ad4-iL-pH0">
                                         <rect key="frame" x="0.0" y="303" width="375" height="44"/>
@@ -609,6 +612,60 @@ Cg
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2PG-YM-KPL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="890" y="46"/>
+        </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="goZ-XS-cIw">
+            <objects>
+                <viewController storyboardIdentifier="feedbackVC" id="T5R-Ab-pAa" customClass="FeedbackViewController" customModule="RainbowList" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xWb-Vw-LjO"/>
+                        <viewControllerLayoutGuide type="bottom" id="wTI-6q-kIS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wWF-pi-7KO">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iDU-OJ-k7i">
+                                <rect key="frame" x="16" y="8" width="343" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="boO-x2-DvR"/>
+                                </constraints>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
+                            </textView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="联系方式:微信/QQ/邮箱" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fjb-Gk-xbp">
+                                <rect key="frame" x="16" y="216" width="343" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Viz-0K-BcF">
+                                <rect key="frame" x="177" y="291.5" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Viz-0K-BcF" firstAttribute="centerX" secondItem="wWF-pi-7KO" secondAttribute="centerX" id="COU-6O-fuX"/>
+                            <constraint firstItem="Fjb-Gk-xbp" firstAttribute="leading" secondItem="iDU-OJ-k7i" secondAttribute="leading" id="KnH-eR-UG4"/>
+                            <constraint firstItem="iDU-OJ-k7i" firstAttribute="trailing" secondItem="wWF-pi-7KO" secondAttribute="trailingMargin" id="RtF-kD-L4v"/>
+                            <constraint firstItem="iDU-OJ-k7i" firstAttribute="top" secondItem="xWb-Vw-LjO" secondAttribute="bottom" constant="8" id="UTI-3g-mFO"/>
+                            <constraint firstItem="Fjb-Gk-xbp" firstAttribute="trailing" secondItem="iDU-OJ-k7i" secondAttribute="trailing" id="Y4C-oB-HWu"/>
+                            <constraint firstItem="Viz-0K-BcF" firstAttribute="centerY" secondItem="wWF-pi-7KO" secondAttribute="centerY" id="aKh-nv-0p4"/>
+                            <constraint firstItem="Fjb-Gk-xbp" firstAttribute="top" secondItem="iDU-OJ-k7i" secondAttribute="bottom" constant="8" id="dV8-TY-Rko"/>
+                            <constraint firstItem="iDU-OJ-k7i" firstAttribute="leading" secondItem="wWF-pi-7KO" secondAttribute="leadingMargin" id="ktJ-M0-xQq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityView" destination="Viz-0K-BcF" id="JMI-PY-vgV"/>
+                        <outlet property="textField" destination="Fjb-Gk-xbp" id="iAI-ja-wQ5"/>
+                        <outlet property="textView" destination="iDU-OJ-k7i" id="KhF-5l-tFd"/>
+                        <outlet property="textViewHeightConstraint" destination="boO-x2-DvR" id="h62-OX-tzv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rpx-w0-ga2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="89" y="716"/>
         </scene>
     </scenes>
     <resources>

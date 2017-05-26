@@ -125,7 +125,7 @@ class EventAttachmentCell: EventDetailCell {
         contentView.addSubview(contentScrollView)
         contentScrollView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview().inset(UIEdgeInsetsMake(10, 0, 10, 0))
-            make.height.equalTo(EventAttachmentCell.photoHeight)
+            make.height.equalTo(EventAttachmentCell.photoHeight).priority(.high)
             make.width.equalTo(k_SCREEN_WIDTH)
         }
     }

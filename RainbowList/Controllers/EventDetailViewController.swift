@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import Toast_Swift
 
 private let kCellIdentifierForContent = "kCellIdentifierForContent"
 private let kCellIdentifierForRemark = "kCellIdentifierForRemark"
@@ -64,6 +65,7 @@ class EventDetailViewController: UITableViewController {
         tableView.reloadData()
         
         if !editing {//
+            self.editButtonItem.isEnabled = false
             //保存更新
             saveUpdate()
         }
@@ -183,6 +185,7 @@ class EventDetailViewController: UITableViewController {
         let inputView = CommentEditPopView()
         inputView.show(inView: self.navigationController?.view) { content in
             let comment = RBComment(content: content, eventId: self.event.identifier)
+            
             if var comments = self.event.comments {
                 comments.append(comment)
                 self.event.comments = comments
@@ -191,10 +194,21 @@ class EventDetailViewController: UITableViewController {
                 comments.append(comment)
                 self.event.comments = comments
             }
-            self.tableView.reloadData()
+            //用于数据库更新
+            if self.event.commentsToAddForUpdate == nil {
+                self.event.commentsToAddForUpdate = [RBComment]()
+            }
+            self.event.commentsToAddForUpdate!.append(comment)
+            
+            self.tableView.beginUpdates()
+            self.tableView.insertRows(at: [IndexPath(row: self.event.comments!.count, section: self.kSectionIndexForComment)], with: .bottom)
+            self.tableView.endUpdates()
+            
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
-                self.tableView.scrollToRow(at: IndexPath(row: self.event.comments?.count ?? 0, section: self.kSectionIndexForComment), at: UITableViewScrollPosition.none, animated: true)
+                self.tableView.scrollToRow(at: IndexPath(row: self.event.comments!.count, section: self.kSectionIndexForComment), at: UITableViewScrollPosition.bottom, animated: true)
             })
+            
+            
         }
     }
 
@@ -203,7 +217,21 @@ class EventDetailViewController: UITableViewController {
         if self.event.list.identifier != self.oldListId {
             self.event.createTime = Date()
         }
-        DBManager.shared.updateEvent(event: self.event)
+        if DBManager.shared.updateEvent(event: self.event) {
+            UIApplication.shared.keyWindow?.makeToast("更新成功！", duration: 1, position: .center)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now(), execute: {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationConstants.refreshEventListShouldRequeryFromDatabaseNotification), object: nil)
+                self.navigationController?.popViewController(animated: true)
+            })
+        }else {
+            view.makeToast("更新失败！", duration: 1, position: .center)
+            self.editButtonItem.isEnabled = true
+        }
+        
+        event.imagesToAddForUpdate = nil
+        event.imagesToDeleteForUpdate = nil
+        event.commentsToAddForUpdate = nil
+        event.commentsToDeleteForUpdate = nil
     }
     
     // MARK: Notification Handler
@@ -428,9 +456,24 @@ extension EventDetailViewController {
             if var comments = self.event.comments {
                 comments.remove(at: indexPath.row - 1)
                 self.event.comments = comments
-                tableView.reloadData()
+                
+                //用于数据库更新
+                if event.commentsToDeleteForUpdate == nil {
+                    event.commentsToDeleteForUpdate = [RBComment]()
+                }
+                if let com = self.event.comments?[indexPath.row-1] {
+                    event.commentsToDeleteForUpdate!.append(com)
+                    if event.commentsToAddForUpdate?.contains(com) ?? false{
+                        if let index = event.commentsToAddForUpdate?.index(of: com) {
+                            event.commentsToAddForUpdate?.remove(at: index)
+                        }
+                    }
+                }
             }
         }
+        self.tableView.beginUpdates()
+        self.tableView.deleteRows(at: [indexPath], with: .bottom)
+        self.tableView.endUpdates()
     }
 
 }
@@ -490,10 +533,15 @@ extension EventDetailViewController: EventAttachmentCellDelegate {
         }
         
         //用于数据库操作
-        if event.imagesToDelete == nil {
-            event.imagesToDelete = [RBImage]()
+        if event.imagesToDeleteForUpdate == nil {
+            event.imagesToDeleteForUpdate = [RBImage]()
         }
-        event.imagesToDelete?.append(image)
+        event.imagesToDeleteForUpdate?.append(image)
+        if event.imagesToAddForUpdate!.contains(image){
+            if let index = event.imagesToAddForUpdate?.index(of: image) {
+                event.imagesToAddForUpdate?.remove(at: index)
+            }
+        }
     }
 }
 
@@ -524,10 +572,10 @@ extension EventDetailViewController: PhotoSelectDelegate {
             self.event.images?.insert(img, at: 0)
             
             //用于数据库操作
-            if event.imagesToAdd == nil {
-                event.imagesToAdd = [RBImage]()
+            if event.imagesToAddForUpdate == nil {
+                event.imagesToAddForUpdate = [RBImage]()
             }
-            event.imagesToAdd?.append(img)
+            event.imagesToAddForUpdate?.append(img)
         }
     }
 }
@@ -551,10 +599,10 @@ extension EventDetailViewController: CameraViewControllerDelegate {
         self.event.images?.insert(img, at: 0)
         
         //用于数据库操作
-        if event.imagesToAdd == nil {
-            event.imagesToAdd = [RBImage]()
+        if event.imagesToAddForUpdate == nil {
+            event.imagesToAddForUpdate = [RBImage]()
         }
-        event.imagesToAdd?.append(img)
+        event.imagesToAddForUpdate?.append(img)
         
         self.tableView.reloadData()
     }

@@ -206,9 +206,7 @@ extension SettingViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 1 {
-            if indexPath.row == 0 {//反馈
-                sendEmail()
-            }else if indexPath.row == 1 {//评价
+            if indexPath.row == 1 {//评价
                 MobClick.event(UMEvent_ClickReviewCell)
                 appReview()
             }
